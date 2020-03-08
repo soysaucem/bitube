@@ -8,7 +8,8 @@
     "build": "npm run ng-high-memory build",
     "test": "npm run ng-high-memory test",
     "lint": "npm run ng-high-memory lint",
-    "e2e": "npm run ng-high-memory e2e"
+    "e2e": "npm run ng-high-memory e2e",
+    "firebase": "./node_modules/.bin/firebase"
   },
   "private": true,
   "dependencies": {
