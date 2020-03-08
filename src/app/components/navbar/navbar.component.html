@@ -18,6 +18,12 @@
   </div>
 
   <div class="navbar-end">
+    <div class="search-wrapper">
+      <input class="search-input" type="search" />
+      <button class="search-button" mat-flat-button>
+        <i class="material-icons">search</i>
+      </button>
+    </div>
     <ng-container *ngIf="isAuthenticated">
       <button mat-stroked-button class="upload-button" (click)="goToUpload()">
         <i class="material-icons">cloud_upload</i>

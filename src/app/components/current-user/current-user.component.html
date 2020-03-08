@@ -1,4 +1,4 @@
-<div class="current-user-container">
+<div class="current-user-container" *ngIf="me">
   <div class="current-user-wrapper">
     <i class="material-icons">account_circle</i>
     <div class="current-user">{{ me.name }}</div>

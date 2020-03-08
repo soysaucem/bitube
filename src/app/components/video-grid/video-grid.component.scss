@@ -2,14 +2,40 @@
 
 .video-grid-container {
   width: 70%;
-  margin-left: 100px;
+  margin: 50px 0 50px 120px;
 
-  mat-grid-list {
-    mat-grid-tile {
+  .video-grid-title {
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  .video-wrapper {
+    display: grid;
+    max-width: 1280px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 30px;
+    list-style: none;
+
+    .video-item {
       width: 100%;
 
       video {
         width: 100%;
+      }
+
+      .video-info {
+        @include column-left;
+        margin-left: 20px;
+
+        .video-title {
+          font-size: 18px;
+          font-weight: 500;
+          line-height: 24px;
+        }
+
+        .video-views {
+          font-size: 13px;
+        }
       }
     }
   }

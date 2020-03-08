@@ -36,6 +36,20 @@
     margin-left: auto;
     height: 100%;
 
+    .search-wrapper {
+      @include row-center;
+      height: 36px;
+      margin-right: 50px;
+
+      .search-input {
+        height: 100%;
+        margin-right: 10px;
+        width: 300px;
+        font-size: 18px;
+        line-height: 24px;
+      }
+    }
+
     .upload-button,
     .create-account-button {
       margin-right: 20px;

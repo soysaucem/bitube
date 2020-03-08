@@ -1,6 +1,7 @@
 <div class="video-grid-container" *ngIf="videos$ | async as videos">
-  <mat-grid-list cols="4" rowHeight="300" gutterSize="50" class="video-wrapper">
-    <mat-grid-tile class="video" *ngFor="let video of videos">
+  <h2 class="video-grid-title">Featured Videos</h2>
+  <div class="video-wrapper">
+    <div class="video-item" *ngFor="let video of videos">
       <video controls>
         <source
           [attr.src]="
@@ -8,6 +9,10 @@
           "
         />
       </video>
-    </mat-grid-tile>
-  </mat-grid-list>
+      <div class="video-info">
+        <span class="video-title">{{ video.title }}</span>
+        <span class="video-views">{{ video.views }} views</span>
+      </div>
+    </div>
+  </div>
 </div>
