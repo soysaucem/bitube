@@ -1,6 +1,6 @@
 <div class="video-grid-container" *ngIf="videos$ | async as videos">
-  <div class="video-wrapper">
-    <div class="video" *ngFor="let video of videos">
+  <mat-grid-list cols="4" rowHeight="300" gutterSize="50" class="video-wrapper">
+    <mat-grid-tile class="video" *ngFor="let video of videos">
       <video controls>
         <source
           [attr.src]="
@@ -8,6 +8,6 @@
           "
         />
       </video>
-    </div>
-  </div>
+    </mat-grid-tile>
+  </mat-grid-list>
 </div>

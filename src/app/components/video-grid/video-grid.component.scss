@@ -1,0 +1,16 @@
+@import "base.scss";
+
+.video-grid-container {
+  width: 70%;
+  margin-left: 100px;
+
+  mat-grid-list {
+    mat-grid-tile {
+      width: 100%;
+
+      video {
+        width: 100%;
+      }
+    }
+  }
+}

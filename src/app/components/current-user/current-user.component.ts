@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthService } from "../../services/auth.service";
 import { Router } from "@angular/router";
+import { User } from "../../models/user.model";
+import { UserService } from "../../services/user.service";
 
 @Component({
   selector: "app-current-user",
@@ -8,11 +10,17 @@ import { Router } from "@angular/router";
   styleUrls: ["./current-user.component.scss"]
 })
 export class CurrentUserComponent implements OnInit {
-  user = "dummyuser";
+  me: User;
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private userService: UserService
+  ) {}
 
-  ngOnInit(): void {}
+  async ngOnInit() {
+    this.me = await this.userService.getMyAccount();
+  }
 
   async logout() {
     await this.auth.logout();

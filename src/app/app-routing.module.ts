@@ -4,8 +4,9 @@ import { AuthGuard } from "./guards/auth.guard";
 import { LoginComponent } from "./components/login/login.component";
 import { SignupComponent } from "./components/signup/signup.component";
 import { MainpageComponent } from "./components/mainpage/mainpage.component";
-import { UploadComponent } from "./components/upload/upload.component";
 import { UploadRoutingModule } from "./components/upload/upload-routing.module";
+import { VideoGridRoutingModule } from "./components/video-grid/video-grid-routing.module";
+import { LoginGuard } from "./guards/login.guard";
 
 const routes: Routes = [
   {
@@ -21,7 +22,14 @@ const routes: Routes = [
   {
     path: "",
     component: MainpageComponent,
-    children: [{ path: "upload", loadChildren: () => UploadRoutingModule }]
+    children: [
+      {
+        path: "upload",
+        loadChildren: () => UploadRoutingModule,
+        canActivate: [LoginGuard]
+      },
+      { path: "", loadChildren: () => VideoGridRoutingModule }
+    ]
   }
 ];
 

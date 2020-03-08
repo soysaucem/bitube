@@ -18,10 +18,25 @@
   </div>
 
   <div class="navbar-end">
-    <button mat-stroked-button class="upload-button" (click)="goToUpload()">
-      <i class="material-icons">cloud_upload</i>
-      Upload
-    </button>
-    <app-current-user></app-current-user>
+    <ng-container *ngIf="isAuthenticated">
+      <button mat-stroked-button class="upload-button" (click)="goToUpload()">
+        <i class="material-icons">cloud_upload</i>
+        Upload
+      </button>
+      <app-current-user></app-current-user>
+    </ng-container>
+    <ng-container *ngIf="!isAuthenticated">
+      <button
+        mat-raised-button
+        class="create-account-button"
+        color="accent"
+        (click)="goToSignup()"
+      >
+        Create account
+      </button>
+      <button mat-raised-button (click)="goToLogin()">
+        Log in
+      </button>
+    </ng-container>
   </div>
 </mat-toolbar>
