@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  node: circleci/node@10.16.3
+  node: circleci/node@1.1.6
 jobs:
   build-and-test:
     working_directory: ~/bibo-app
@@ -22,6 +22,9 @@ jobs:
       - run:
           name: Build project
           command: npm run build
+      - run:
+          name: Install Firebase tools
+          command: npm i -g firebase-tools
       - run:
           name: Deploy to Firebase
           command: npm run firebase deploy --token $FIREBASE_TOKEN --only hosting
