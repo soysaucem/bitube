@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  node: circleci/node@10.16.3
 jobs:
   build-and-test:
     working_directory: ~/bibo-app
