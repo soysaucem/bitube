@@ -1,11 +1,9 @@
 version: 2.1
-orbs:
-  node: circleci/node@1.1.6
 jobs:
   build-and-test:
     working_directory: ~/bibo-app
     docker:
-      - image: circleci/node:10-browsers
+      - image: circleci/node:10.16.3
     executor:
       name: node/default
     steps:
@@ -24,7 +22,7 @@ jobs:
           command: npm run build
       - run:
           name: Deploy to Firebase
-          command: npm run firebase deploy --token $FIREBASE_TOKEN
+          command: npm run firebase deploy --token $FIREBASE_TOKEN --only hosting
 workflows:
   build-and-test:
     jobs:
