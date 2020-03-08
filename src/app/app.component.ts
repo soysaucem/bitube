@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { SignupService } from "./services/signup.service";
 
 @Component({
   selector: "app-root",
@@ -7,4 +8,11 @@ import { Component } from "@angular/core";
 })
 export class AppComponent {
   title = "bibo-app";
+
+  constructor(private signupService: SignupService) {}
+
+  signup(event: any) {
+    console.log(event);
+    // this.signupService.createUser(event);
+  }
 }

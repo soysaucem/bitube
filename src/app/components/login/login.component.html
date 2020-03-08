@@ -1,0 +1,49 @@
+<div class="login-container">
+  <h1 class="title">Login To Start Video-Sharing Journey</h1>
+
+  <mat-card class="login-form">
+    <mat-form-field appearance="legacy">
+      <mat-label>Enter your email</mat-label>
+      <input
+        matInput
+        placeholder="pat@example.com"
+        [formControl]="emailControl"
+        required
+        (input)="handleEmail($event)"
+      />
+      <mat-error *ngIf="emailControl.invalid">{{
+        getErrorMessage()
+      }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="legacy">
+      <mat-label>Enter your password</mat-label>
+      <input
+        matInput
+        [type]="hide ? 'password' : 'text'"
+        (input)="handlePassword($event)"
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <div class="button-wrapper">
+      <button mat-raised-button (click)="goToSignUp()">Sign up</button>
+      <button mat-raised-button color="primary" (click)="login()">
+        Log in
+      </button>
+    </div>
+
+    <button mat-stroked-button class="google-button">
+      <img src="assets/google-icon.svg" />
+      Google
+    </button>
+  </mat-card>
+</div>

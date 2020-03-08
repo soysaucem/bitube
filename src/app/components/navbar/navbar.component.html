@@ -1,0 +1,27 @@
+<mat-toolbar class="navbar-container" [color]="'primary'">
+  <div class="logo">
+    Bibo
+  </div>
+  <div class="navbar-wrapper">
+    <div class="navbar-item" (click)="goToHome()">
+      <i class="material-icons">home</i>
+      Home
+    </div>
+    <div class="navbar-item">
+      <i class="material-icons">trending_up</i>
+      Trending
+    </div>
+    <div class="navbar-item">
+      <i class="material-icons">subscriptions</i>
+      Following
+    </div>
+  </div>
+
+  <div class="navbar-end">
+    <button mat-stroked-button class="upload-button" (click)="goToUpload()">
+      <i class="material-icons">cloud_upload</i>
+      Upload
+    </button>
+    <app-current-user></app-current-user>
+  </div>
+</mat-toolbar>

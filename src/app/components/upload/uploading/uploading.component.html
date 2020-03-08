@@ -1,0 +1,7 @@
+<div class="uploading-container" *ngIf="uploadingFiles">
+  <div class="uploading-wrapper">
+    <div class="item" *ngFor="let item of uploadingFiles">
+      <app-uploading-item [file]="item"></app-uploading-item>
+    </div>
+  </div>
+</div>

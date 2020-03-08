@@ -1,0 +1,57 @@
+@import "base.scss";
+
+.current-user-container {
+  position: relative;
+  display: inline-block;
+  height: 100%;
+
+  .current-user-wrapper {
+    @include row-center;
+    cursor: pointer;
+    height: 100%;
+    padding: $navbar-padding;
+
+    i {
+      margin-right: 5px;
+    }
+
+    &:hover {
+      background-color: darken($color: $primary, $amount: 5);
+    }
+  }
+
+  .current-user-dropdown {
+    display: none;
+    position: absolute;
+    background-color: $clean-white;
+    min-width: 160px;
+    width: 100%;
+    box-shadow: $menu-box-shadow;
+    z-index: 1;
+    padding: 8px 0;
+    border-radius: 4px;
+
+    .dropdown-item {
+      @include full-width-height;
+      @include row-left;
+
+      background: transparent;
+      color: $menu-item;
+      font-size: 18px;
+      font-weight: 400;
+      cursor: pointer;
+      padding: 0 16px;
+      height: 48px;
+
+      &:hover {
+        background: $menu-item-hover;
+      }
+    }
+  }
+
+  &:hover {
+    .current-user-dropdown {
+      @include column-left;
+    }
+  }
+}

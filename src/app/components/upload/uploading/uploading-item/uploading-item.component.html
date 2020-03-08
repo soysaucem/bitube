@@ -1,0 +1,40 @@
+<mat-card class="uploading-item">
+  <span class="file-name">{{ file.file.name }}</span>
+  <ng-container [ngSwitch]="file.status">
+    <mat-progress-bar
+      *ngSwitchCase="'Pending'"
+      mode="buffer"
+    ></mat-progress-bar>
+    <mat-progress-bar
+      *ngSwitchCase="'Progress'"
+      mode="determinate"
+      [value]="file.progress"
+    ></mat-progress-bar>
+    <mat-progress-bar
+      *ngSwitchCase="'Success'"
+      mode="determinate"
+      [value]="file.progress"
+    ></mat-progress-bar>
+  </ng-container>
+  <div class="title-wrapper">
+    <span>Video Title</span>
+    <mat-form-field appearance="fill">
+      <mat-label>Title</mat-label>
+      <input matInput />
+    </mat-form-field>
+  </div>
+  <div class="tags-wrapper">
+    <span>Tags</span>
+    <mat-form-field appearance="fill">
+      <mat-label>Tags</mat-label>
+      <input matInput />
+    </mat-form-field>
+  </div>
+  <div class="description-wrapper">
+    <span>Description</span>
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea matInput></textarea>
+    </mat-form-field>
+  </div>
+</mat-card>

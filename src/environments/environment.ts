@@ -15,6 +15,18 @@ export const environment = {
   }
 };
 
+export const googleApisConfig = {
+  clientId:
+    "464799081519-l3ulfruicd66n5up81l0l8a1oupokohf.apps.googleusercontent.com",
+  clientSecret: "XPyrxg9CnEevQzM6P9YGSuJ9",
+  redirectURI: "https://bibo-app.firebaseapp.com/__/auth/handler",
+  apiKey: "AIzaSyC1L6kFMqGFCDPJIbet7AzHy3etd1lz_zY"
+};
+
+export const awsS3Config = {
+  aws_access_key_id: "AKIAVF5MMYD3OPRZ3OBI",
+  aws_secret_access_key: "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"
+};
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

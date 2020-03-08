@@ -1,0 +1,13 @@
+<div class="current-user-container">
+  <div class="current-user-wrapper">
+    <i class="material-icons">account_circle</i>
+    <div class="current-user">{{ user }}</div>
+  </div>
+
+  <div class="current-user-dropdown">
+    <span class="dropdown-item">Profile</span>
+    <span class="dropdown-item">Settings</span>
+    <span class="dropdown-item">My Videos</span>
+    <span class="dropdown-item" (click)="logout()">Logout</span>
+  </div>
+</div>

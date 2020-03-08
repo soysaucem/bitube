@@ -1,0 +1,90 @@
+<div class="signup-container">
+  <h1 class="title">Create An Account To Discover Biboapp</h1>
+
+  <mat-card class="signup-form" [formGroup]="signupForm">
+    <mat-form-field appearance="legacy">
+      <mat-label>Enter your name</mat-label>
+      <input
+        id="nameInput"
+        matInput
+        placeholder="The Witcher"
+        required
+        (input)="handleName($event)"
+        formControlName="nameControl"
+      />
+      <mat-error *ngIf="nameControl.invalid && nameControl.errors.required">
+        You must enter your name
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="legacy">
+      <mat-label>Enter your email</mat-label>
+      <input
+        id="emailInput"
+        matInput
+        placeholder="pat@example.com"
+        formControlName="emailControl"
+        required
+        (input)="handleEmail($event)"
+      />
+      <mat-error *ngIf="emailControl.invalid">
+        {{ getEmailErrorMessage() }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="legacy">
+      <mat-label>Enter your password</mat-label>
+      <input
+        id="passwordInput"
+        matInput
+        required
+        [type]="hide ? 'password' : 'text'"
+        (input)="handlePassword($event)"
+        formControlName="passwordControl"
+      />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field appearance="legacy">
+      <mat-label>Confirm your password</mat-label>
+      <input
+        id="passwordConfirmationInput"
+        matInput
+        [type]="hide ? 'password' : 'text'"
+        formControlName="passwordConfirmationControl"
+      />
+      <mat-error *ngIf="passwordConfirmationControl.errors?.notMatch">
+        Password does not match
+      </mat-error>
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <div class="button-wrapper">
+      <button mat-raised-button (click)="goToLogin()">Log in</button>
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="disabled"
+        (click)="sigup()"
+      >
+        Sign up
+      </button>
+    </div>
+  </mat-card>
+</div>
