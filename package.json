@@ -5,11 +5,10 @@
     "ng-high-memory": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng",
     "ng": "ng",
     "start": "npm run ng-high-memory serve",
-    "build": "npm run ng-high-memory build",
+    "build": "npm run ng-high-memory build --prod --aot",
     "test": "npm run ng-high-memory test",
     "lint": "npm run ng-high-memory lint",
-    "e2e": "npm run ng-high-memory e2e",
-    "deploy": "firebase deploy --token $FIREBASE_TOKEN"
+    "e2e": "npm run ng-high-memory e2e"
   },
   "private": true,
   "dependencies": {

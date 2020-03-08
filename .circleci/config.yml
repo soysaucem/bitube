@@ -11,12 +11,13 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: bibo-app-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          key: v1-dependencies-{{ checksum "package.json" }}
       - run:
           name: Install environment
           command: npm install
+      - run: npm install --save-dev firebase-tools
       - save_cache:
-          key: bibo-app-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          key: v1-dependencies-{{ checksum "package.json" }}
           paths:
             - "node_modules"
       - run:
@@ -24,7 +25,7 @@ jobs:
           command: npm run build
       - run:
           name: Deploy to Firebase
-          command: npm run deploy
+          command: "./node_modules/.bin/firebase deploy --only hosting --token=$FIREBASE_TOKEN"
 workflows:
   build-and-test:
     jobs:
