@@ -1,16 +1,16 @@
-import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
-import { UploadComponent } from "./upload.component";
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { UploadComponent } from './upload.component';
 
 const routes: Routes = [
   {
-    path: "",
-    component: UploadComponent
-  }
+    path: '',
+    component: UploadComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class UploadRoutingModule {}

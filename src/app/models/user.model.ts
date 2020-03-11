@@ -1,4 +1,4 @@
-import { List } from "immutable";
+import { List } from 'immutable';
 
 export interface User {
   id: string;
@@ -22,14 +22,14 @@ export function createDefault(): User {
     email: null,
     name: null,
     followers: List(),
-    videos: List()
+    videos: List(),
   });
 }
 
 export function makeUser(props: Partial<User>): User {
   return Object.freeze({
     ...createDefault(),
-    ...props
+    ...props,
   });
 }
 
@@ -37,7 +37,7 @@ export function fromJS(input: UserJSON) {
   return Object.freeze({
     ...input,
     followers: List(input.followers),
-    videos: List(input.videos)
+    videos: List(input.videos),
   });
 }
 
@@ -45,6 +45,6 @@ export function toJS(input: User) {
   return Object.freeze({
     ...input,
     followers: input.followers.toArray(),
-    videos: input.videos.toArray()
+    videos: input.videos.toArray(),
   });
 }

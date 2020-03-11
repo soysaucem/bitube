@@ -1,13 +1,13 @@
-import { Component, OnInit } from "@angular/core";
-import { UploadController } from "src/app/services/upload.controller";
-import { VideoService } from "src/app/services/video.service";
-import { AngularFirestore } from "@angular/fire/firestore";
-import { UserService } from "../../services/user.service";
+import { Component, OnInit } from '@angular/core';
+import { UploadController } from 'src/app/services/upload.controller';
+import { VideoService } from 'src/app/services/video.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { UserService } from '../../services/user.service';
 
 @Component({
-  selector: "app-upload",
-  templateUrl: "./upload.component.html",
-  styleUrls: ["./upload.component.scss"]
+  selector: 'app-upload',
+  templateUrl: './upload.component.html',
+  styleUrls: ['./upload.component.scss'],
 })
 export class UploadComponent implements OnInit {
   controller = new UploadController();
@@ -28,7 +28,7 @@ export class UploadComponent implements OnInit {
 
     files = Array.prototype.filter.call(
       files,
-      (file: File) => file.type === "video/mp4"
+      (file: File) => file.type === 'video/mp4'
     );
 
     this.controller.add(files);

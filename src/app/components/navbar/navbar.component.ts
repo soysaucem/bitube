@@ -1,11 +1,11 @@
-import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
-import { AuthService } from "../../services/auth.service";
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: "app-navbar",
-  templateUrl: "./navbar.component.html",
-  styleUrls: ["./navbar.component.scss"]
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
   isAuthenticated = false;
@@ -17,18 +17,18 @@ export class NavbarComponent implements OnInit {
   }
 
   goToUpload() {
-    this.router.navigate(["upload"]);
+    this.router.navigate(['upload']);
   }
 
   goToHome() {
-    this.router.navigate([""]);
+    this.router.navigate(['']);
   }
 
   goToSignup() {
-    this.router.navigate(["signup"]);
+    this.router.navigate(['signup']);
   }
 
   goToLogin() {
-    this.router.navigate(["login"]);
+    this.router.navigate(['login']);
   }
 }

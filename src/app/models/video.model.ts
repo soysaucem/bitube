@@ -1,4 +1,4 @@
-import { List } from "immutable";
+import { List } from 'immutable';
 
 export interface Video {
   id: string;
@@ -25,27 +25,27 @@ export function createDefault(): Video {
     title: null,
     description: null,
     views: 0,
-    tags: List()
+    tags: List(),
   });
 }
 
 export function makeVideo(props: Partial<Video>): Video {
   return Object.freeze({
     ...createDefault(),
-    ...props
+    ...props,
   });
 }
 
 export function fromJS(input: VideoJSON): Video {
   return Object.freeze({
     ...input,
-    tags: List(input.tags)
+    tags: List(input.tags),
   });
 }
 
 export function toJS(input: Video): VideoJSON {
   return Object.freeze({
     ...input,
-    tags: input.tags.toArray()
+    tags: input.tags.toArray(),
   });
 }

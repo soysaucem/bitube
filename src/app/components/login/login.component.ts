@@ -1,16 +1,16 @@
-import { Component, OnInit } from "@angular/core";
-import { FormControl, Validators } from "@angular/forms";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { Router } from "@angular/router";
-import { AuthService } from "../../services/auth.service";
+import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"]
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  emailControl = new FormControl("", [Validators.required, Validators.email]);
+  emailControl = new FormControl('', [Validators.required, Validators.email]);
 
   hide = true;
 
@@ -26,11 +26,11 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
 
   getErrorMessage() {
-    return this.emailControl.hasError("required")
-      ? "You must enter a value"
-      : this.emailControl.hasError("email")
-      ? "Not a valid email"
-      : "";
+    return this.emailControl.hasError('required')
+      ? 'You must enter a value'
+      : this.emailControl.hasError('email')
+      ? 'Not a valid email'
+      : '';
   }
 
   handleEmail(event: any) {
@@ -45,17 +45,17 @@ export class LoginComponent implements OnInit {
     try {
       await this.auth.login(this.email, this.password);
 
-      this.router.navigate([""]);
+      this.router.navigate(['']);
     } catch (error) {
       this.snackbar.open(
-        "Unable to login. Please check your email and password",
-        "Dismiss",
-        { duration: 3000, horizontalPosition: "left" }
+        'Unable to login. Please check your email and password',
+        'Dismiss',
+        { duration: 3000, horizontalPosition: 'left' }
       );
     }
   }
 
   goToSignUp() {
-    this.router.navigate(["signup"]);
+    this.router.navigate(['signup']);
   }
 }

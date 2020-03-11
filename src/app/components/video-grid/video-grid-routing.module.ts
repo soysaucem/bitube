@@ -1,16 +1,16 @@
-import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
-import { VideoGridComponent } from "./video-grid.component";
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { VideoGridComponent } from './video-grid.component';
 
 const routes: Routes = [
   {
-    path: "",
-    component: VideoGridComponent
-  }
+    path: '',
+    component: VideoGridComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class VideoGridRoutingModule {}

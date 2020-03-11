@@ -1,10 +1,10 @@
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 
 export enum FileQueueStatus {
-  Pending = "Pending",
-  Success = "Success",
-  Error = "Error",
-  Progress = "Progress"
+  Pending = 'Pending',
+  Success = 'Success',
+  Error = 'Error',
+  Progress = 'Progress',
 }
 
 export interface FileQueueObject {
@@ -19,6 +19,6 @@ export const makeObjectWith = (props: Partial<FileQueueObject>) => {
     id: uuidv4(),
     file: props.file,
     status: FileQueueStatus.Pending,
-    progress: 0
+    progress: 0,
   };
 };

@@ -1,13 +1,13 @@
-import { Component, OnInit } from "@angular/core";
-import { AuthService } from "../../services/auth.service";
-import { Router } from "@angular/router";
-import { User } from "../../models/user.model";
-import { UserService } from "../../services/user.service";
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { User } from '../../models/user.model';
+import { UserService } from '../../services/user.service';
 
 @Component({
-  selector: "app-current-user",
-  templateUrl: "./current-user.component.html",
-  styleUrls: ["./current-user.component.scss"]
+  selector: 'app-current-user',
+  templateUrl: './current-user.component.html',
+  styleUrls: ['./current-user.component.scss'],
 })
 export class CurrentUserComponent implements OnInit {
   me: User;
@@ -24,6 +24,6 @@ export class CurrentUserComponent implements OnInit {
 
   async logout() {
     await this.auth.logout();
-    this.router.navigate(["login"]);
+    this.router.navigate(['login']);
   }
 }

@@ -1,14 +1,14 @@
-import { Injectable } from "@angular/core";
-import { AngularFireDatabase } from "@angular/fire/database";
-import { AngularFirestore } from "@angular/fire/firestore";
-import { User, makeUser, toJS } from "../models/user.model";
-import { AngularFireAuth } from "@angular/fire/auth";
+import { Injectable } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { User, makeUser, toJS } from '../models/user.model';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root',
 })
 export class SignupService {
-  path = "/users";
+  path = '/users';
 
   constructor(
     private firebaseStore: AngularFirestore,
@@ -17,7 +17,7 @@ export class SignupService {
 
   private async createUser(id: string, email: string, name: string) {
     const userJS = toJS(makeUser({ id, email, name }));
-    return await this.firebaseStore.collection("users").add(userJS);
+    return await this.firebaseStore.collection('users').add(userJS);
   }
 
   async signup(email: string, password: string, name: string) {

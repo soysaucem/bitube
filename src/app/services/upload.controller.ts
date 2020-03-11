@@ -1,22 +1,22 @@
-import * as S3 from "aws-sdk/clients/s3";
-import { List } from "immutable";
-import { Subject } from "rxjs";
-import { v4 as uuidv4 } from "uuid";
-import { awsS3Config } from "../../environments/environment";
+import * as S3 from 'aws-sdk/clients/s3';
+import { List } from 'immutable';
+import { Subject } from 'rxjs';
+import { v4 as uuidv4 } from 'uuid';
+import { awsS3Config } from '../../environments/environment';
 import {
   FileQueueObject,
   FileQueueStatus,
-  makeObjectWith
-} from "../models/file-queue.model";
-import { makeVideo } from "../models/video.model";
-import { UserService } from "./user.service";
-import { VideoService } from "./video.service";
+  makeObjectWith,
+} from '../models/file-queue.model';
+import { makeVideo } from '../models/video.model';
+import { UserService } from './user.service';
+import { VideoService } from './video.service';
 
 export class UploadController {
   private bucket = new S3({
     accessKeyId: awsS3Config.aws_access_key_id,
     secretAccessKey: awsS3Config.aws_secret_access_key,
-    region: "ap-southeast-2"
+    region: 'ap-southeast-2',
   });
 
   private uploadingSubject$ = new Subject<FileQueueObject>();
@@ -47,16 +47,16 @@ export class UploadController {
     const contentType = object.file.type;
 
     const params = {
-      Bucket: "bibo-app",
+      Bucket: 'bibo-app',
       Key: object.id,
       Body: object.file,
-      ACL: "public-read",
-      contentType
+      ACL: 'public-read',
+      contentType,
     };
 
     return this.bucket
       .upload(params)
-      .on("httpUploadProgress", event => {
+      .on('httpUploadProgress', event => {
         this.updateQueueStatus(
           FileQueueStatus.Progress,
           (event.loaded / event.total) * 100
@@ -64,7 +64,7 @@ export class UploadController {
       })
       .send(async (err, data) => {
         if (err) {
-          console.log("There was an error uploading your file: ", err);
+          console.log('There was an error uploading your file: ', err);
           return err;
         }
 
@@ -75,7 +75,7 @@ export class UploadController {
         const video = makeVideo({
           id: object.id,
           title: object.file.name,
-          user: currentUser.id
+          user: currentUser.id,
         });
         await this.videoService.add(video);
 
@@ -115,7 +115,7 @@ export class UploadController {
       return {
         ...file,
         status: status,
-        progress: progress
+        progress: progress,
       };
     });
 
