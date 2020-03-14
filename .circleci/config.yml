@@ -16,6 +16,7 @@ jobs:
           name: Install environment
           command: npm install
       - run: npm install --save-dev firebase-tools
+      - run: npm install --save-dev tslint
       - save_cache:
           key: v1-dependencies-{{ checksum "package.json" }}
           paths:
