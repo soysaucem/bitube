@@ -6,10 +6,13 @@ export enum FileQueueStatus {
   Error = 'Error',
   Progress = 'Progress',
   Cancel = 'Cancel',
+  Success = 'Success',
 }
 
 export interface FileQueueObject {
   id: string;
+  title: string;
+  description: string;
   file: File;
   request: S3.ManagedUpload;
 }
@@ -17,6 +20,8 @@ export interface FileQueueObject {
 export const makeObjectWith = (props: Partial<FileQueueObject>) => {
   return {
     id: props.id ? props.id : uuidv4(),
+    title: props.file.name,
+    description: null,
     file: props.file,
     request: props.request,
   };

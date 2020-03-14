@@ -5,6 +5,12 @@ import { FileQueueStatus } from '../../../../models/file-queue.model';
 import { UserService } from '../../../../services/user.service';
 import { VideoService } from '../../../../services/video.service';
 import { makeVideo } from '../../../../models/video.model';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { List } from 'immutable';
+
+type InputType = 'description' | 'title';
+const ENTER = 13;
+const COMMA = 188;
 
 @Component({
   selector: 'app-uploading-item',
@@ -16,6 +22,17 @@ export class UploadingItemComponent implements OnInit {
   @Input() controller: UploadController;
   progress: number;
   status = FileQueueStatus.Pending;
+
+  title: string;
+  description: string;
+  tags: string[] = [];
+
+  // Configurations for mat chip
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   constructor(
     private userService: UserService,
@@ -38,11 +55,15 @@ export class UploadingItemComponent implements OnInit {
             return err;
           }
 
+          this.status = FileQueueStatus.Success;
+
           // Add video reference to firebase
           const currentUser = await this.userService.getMyAccount();
           const video = makeVideo({
             id: this.file.id,
-            title: this.file.file.name,
+            title: this.title ? this.title : this.file.file.name,
+            description: this.description ? this.description : null,
+            tags: List(this.tags),
             user: currentUser.id,
           });
 
@@ -65,5 +86,52 @@ export class UploadingItemComponent implements OnInit {
 
   get currentProgress() {
     return this.progress * 100;
+  }
+
+  handleInput(event: any, type: InputType) {
+    if (type === 'title') {
+      this.title = event.target.value;
+      if (this.status === FileQueueStatus.Success) {
+        this.videoService.update(this.file.id, {
+          title: this.title,
+        });
+      }
+    } else if (type === 'description') {
+      this.description = event.target.value;
+      if (this.status === FileQueueStatus.Success) {
+        this.videoService.update(this.file.id, {
+          description: this.description,
+        });
+      }
+    }
+  }
+
+  addTag(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add tag
+    if ((value || '').trim()) {
+      this.tags.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+
+    if (this.status === FileQueueStatus.Success) {
+      this.videoService.update(this.file.id, {
+        tags: this.tags,
+      });
+    }
+  }
+
+  removeTag(tag: string): void {
+    const index = this.tags.indexOf(tag);
+
+    if (index >= 0) {
+      this.tags.splice(index, 1);
+    }
   }
 }

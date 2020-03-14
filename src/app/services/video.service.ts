@@ -11,8 +11,20 @@ export class VideoService {
   constructor(private firestore: AngularFirestore) {}
 
   async add(video: Video) {
+    console.log(video);
     const videoJS = toJS(video);
     return await this.firestore.collection('videos').add(videoJS);
+  }
+
+  async update(id: string, props: Partial<VideoJSON>) {
+    const docs = await this.firestore.firestore
+      .collection('videos')
+      .where('id', '==', id)
+      .get();
+    return await this.firestore
+      .collection('videos')
+      .doc(docs.docs[0].id)
+      .update(props);
   }
 
   selectAll() {

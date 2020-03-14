@@ -27,6 +27,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatChipsModule } from '@angular/material/chips';
 
 // Components
 import { AuthGuard } from './guards/auth.guard';
@@ -77,6 +78,7 @@ import { VideoGridComponent } from './components/video-grid/video-grid.component
     MatProgressBarModule,
     MatGridListModule,
     MatDividerModule,
+    MatChipsModule,
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],

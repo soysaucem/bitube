@@ -9,7 +9,7 @@
         (click)="upload()"
         [disabled]="status !== 'Pending'"
       >
-        <mat-icon>cloud_upload</mat-icon>
+        <mat-icon fontSet="material-icons-outlined">cloud_upload</mat-icon>
       </button>
       <button
         class="option-button"
@@ -17,23 +17,27 @@
         color="primary"
         (click)="cancel()"
       >
-        <mat-icon>cancel</mat-icon>
+        <mat-icon fontSet="material-icons-outlined">delete_forever</mat-icon>
       </button>
     </div>
   </div>
 
   <div class="upload-progress">
-    <ng-container [ngSwitch]="status">
-      <mat-progress-bar
-        *ngSwitchCase="'Pending'"
-        mode="indeterminate"
-      ></mat-progress-bar>
-      <mat-progress-bar
-        *ngSwitchCase="'Progress'"
-        mode="determinate"
-        [value]="currentProgress"
-      ></mat-progress-bar>
-    </ng-container>
+    <mat-progress-bar
+      *ngIf="status === 'Pending'"
+      mode="indeterminate"
+    ></mat-progress-bar>
+    <mat-progress-bar
+      *ngIf="status === 'Progress' || status === 'Success'"
+      mode="determinate"
+      [value]="currentProgress"
+    ></mat-progress-bar>
+    <mat-progress-bar
+      *ngIf="status === 'Error'"
+      mode="determinate"
+      color="warn"
+      [value]="100"
+    ></mat-progress-bar>
     <span class="progress-value">{{ progress | percent }}</span>
   </div>
 
@@ -41,15 +45,31 @@
     <span>Video Title</span>
     <mat-form-field appearance="fill">
       <mat-label>Title</mat-label>
-      <input matInput />
+      <input matInput (input)="handleInput($event, 'title')" />
     </mat-form-field>
   </div>
 
   <div class="tags-wrapper">
     <span>Tags</span>
-    <mat-form-field appearance="fill">
-      <mat-label>Tags</mat-label>
-      <input matInput />
+    <mat-form-field class="chip-form-field" appearance="fill">
+      <mat-chip-list #chipList aria-label="Tags">
+        <mat-chip
+          *ngFor="let tag of tags"
+          [selectable]="selectable"
+          [removable]="removable"
+          (removed)="removeTag(tag)"
+        >
+          {{ tag }}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="Tags"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="addTag($event)"
+        />
+      </mat-chip-list>
     </mat-form-field>
   </div>
 
@@ -57,7 +77,10 @@
     <span>Description</span>
     <mat-form-field appearance="fill">
       <mat-label>Description</mat-label>
-      <textarea matInput></textarea>
+      <textarea
+        matInput
+        (input)="handleInput($event, 'description')"
+      ></textarea>
     </mat-form-field>
   </div>
 </mat-card>
