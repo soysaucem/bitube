@@ -10,8 +10,8 @@
     width: 100%;
 
     .file-name {
-      font-size: 22px;
-      line-height: 30px;
+      font-size: 18px;
+      line-height: 24px;
     }
 
     .options {
@@ -24,10 +24,20 @@
     }
   }
 
-  mat-progress-bar {
-    width: 60%;
-    padding: 5px 0;
+  .upload-progress {
+    @include row-left;
+    width: 100%;
     margin: 10px 0 20px;
+
+    mat-progress-bar {
+      width: 60%;
+      margin-right: 15px;
+    }
+
+    .progress-value {
+      font-size: 12px;
+      line-height: 18px;
+    }
   }
 
   .title-wrapper,
@@ -37,17 +47,13 @@
     width: 30%;
 
     span {
-      font-size: 18px;
-      line-height: 24px;
+      font-size: 15px;
+      line-height: 20px;
       margin-right: 20px;
     }
 
     mat-form-field {
       width: 70%;
-
-      text-area {
-        height: 100px;
-      }
     }
   }
 }

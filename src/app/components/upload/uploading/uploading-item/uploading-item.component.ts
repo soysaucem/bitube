@@ -28,7 +28,7 @@ export class UploadingItemComponent implements OnInit {
     this.file.request
       .on('httpUploadProgress', event => {
         this.status = FileQueueStatus.Progress;
-        this.progress = (event.loaded / event.total) * 100;
+        this.progress = event.loaded / event.total;
       })
       .send(async (err, data) => {
         try {
@@ -61,5 +61,9 @@ export class UploadingItemComponent implements OnInit {
     }
     this.status = FileQueueStatus.Cancel;
     this.controller.remove(this.file);
+  }
+
+  get currentProgress() {
+    return this.progress * 100;
   }
 }

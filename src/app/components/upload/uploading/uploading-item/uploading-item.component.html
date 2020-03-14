@@ -22,17 +22,20 @@
     </div>
   </div>
 
-  <ng-container [ngSwitch]="status">
-    <mat-progress-bar
-      *ngSwitchCase="'Pending'"
-      mode="buffer"
-    ></mat-progress-bar>
-    <mat-progress-bar
-      *ngSwitchCase="'Progress'"
-      mode="determinate"
-      [value]="progress"
-    ></mat-progress-bar>
-  </ng-container>
+  <div class="upload-progress">
+    <ng-container [ngSwitch]="status">
+      <mat-progress-bar
+        *ngSwitchCase="'Pending'"
+        mode="indeterminate"
+      ></mat-progress-bar>
+      <mat-progress-bar
+        *ngSwitchCase="'Progress'"
+        mode="determinate"
+        [value]="currentProgress"
+      ></mat-progress-bar>
+    </ng-container>
+    <span class="progress-value">{{ progress | percent }}</span>
+  </div>
 
   <div class="title-wrapper">
     <span>Video Title</span>
