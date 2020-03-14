@@ -1,6 +1,28 @@
-<mat-card class="uploading-item">
-  <span class="file-name">{{ file.file.name }}</span>
-  <ng-container [ngSwitch]="file.status">
+<mat-card class="uploading-item" *ngIf="file && status !== 'Cancel'">
+  <div class="uploading-item-header">
+    <span class="file-name">{{ file.file.name }}</span>
+    <div class="options">
+      <button
+        class="option-button"
+        mat-icon-button
+        color="primary"
+        (click)="upload()"
+        [disabled]="status !== 'Pending'"
+      >
+        <mat-icon>cloud_upload</mat-icon>
+      </button>
+      <button
+        class="option-button"
+        mat-icon-button
+        color="primary"
+        (click)="cancel()"
+      >
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <ng-container [ngSwitch]="status">
     <mat-progress-bar
       *ngSwitchCase="'Pending'"
       mode="buffer"
@@ -8,14 +30,10 @@
     <mat-progress-bar
       *ngSwitchCase="'Progress'"
       mode="determinate"
-      [value]="file.progress"
-    ></mat-progress-bar>
-    <mat-progress-bar
-      *ngSwitchCase="'Success'"
-      mode="determinate"
-      [value]="file.progress"
+      [value]="progress"
     ></mat-progress-bar>
   </ng-container>
+
   <div class="title-wrapper">
     <span>Video Title</span>
     <mat-form-field appearance="fill">
@@ -23,6 +41,7 @@
       <input matInput />
     </mat-form-field>
   </div>
+
   <div class="tags-wrapper">
     <span>Tags</span>
     <mat-form-field appearance="fill">
@@ -30,6 +49,7 @@
       <input matInput />
     </mat-form-field>
   </div>
+
   <div class="description-wrapper">
     <span>Description</span>
     <mat-form-field appearance="fill">

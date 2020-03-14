@@ -5,9 +5,23 @@
   width: 100%;
   margin: 20px 0;
 
-  .file-name {
-    font-size: 22px;
-    line-height: 30px;
+  .uploading-item-header {
+    @include row-spread;
+    width: 100%;
+
+    .file-name {
+      font-size: 22px;
+      line-height: 30px;
+    }
+
+    .options {
+      @include row-center;
+
+      .option-button {
+        @include none-highlight;
+        padding: 0 5px;
+      }
+    }
   }
 
   mat-progress-bar {
@@ -25,6 +39,7 @@
     span {
       font-size: 18px;
       line-height: 24px;
+      margin-right: 20px;
     }
 
     mat-form-field {

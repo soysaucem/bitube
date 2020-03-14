@@ -1,34 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { List } from 'immutable';
+import { ComponentWithSubscription } from 'src/app/helper-components/component-with-subscription/component-with-subscription';
+import {
+  FileQueueObject,
+  FileQueueStatus,
+} from 'src/app/models/file-queue.model';
 import { UploadController } from 'src/app/services/upload.controller';
 import { VideoService } from 'src/app/services/video.service';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { UserService } from '../../services/user.service';
+import { warningUploading } from '../../models/popup-messages';
 
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss'],
 })
-export class UploadComponent implements OnInit {
+export class UploadComponent extends ComponentWithSubscription
+  implements OnInit {
   controller = new UploadController();
+  queue: List<FileQueueObject>;
 
-  constructor(
-    private videoService: VideoService,
-    private userService: UserService
-  ) {}
-
-  ngOnInit() {
-    this.controller.register(this.videoService, this.userService);
+  constructor() {
+    super();
   }
+
+  ngOnInit() {}
 
   onDrop(event: DragEvent) {
     this.cancelEventInvoke(event);
 
     let files = event.dataTransfer.files;
 
-    files = Array.prototype.filter.call(
-      files,
-      (file: File) => file.type === 'video/mp4'
+    files = Array.prototype.filter.call(files, (file: File) =>
+      file.type.includes('video')
     );
 
     this.controller.add(files);
@@ -37,5 +41,20 @@ export class UploadComponent implements OnInit {
   cancelEventInvoke(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
+  }
+
+  setQueue(event: any) {
+    this.queue = event;
+  }
+
+  hasUploadingJob() {
+    return this.queue?.size > 0 ? true : false;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    if (this.hasUploadingJob()) {
+      $event.returnValue = true;
+    }
   }
 }

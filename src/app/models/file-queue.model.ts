@@ -1,24 +1,23 @@
 import { v4 as uuidv4 } from 'uuid';
+import * as S3 from 'aws-sdk/clients/s3';
 
 export enum FileQueueStatus {
   Pending = 'Pending',
-  Success = 'Success',
   Error = 'Error',
   Progress = 'Progress',
+  Cancel = 'Cancel',
 }
 
 export interface FileQueueObject {
   id: string;
   file: File;
-  status: FileQueueStatus;
-  progress: number;
+  request: S3.ManagedUpload;
 }
 
 export const makeObjectWith = (props: Partial<FileQueueObject>) => {
   return {
-    id: uuidv4(),
+    id: props.id ? props.id : uuidv4(),
     file: props.file,
-    status: FileQueueStatus.Pending,
-    progress: 0,
+    request: props.request,
   };
 };

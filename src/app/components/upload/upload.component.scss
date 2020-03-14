@@ -18,14 +18,16 @@
       height: 100%;
       border-radius: 4px;
 
-      label {
-        .upload-icon {
-          @include none-highlight;
-          font-size: 150px;
-          cursor: pointer;
-          color: $yellow-800;
+      .upload-button {
+        @include none-highlight;
+        width: 150px;
+        height: 150px;
+
+        mat-icon {
+          transform: scale(9);
         }
       }
+
       input {
         display: none;
       }

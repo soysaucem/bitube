@@ -1,7 +1,10 @@
-<div class="uploading-container" *ngIf="uploadingFiles">
+<div class="uploading-container" *ngIf="queueObjects">
   <div class="uploading-wrapper">
-    <div class="item" *ngFor="let item of uploadingFiles">
-      <app-uploading-item [file]="item"></app-uploading-item>
+    <div class="item" *ngFor="let item of queueObjects">
+      <app-uploading-item
+        [file]="item"
+        [controller]="controller"
+      ></app-uploading-item>
     </div>
   </div>
 </div>

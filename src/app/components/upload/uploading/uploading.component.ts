@@ -1,23 +1,29 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { List } from 'immutable';
-import { UploadController } from 'src/app/services/upload.controller';
 import { FileQueueObject } from 'src/app/models/file-queue.model';
+import { UploadController } from '../../../services/upload.controller';
+import { ComponentWithSubscription } from '../../../helper-components/component-with-subscription/component-with-subscription';
 
 @Component({
   selector: 'app-uploading',
   templateUrl: './uploading.component.html',
   styleUrls: ['./uploading.component.scss'],
 })
-export class UploadingComponent implements OnInit {
+export class UploadingComponent extends ComponentWithSubscription
+  implements OnInit {
   @Input() controller: UploadController;
+  queueObjects: List<FileQueueObject>;
 
-  uploadingFiles: List<FileQueueObject>;
+  @Output() queue = new EventEmitter();
 
-  constructor() {}
+  constructor() {
+    super();
+  }
 
   ngOnInit() {
-    this.controller.selectAll().subscribe(files => {
-      this.uploadingFiles = files;
+    this.autoUnsubscribe(this.controller.selectQueue()).subscribe(objects => {
+      this.queueObjects = objects;
+      this.queue.emit(objects);
     });
   }
 }
