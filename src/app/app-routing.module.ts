@@ -7,6 +7,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { UploadRoutingModule } from './components/upload/upload-routing.module';
 import { VideoGridRoutingModule } from './components/video-grid/video-grid-routing.module';
 import { AuthGuard } from './guards/auth.guard';
+import { WatchVideoComponent } from './components/watch-video/watch-video.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,10 @@ const routes: Routes = [
       },
       { path: '', loadChildren: () => VideoGridRoutingModule },
     ],
+  },
+  {
+    path: 'watch/:id',
+    component: WatchVideoComponent,
   },
 ];
 

@@ -1,14 +1,12 @@
 <div class="video-grid-container" *ngIf="videos$ | async as videos">
   <h2 class="video-grid-title">Featured Videos</h2>
   <div class="video-wrapper">
-    <div class="video-item" *ngFor="let video of videos">
-      <video controls preload="none">
-        <source
-          [attr.src]="
-            'https://bibo-app.s3-ap-southeast-2.amazonaws.com/' + video.id
-          "
-        />
-      </video>
+    <div
+      class="video-item"
+      *ngFor="let video of videos"
+      routerLink="/watch/{{ video.id }}"
+    >
+      <img src="{{ video.thumbnail }}" />
       <div class="video-info">
         <span class="video-title">{{ video.title }}</span>
         <span class="video-views">{{ video.views }} views</span>

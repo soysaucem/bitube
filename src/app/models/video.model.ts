@@ -5,6 +5,7 @@ export interface Video {
   user: string;
   title: string;
   description: string;
+  thumbnail: string;
   views: number;
   tags: List<string>;
 }
@@ -14,6 +15,7 @@ export interface VideoJSON {
   user: string;
   title: string;
   description: string;
+  thumbnail: string;
   views: number;
   tags: string[];
 }
@@ -24,6 +26,7 @@ export function createDefault(): Video {
     user: null,
     title: null,
     description: null,
+    thumbnail: null,
     views: 0,
     tags: List(),
   });

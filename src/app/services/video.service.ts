@@ -11,7 +11,6 @@ export class VideoService {
   constructor(private firestore: AngularFirestore) {}
 
   async add(video: Video) {
-    console.log(video);
     const videoJS = toJS(video);
     return await this.firestore.collection('videos').add(videoJS);
   }

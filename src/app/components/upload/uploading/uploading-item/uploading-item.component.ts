@@ -7,6 +7,7 @@ import { VideoService } from '../../../../services/video.service';
 import { makeVideo } from '../../../../models/video.model';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { List } from 'immutable';
+import { generateThumbnail } from '../../../../util/generate-thumbnail';
 
 type InputType = 'description' | 'title';
 const ENTER = 13;
@@ -55,19 +56,7 @@ export class UploadingItemComponent implements OnInit {
             return err;
           }
 
-          this.status = FileQueueStatus.Success;
-
-          // Add video reference to firebase
-          const currentUser = await this.userService.getMyAccount();
-          const video = makeVideo({
-            id: this.file.id,
-            title: this.title ? this.title : this.file.file.name,
-            description: this.description ? this.description : null,
-            tags: List(this.tags),
-            user: currentUser.id,
-          });
-
-          await this.videoService.add(video);
+          await this.processSucceedUpload();
 
           return data;
         } catch (error) {
@@ -133,5 +122,25 @@ export class UploadingItemComponent implements OnInit {
     if (index >= 0) {
       this.tags.splice(index, 1);
     }
+  }
+
+  private async processSucceedUpload() {
+    this.status = FileQueueStatus.Success;
+
+    // Make video thumbnail
+    const thumbnail = await generateThumbnail(this.file.file);
+
+    // Add video reference to firebase
+    const currentUser = await this.userService.getMyAccount();
+    const video = makeVideo({
+      id: this.file.id,
+      title: this.title ? this.title : this.file.file.name,
+      description: this.description ? this.description : null,
+      thumbnail,
+      tags: List(this.tags),
+      user: currentUser.id,
+    });
+
+    await this.videoService.add(video);
   }
 }
