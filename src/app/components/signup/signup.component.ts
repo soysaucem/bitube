@@ -61,10 +61,6 @@ export class SignupComponent implements OnInit {
     this.router.navigate(['']);
   }
 
-  goToLogin() {
-    this.router.navigate(['login']);
-  }
-
   get nameControl() {
     return this.signupForm.get('nameControl');
   }

@@ -1,7 +1,7 @@
 <mat-toolbar class="navbar-container" [color]="'primary'">
   <img class="logo" src="assets/logo_transparent.png" />
   <div class="navbar-wrapper">
-    <div class="navbar-item" (click)="goToHome()">
+    <div class="navbar-item" routerLink="/">
       <i class="material-icons">home</i>
       Home
     </div>
@@ -23,7 +23,7 @@
       </button>
     </div>
     <ng-container *ngIf="isAuthenticated">
-      <button mat-stroked-button class="upload-button" (click)="goToUpload()">
+      <button mat-stroked-button class="upload-button" routerLink="/upload">
         <i class="material-icons">cloud_upload</i>
         Upload
       </button>
@@ -34,11 +34,11 @@
         mat-raised-button
         class="create-account-button"
         color="accent"
-        (click)="goToSignup()"
+        routerLink="/signup"
       >
         Create account
       </button>
-      <button mat-raised-button (click)="goToLogin()">
+      <button mat-raised-button routerLink="/login">
         Log in
       </button>
     </ng-container>

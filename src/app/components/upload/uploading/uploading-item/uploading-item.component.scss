@@ -10,8 +10,7 @@
     width: 100%;
 
     .file-name {
-      font-size: 18px;
-      line-height: 24px;
+      @include large-desktop-size;
     }
 
     .options {
@@ -35,8 +34,7 @@
     }
 
     .progress-value {
-      font-size: 12px;
-      line-height: 18px;
+      @include small-desktop-size;
     }
   }
 
@@ -47,8 +45,7 @@
     width: 30%;
 
     span {
-      font-size: 15px;
-      line-height: 20px;
+      @include regular-desktop-size;
       margin-right: 20px;
     }
 

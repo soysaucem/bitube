@@ -1,4 +1,4 @@
-@import "base.scss";
+@import 'base.scss';
 
 .navbar-container {
   @include row-left;
@@ -43,11 +43,10 @@
       margin-right: 50px;
 
       .search-input {
+        @include large-desktop-size;
         height: 100%;
         margin-right: 10px;
         width: 300px;
-        font-size: 18px;
-        line-height: 24px;
       }
     }
 

@@ -24,4 +24,8 @@ export class AuthService {
 
     return state ? true : false;
   }
+
+  async resetPassword(email: string) {
+    return await this.firebaseAuth.auth.sendPasswordResetEmail(email);
+  }
 }

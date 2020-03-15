@@ -1,37 +1,14 @@
-@import "base.scss";
+@import 'base.scss';
 
 .login-container {
-  @include column-center;
-  @include full-width-height;
-
-  .title {
-    color: $primary;
-    font-weight: 500;
-  }
+  @include base-auth-container;
 
   .login-form {
-    @include column-center;
-    width: 500px;
-    margin: 20px auto;
+    @include base-form;
 
-    mat-form-field {
-      width: 90%;
-      padding: 5px;
-
-      input {
-        line-height: 30px;
-        font-size: 18px;
-      }
-    }
-
-    .button-wrapper {
-      @include row-center-space-around;
-      width: 100%;
-      padding-bottom: 20px;
-
-      button {
-        width: 30%;
-      }
+    .forgot-password {
+      @include small-desktop-size;
+      padding-bottom: 10px;
     }
 
     .google-button {

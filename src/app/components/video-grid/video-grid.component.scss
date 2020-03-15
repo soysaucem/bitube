@@ -5,7 +5,7 @@
   margin: 50px 0 50px 120px;
 
   .video-grid-title {
-    font-size: 24px;
+    @include x-large-desktop-size;
     font-weight: 500;
   }
 
@@ -28,13 +28,12 @@
         margin-left: 20px;
 
         .video-title {
-          font-size: 18px;
+          @include large-desktop-size;
           font-weight: 500;
-          line-height: 24px;
         }
 
         .video-views {
-          font-size: 13px;
+          @include small-desktop-size;
         }
       }
     }

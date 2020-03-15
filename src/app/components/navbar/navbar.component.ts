@@ -15,20 +15,4 @@ export class NavbarComponent implements OnInit {
   async ngOnInit() {
     this.isAuthenticated = await this.auth.isAuthenticated();
   }
-
-  goToUpload() {
-    this.router.navigate(['upload']);
-  }
-
-  goToHome() {
-    this.router.navigate(['']);
-  }
-
-  goToSignup() {
-    this.router.navigate(['signup']);
-  }
-
-  goToLogin() {
-    this.router.navigate(['login']);
-  }
 }

@@ -49,7 +49,7 @@
         [attr.aria-label]="'Hide password'"
         [attr.aria-pressed]="hide"
       >
-        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
       </button>
     </mat-form-field>
 
@@ -58,6 +58,7 @@
       <input
         id="passwordConfirmationInput"
         matInput
+        required
         [type]="hide ? 'password' : 'text'"
         formControlName="passwordConfirmationControl"
       />
@@ -71,12 +72,12 @@
         [attr.aria-label]="'Hide password'"
         [attr.aria-pressed]="hide"
       >
-        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
       </button>
     </mat-form-field>
 
     <div class="button-wrapper">
-      <button mat-raised-button (click)="goToLogin()">Log in</button>
+      <button mat-raised-button routerLink="/login">Back to login</button>
       <button
         mat-raised-button
         color="primary"
