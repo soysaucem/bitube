@@ -28,6 +28,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
 
 // Components
 import { AuthGuard } from './guards/auth.guard';
@@ -85,6 +87,8 @@ import { CommentComponent } from './components/comment/comment.component';
     MatGridListModule,
     MatDividerModule,
     MatChipsModule,
+    MatTooltipModule,
+    MatTabsModule,
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],

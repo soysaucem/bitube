@@ -17,12 +17,19 @@ export interface FileQueueObject {
   request: S3.ManagedUpload;
 }
 
-export const makeObjectWith = (props: Partial<FileQueueObject>) => {
-  return {
-    id: props.id ? props.id : uuidv4(),
-    title: props.file.name,
+export function createDefault(): FileQueueObject {
+  return Object.freeze({
+    id: uuidv4(),
+    title: null,
     description: null,
-    file: props.file,
-    request: props.request,
-  };
-};
+    file: null,
+    request: null,
+  });
+}
+
+export function makeFileQueueObject(props: Partial<FileQueueObject>) {
+  return Object.freeze({
+    ...createDefault(),
+    ...props,
+  });
+}

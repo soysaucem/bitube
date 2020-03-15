@@ -2,6 +2,7 @@
 
 .watch-video-container {
   @include full-width-height;
+  cursor: default;
 
   .watch-video-wrapper {
     margin: $front-main-margin $side-main-margin;
@@ -15,19 +16,112 @@
 
       .player-footer {
         @include row-spread;
+        align-items: flex-start;
+
         .video-info {
           @include column-left;
+          width: 70%;
+
           .video-title {
-            @include x-large-desktop-size;
+            @include xx-large-desktop-size;
             font-weight: 500;
+            margin: 10px 0;
           }
-          .video-view {
-            @include regular-desktop-size;
+
+          .owner {
+            @include row-left;
+            width: 100%;
+
+            .owner-avatar {
+              width: $small-avatar;
+              height: $small-avatar;
+              font-size: $small-avatar;
+              margin-right: 5px;
+            }
+
+            .owner-info {
+              @include column-left;
+
+              .name {
+                @include regular-desktop-size;
+                font-weight: 500;
+              }
+
+              .follow {
+                @include small-desktop-size;
+                color: $gray-600;
+              }
+            }
+
+            .follow-button {
+              margin-left: auto;
+            }
           }
         }
 
-        .video-options {
-          @include row-center;
+        .video-opinions {
+          @include column-center;
+          width: 30%;
+          margin-top: 10px;
+
+          .ratio-view-display,
+          mat-progress-bar,
+          .opinion-buttons {
+            width: 90%;
+          }
+
+          .ratio-view-display {
+            @include row-spread;
+
+            .like,
+            .dislike {
+              @include regular-desktop-size;
+
+              mat-icon {
+                @include regular-desktop-size;
+              }
+            }
+
+            .active {
+              color: $primary;
+            }
+
+            .views {
+              @include x-large-desktop-size;
+            }
+          }
+
+          mat-progress-bar {
+            margin-bottom: 15px;
+          }
+
+          .opinion-buttons {
+            @include row-spread;
+
+            button {
+              width: 45%;
+            }
+          }
+        }
+      }
+
+      .tab-group {
+        .mat-tab-body-wrapper {
+          font-size: 14px;
+          line-height: 22px;
+          margin-top: 15px;
+        }
+      }
+
+      .publish {
+        @include small-desktop-size;
+        color: $gray-600;
+        margin-top: 20px;
+      }
+
+      .comment-section {
+        h1 {
+          font-weight: normal;
         }
       }
     }

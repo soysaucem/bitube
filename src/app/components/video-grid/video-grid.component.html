@@ -1,7 +1,7 @@
 <div class="video-grid-container" *ngIf="videos$ | async as videos">
   <h2 class="video-grid-title">Featured Videos</h2>
   <div class="video-wrapper">
-    <div
+    <mat-card
       class="video-item"
       *ngFor="let video of videos"
       routerLink="/watch/{{ video.id }}"
@@ -12,6 +12,6 @@
         <span class="video-views">{{ video.views }} views</span>
         <span class="video-owner">By {{ video.ownerName }}</span>
       </div>
-    </div>
+    </mat-card>
   </div>
 </div>

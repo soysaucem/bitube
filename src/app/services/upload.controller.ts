@@ -3,7 +3,10 @@ import { List } from 'immutable';
 import { Subject } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { awsS3Config } from '../../environments/environment';
-import { FileQueueObject, makeObjectWith } from '../models/file-queue.model';
+import {
+  FileQueueObject,
+  makeFileQueueObject,
+} from '../models/file-queue.model';
 
 export class UploadController {
   private bucket = new S3({
@@ -36,7 +39,7 @@ export class UploadController {
     const arr = Array.from(files);
     arr.forEach(file => {
       const id = uuidv4();
-      const object = makeObjectWith({
+      const object = makeFileQueueObject({
         id,
         file,
         request: this.makeUploadRequest(id, file),

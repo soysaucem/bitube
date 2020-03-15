@@ -1,24 +1,62 @@
-<div class="watch-video-container" *ngIf="video">
+<div class="watch-video-container" *ngIf="video && owner && me">
   <div class="watch-video-wrapper">
     <div class="watch-video">
       <video class="video-player" controls autoplay>
         <source src="{{ bucketUrl + videoId }}" />
       </video>
+
       <div class="player-footer">
         <div class="video-info">
           <span class="video-title">{{ video.title }}</span>
-          <span class="video-view">{{ video.views }} views</span>
+          <div class="owner">
+            <mat-icon class="owner-avatar">account_circle</mat-icon>
+            <div class="owner-info">
+              <span class="name">{{ owner.name }}</span>
+              <span class="follow">{{ owner.followers.size }} followers</span>
+            </div>
+            <button mat-stroked-button class="follow-button">
+              Follow
+            </button>
+          </div>
         </div>
-        <div class="video-options">
-          <button mat-icon-button><mat-icon>thumb_up</mat-icon></button>
-          <button mat-icon-button><mat-icon>thumb_down</mat-icon></button>
-          <button class="download-button" mat-flat-button>
-            <mat-icon>cloud_download</mat-icon> Download
-          </button>
+        <div class="video-opinions">
+          <div class="ratio-view-display">
+            <span class="like" [class.active]="isLiked()"
+              ><mat-icon>thumb_up</mat-icon>{{ video.likes.size }}</span
+            >
+            <span class="views" matTooltip="Views">{{ video.views }}</span>
+            <span class="dislike" [class.active]="isDisliked()"
+              ><mat-icon>thumb_down</mat-icon>{{ video.dislikes.size }}</span
+            >
+          </div>
+
+          <mat-progress-bar
+            mode="determinate"
+            [value]="likeRatio"
+          ></mat-progress-bar>
+          <div class="opinion-buttons">
+            <button mat-stroked-button (click)="updateOpinion('like')">
+              <mat-icon>thumb_up</mat-icon>
+            </button>
+            <button mat-stroked-button (click)="updateOpinion('dislike')">
+              <mat-icon>thumb_down</mat-icon>
+            </button>
+          </div>
         </div>
       </div>
 
-      <mat-divider class="divider"></mat-divider>
+      <mat-tab-group class="tab-group">
+        <mat-tab label="Description">{{ description }}</mat-tab>
+        <mat-tab label="Share">Content 2 </mat-tab>
+        <mat-tab label="Download"> Content 3 </mat-tab>
+      </mat-tab-group>
+
+      <div class="publish">Published on {{ publishedDate }}</div>
+
+      <div class="comment-section">
+        <h1>Comments</h1>
+        <app-comment></app-comment>
+      </div>
     </div>
   </div>
 </div>
