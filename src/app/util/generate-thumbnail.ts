@@ -1,3 +1,6 @@
+const IMAGE_WIDTH = 720;
+const IMAGE_HEIGHT = 404;
+
 export function generateThumbnail(video: Blob) {
   const videoEl = document.createElement('video');
   const canvas = document.createElement('canvas');
@@ -8,16 +11,10 @@ export function generateThumbnail(video: Blob) {
     videoEl.addEventListener('error', reject);
 
     videoEl.addEventListener('canplay', event => {
-      canvas.width = videoEl.videoWidth;
-      canvas.height = videoEl.videoHeight;
-      canvasContext.drawImage(
-        videoEl,
-        0,
-        0,
-        videoEl.videoWidth,
-        videoEl.videoHeight
-      );
-      resolve(canvas.toDataURL());
+      canvas.width = IMAGE_WIDTH;
+      canvas.height = IMAGE_HEIGHT;
+      canvasContext.drawImage(videoEl, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
+      resolve(canvas.toDataURL('image/webp'));
     });
 
     videoEl.setAttribute('type', video.type);

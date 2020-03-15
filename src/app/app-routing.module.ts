@@ -34,11 +34,8 @@ const routes: Routes = [
         loadChildren: () => UploadRoutingModule,
       },
       { path: '', loadChildren: () => VideoGridRoutingModule },
+      { path: 'watch/:id', component: WatchVideoComponent },
     ],
-  },
-  {
-    path: 'watch/:id',
-    component: WatchVideoComponent,
   },
 ];
 

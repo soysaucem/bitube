@@ -1,0 +1,35 @@
+@import 'base.scss';
+
+.watch-video-container {
+  @include full-width-height;
+
+  .watch-video-wrapper {
+    margin: $front-main-margin $side-main-margin;
+    .watch-video {
+      width: 70%;
+      height: 39.375%;
+
+      .video-player {
+        @include full-width-height;
+      }
+
+      .player-footer {
+        @include row-spread;
+        .video-info {
+          @include column-left;
+          .video-title {
+            @include x-large-desktop-size;
+            font-weight: 500;
+          }
+          .video-view {
+            @include regular-desktop-size;
+          }
+        }
+
+        .video-options {
+          @include row-center;
+        }
+      }
+    }
+  }
+}

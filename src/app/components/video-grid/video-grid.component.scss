@@ -2,7 +2,7 @@
 
 .video-grid-container {
   width: 70%;
-  margin: 50px 0 50px 120px;
+  margin: $front-main-margin 0 $front-main-margin $side-main-margin;
 
   .video-grid-title {
     @include x-large-desktop-size;
@@ -17,22 +17,24 @@
     list-style: none;
 
     .video-item {
+      outline: none;
       width: 100%;
+      cursor: pointer;
 
-      video {
+      img {
         width: 100%;
       }
 
       .video-info {
         @include column-left;
-        margin-left: 20px;
 
         .video-title {
           @include large-desktop-size;
           font-weight: 500;
         }
 
-        .video-views {
+        .video-views,
+        .video-owner {
           @include small-desktop-size;
         }
       }

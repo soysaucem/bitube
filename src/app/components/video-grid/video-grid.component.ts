@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { List } from 'immutable';
 import { Video } from '../../models/video.model';
 import { VideoService } from '../../services/video.service';
-import { BUCKET_URL } from '../../util/variables';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-video-grid',
@@ -12,11 +12,18 @@ import { BUCKET_URL } from '../../util/variables';
 })
 export class VideoGridComponent implements OnInit {
   videos$: Observable<List<Video>>;
-  bucketUrl = BUCKET_URL;
 
-  constructor(private videoService: VideoService) {}
+  constructor(
+    private videoService: VideoService,
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
     this.videos$ = this.videoService.selectAll();
+  }
+
+  async getOwner(id: string) {
+    const owner = await this.userService.getUser(id);
+    return owner.name;
   }
 }

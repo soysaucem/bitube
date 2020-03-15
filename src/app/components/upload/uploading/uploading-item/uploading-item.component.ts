@@ -138,7 +138,8 @@ export class UploadingItemComponent implements OnInit {
       description: this.description ? this.description : null,
       thumbnail,
       tags: List(this.tags),
-      user: currentUser.id,
+      ownerId: currentUser.id,
+      ownerName: currentUser.name,
     });
 
     await this.videoService.add(video);

@@ -32,4 +32,13 @@ export class VideoService {
       .valueChanges()
       .pipe(map(videos => List(videos.map(video => fromJS(video)))));
   }
+
+  async getVideo(id: string): Promise<Video> {
+    const docs = await this.firestore
+      .collection<VideoJSON>('videos')
+      .ref.where('id', '==', id)
+      .get();
+    const video = docs.docs[0].data();
+    return fromJS(video as any);
+  }
 }

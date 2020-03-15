@@ -2,7 +2,8 @@ import { List } from 'immutable';
 
 export interface Video {
   id: string;
-  user: string;
+  ownerId: string;
+  ownerName: string;
   title: string;
   description: string;
   thumbnail: string;
@@ -12,7 +13,8 @@ export interface Video {
 
 export interface VideoJSON {
   id: string;
-  user: string;
+  ownerId: string;
+  ownerName: string;
   title: string;
   description: string;
   thumbnail: string;
@@ -23,7 +25,8 @@ export interface VideoJSON {
 export function createDefault(): Video {
   return Object.freeze({
     id: null,
-    user: null,
+    ownerId: null,
+    ownerName: null,
     title: null,
     description: null,
     thumbnail: null,
