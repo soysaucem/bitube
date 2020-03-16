@@ -2,12 +2,12 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FileQueueObject } from 'src/app/controller/upload/file-queue.model';
 import { UploadController } from '../../../../controller/upload/upload.controller';
 import { FileQueueStatus } from '../../../../controller/upload/file-queue.model';
-import { UserService } from '../../../../services/user.service';
-import { VideoService } from '../../../../services/video.service';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { List } from 'immutable';
 import { generateThumbnail } from '../../../../util/generate-thumbnail';
 import { makeVideo } from '../../../../services/video/state/video.model';
+import { VideoService } from '../../../../services/video/state/video.service';
+import { UserQuery } from '../../../../services/user/state/user.query';
 
 type InputType = 'description' | 'title';
 const ENTER = 13;
@@ -26,7 +26,7 @@ export class UploadingItemComponent implements OnInit {
 
   title: string;
   description: string;
-  tags: string[] = [];
+  tags = List<string>();
 
   // Configurations for mat chip
   visible = true;
@@ -36,7 +36,7 @@ export class UploadingItemComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   constructor(
-    private userService: UserService,
+    private userQuery: UserQuery,
     private videoService: VideoService
   ) {}
 
@@ -77,31 +77,31 @@ export class UploadingItemComponent implements OnInit {
     return this.progress * 100;
   }
 
-  handleInput(event: any, type: InputType) {
+  async handleInput(event: any, type: InputType) {
     if (type === 'title') {
       this.title = event.target.value;
       if (this.status === FileQueueStatus.Success) {
-        this.videoService.update(this.file.id, {
+        await this.videoService.updateVideo(this.file.id, {
           title: this.title,
         });
       }
     } else if (type === 'description') {
       this.description = event.target.value;
       if (this.status === FileQueueStatus.Success) {
-        this.videoService.update(this.file.id, {
+        await this.videoService.updateVideo(this.file.id, {
           description: this.description,
         });
       }
     }
   }
 
-  addTag(event: MatChipInputEvent): void {
+  async addTag(event: MatChipInputEvent) {
     const input = event.input;
     const value = event.value;
 
     // Add tag
     if ((value || '').trim()) {
-      this.tags.push(value.trim());
+      this.tags = this.tags.push(value.trim());
     }
 
     // Reset the input value
@@ -110,8 +110,8 @@ export class UploadingItemComponent implements OnInit {
     }
 
     if (this.status === FileQueueStatus.Success) {
-      this.videoService.update(this.file.id, {
-        tags: this.tags,
+      await this.videoService.updateVideo(this.file.id, {
+        tags: this.tags.toArray(),
       });
     }
   }
@@ -120,7 +120,7 @@ export class UploadingItemComponent implements OnInit {
     const index = this.tags.indexOf(tag);
 
     if (index >= 0) {
-      this.tags.splice(index, 1);
+      this.tags = this.tags.splice(index, 1);
     }
   }
 
@@ -131,17 +131,17 @@ export class UploadingItemComponent implements OnInit {
     const thumbnail = await generateThumbnail(this.file.file);
 
     // Add video reference to firebase
-    const currentUser = await this.userService.getMyAccount();
+    const currentUser = await this.userQuery.getMyAccount();
     const video = makeVideo({
       id: this.file.id,
       title: this.title ? this.title : this.file.file.name,
       description: this.description ? this.description : null,
       thumbnail,
-      tags: List(this.tags),
+      tags: this.tags,
       ownerId: currentUser.id,
       ownerName: currentUser.name,
     });
 
-    await this.videoService.add(video);
+    await this.videoService.addVideo(video);
   }
 }

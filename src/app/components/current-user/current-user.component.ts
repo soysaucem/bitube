@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { UserService } from '../../services/user.service';
 import { User } from '../../services/user/state/user.model';
+import { UserQuery } from '../../services/user/state/user.query';
 
 @Component({
   selector: 'app-current-user',
@@ -15,11 +15,11 @@ export class CurrentUserComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private router: Router,
-    private userService: UserService
+    private userQuery: UserQuery
   ) {}
 
   async ngOnInit() {
-    this.me = await this.userService.getMyAccount();
+    this.me = await this.userQuery.getMyAccount();
   }
 
   async logout() {

@@ -1,11 +1,19 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { BUCKET_URL } from '../../util/variables';
 import { ActivatedRoute } from '@angular/router';
-import { VideoService } from '../../services/video.service';
-import { UserService } from '../../services/user.service';
 import * as moment from 'moment';
-import { Video } from '../../services/video/state/video.model';
+import {
+  Video,
+  VideoJSON,
+  fromJS,
+} from '../../services/video/state/video.model';
 import { User } from '../../services/user/state/user.model';
+import { VideoQuery } from '../../services/video/state/video.query';
+import { VideoService } from '../../services/video/state/video.service';
+import { UserQuery } from '../../services/user/state/user.query';
+import { switchMap } from 'rxjs/operators';
+import { ComponentWithSubscription } from '../../helper-components/component-with-subscription/component-with-subscription';
+import { combineLatest } from 'rxjs';
 
 type Opinion = 'like' | 'dislike';
 
@@ -15,7 +23,8 @@ type Opinion = 'like' | 'dislike';
   styleUrls: ['./watch-video.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class WatchVideoComponent implements OnInit {
+export class WatchVideoComponent extends ComponentWithSubscription
+  implements OnInit {
   bucketUrl = BUCKET_URL;
   videoId: string;
   video: Video;
@@ -24,19 +33,28 @@ export class WatchVideoComponent implements OnInit {
   likeRatio: number;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
+    private route: ActivatedRoute,
     private videoService: VideoService,
-    private userService: UserService
-  ) {}
+    private userQuery: UserQuery
+  ) {
+    super();
+  }
 
-  async ngOnInit() {
-    this.videoId = this.activatedRoute.snapshot.paramMap.get('id');
-    this.video = await this.videoService.getVideo(this.videoId);
-    this.owner = await this.userService.getUser(this.video.ownerId);
-    this.me = await this.userService.getMyAccount();
-    this.likeRatio =
-      this.video.likes.size /
-      (this.video.likes.size + this.video.dislikes.size);
+  ngOnInit() {
+    this.autoUnsubscribe(
+      this.route.params.pipe(
+        switchMap(({ id }) => this.videoService.syncDoc({ id }))
+      )
+    ).subscribe(async (video: VideoJSON) => {
+      const fromJSVideo = fromJS(video);
+      this.videoId = fromJSVideo.id;
+      this.video = fromJSVideo;
+      this.owner = await this.userQuery.getUser(this.video.ownerId);
+      this.me = await this.userQuery.getMyAccount();
+      this.likeRatio =
+        this.video.likes.size /
+        (this.video.likes.size + this.video.dislikes.size);
+    });
   }
 
   async updateOpinion(type: Opinion) {
@@ -45,25 +63,31 @@ export class WatchVideoComponent implements OnInit {
     }
 
     if (type === 'like' && !this.isLiked()) {
-      const likes = this.video.likes.push(this.me.id).toArray();
-      let dislikes = this.video.dislikes.toArray();
+      const likes = this.video.likes.push(this.me.id);
+      let dislikes = this.video.dislikes;
 
       // Remove dislike on like
       if (dislikes.includes(this.me.id)) {
         dislikes = dislikes.filter(dislike => dislike !== this.me.id);
       }
 
-      await this.videoService.update(this.videoId, { likes, dislikes });
+      await this.videoService.updateVideo(this.videoId, {
+        likes: likes.toArray(),
+        dislikes: dislikes.toArray(),
+      });
     } else if (type === 'dislike' && !this.isDisliked()) {
-      const dislikes = this.video.dislikes.push(this.me.id).toArray();
-      let likes = this.video.likes.toArray();
+      const dislikes = this.video.dislikes.push(this.me.id);
+      let likes = this.video.likes;
 
       // Remove like on dislike
       if (likes.includes(this.me.id)) {
         likes = likes.filter(like => like !== this.me.id);
       }
 
-      await this.videoService.update(this.videoId, { likes, dislikes });
+      await this.videoService.updateVideo(this.videoId, {
+        likes: likes.toArray(),
+        dislikes: dislikes.toArray(),
+      });
     }
   }
 

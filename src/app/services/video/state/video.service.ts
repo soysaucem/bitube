@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
-import { VideoStore, VideoState } from './video.store';
 import { CollectionConfig, CollectionService } from 'akita-ng-fire';
+import { toJS, Video, VideoJSON } from './video.model';
+import { VideoState, VideoStore } from './video.store';
 
 @Injectable({ providedIn: 'root' })
-@CollectionConfig({ path: 'videos' })
+@CollectionConfig({ path: 'videos', idKey: 'id' })
 export class VideoService extends CollectionService<VideoState> {
-
   constructor(store: VideoStore) {
     super(store);
   }
 
+  addVideo(video: Video) {
+    const videoJS = toJS(video);
+    return this.add(videoJS);
+  }
+
+  updateVideo(id: string, props: Partial<VideoJSON>) {
+    return this.update({ ...props, id: id });
+  }
 }

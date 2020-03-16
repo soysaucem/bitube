@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { VideoService } from '../../services/video.service';
 import { List } from 'immutable';
 import { Observable } from 'rxjs';
 import { Video } from '../../services/video/state/video.model';
+import { VideoQuery } from '../../services/video/state/video.query';
 
 @Component({
   selector: 'app-mainpage',
@@ -13,9 +13,9 @@ import { Video } from '../../services/video/state/video.model';
 export class MainpageComponent implements OnInit {
   videos$: Observable<List<Video>>;
 
-  constructor(readonly auth: AuthService, private videoService: VideoService) {}
+  constructor(readonly auth: AuthService, private videoQuery: VideoQuery) {}
 
   ngOnInit() {
-    this.videos$ = this.videoService.selectAll();
+    this.videos$ = this.videoQuery.selectVideos();
   }
 }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { List } from 'immutable';
-import { VideoService } from '../../services/video.service';
-import { UserService } from '../../services/user.service';
 import { Video } from '../../services/video/state/video.model';
+import { VideoQuery } from '../../services/video/state/video.query';
+import { UserQuery } from '../../services/user/state/user.query';
 
 @Component({
   selector: 'app-video-grid',
@@ -13,17 +13,14 @@ import { Video } from '../../services/video/state/video.model';
 export class VideoGridComponent implements OnInit {
   videos$: Observable<List<Video>>;
 
-  constructor(
-    private videoService: VideoService,
-    private userService: UserService
-  ) {}
+  constructor(private videoQuery: VideoQuery, private userQuery: UserQuery) {}
 
   ngOnInit() {
-    this.videos$ = this.videoService.selectAll();
+    this.videos$ = this.videoQuery.selectVideos();
   }
 
   async getOwner(id: string) {
-    const owner = await this.userService.getUser(id);
+    const owner = await this.userQuery.getUser(id);
     return owner.name;
   }
 }
