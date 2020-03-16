@@ -17,7 +17,7 @@ export class UserService {
     const googleAuthAccount = await this.firebaseAuth.authState
       .pipe(take(1))
       .toPromise();
-    return this.getUser(googleAuthAccount.uid);
+    return googleAuthAccount ? this.getUser(googleAuthAccount.uid) : null;
   }
 
   async getUser(id: String): Promise<User> {
@@ -25,7 +25,7 @@ export class UserService {
       .collection<UserJSON>('users')
       .ref.where('id', '==', id)
       .get();
-    const user = docs.docs[0].data();
-    return fromJS(user as any);
+    const user = docs?.docs[0]?.data();
+    return user ? fromJS(user as any) : null;
   }
 }

@@ -45,6 +45,7 @@ import { VideoGridComponent } from './components/video-grid/video-grid.component
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { WatchVideoComponent } from './components/watch-video/watch-video.component';
 import { CommentComponent } from './components/comment/comment.component';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { CommentComponent } from './components/comment/comment.component';
     ForgotPasswordComponent,
     WatchVideoComponent,
     CommentComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,

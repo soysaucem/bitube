@@ -40,6 +40,10 @@ export class WatchVideoComponent implements OnInit {
   }
 
   async updateOpinion(type: Opinion) {
+    if (!this.me) {
+      return;
+    }
+
     if (type === 'like' && !this.isLiked()) {
       const likes = this.video.likes.push(this.me.id).toArray();
       let dislikes = this.video.dislikes.toArray();
@@ -64,11 +68,11 @@ export class WatchVideoComponent implements OnInit {
   }
 
   isLiked() {
-    return this.video.likes.includes(this.me.id) ? true : false;
+    return this.video.likes.includes(this.me?.id) ? true : false;
   }
 
   isDisliked() {
-    return this.video.dislikes.includes(this.me.id) ? true : false;
+    return this.video.dislikes.includes(this.me?.id) ? true : false;
   }
 
   get description() {
