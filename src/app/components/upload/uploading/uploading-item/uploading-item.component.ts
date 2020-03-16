@@ -1,13 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FileQueueObject } from 'src/app/models/file-queue.model';
-import { UploadController } from '../../../../services/upload.controller';
-import { FileQueueStatus } from '../../../../models/file-queue.model';
+import { FileQueueObject } from 'src/app/controller/upload/file-queue.model';
+import { UploadController } from '../../../../controller/upload/upload.controller';
+import { FileQueueStatus } from '../../../../controller/upload/file-queue.model';
 import { UserService } from '../../../../services/user.service';
 import { VideoService } from '../../../../services/video.service';
-import { makeVideo } from '../../../../models/video.model';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { List } from 'immutable';
 import { generateThumbnail } from '../../../../util/generate-thumbnail';
+import { makeVideo } from '../../../../services/video/state/video.model';
 
 type InputType = 'description' | 'title';
 const ENTER = 13;

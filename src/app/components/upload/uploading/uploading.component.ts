@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { List } from 'immutable';
-import { FileQueueObject } from 'src/app/models/file-queue.model';
-import { UploadController } from '../../../services/upload.controller';
+import { FileQueueObject } from 'src/app/controller/upload/file-queue.model';
+import { UploadController } from '../../../controller/upload/upload.controller';
 import { ComponentWithSubscription } from '../../../helper-components/component-with-subscription/component-with-subscription';
 
 @Component({

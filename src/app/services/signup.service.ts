@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/database';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { User, makeUser, toJS } from '../models/user.model';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { take } from 'rxjs/operators';
+import { makeUser, toJS } from './user/state/user.model';
 
 @Injectable({
   providedIn: 'root',

@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { BUCKET_URL } from '../../util/variables';
 import { ActivatedRoute } from '@angular/router';
-import { Video } from '../../models/video.model';
 import { VideoService } from '../../services/video.service';
 import { UserService } from '../../services/user.service';
-import { User } from '../../models/user.model';
 import * as moment from 'moment';
+import { Video } from '../../services/video/state/video.model';
+import { User } from '../../services/user/state/user.model';
 
 type Opinion = 'like' | 'dislike';
 

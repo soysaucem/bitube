@@ -1,8 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { List } from 'immutable';
 import { ComponentWithSubscription } from 'src/app/helper-components/component-with-subscription/component-with-subscription';
-import { FileQueueObject } from 'src/app/models/file-queue.model';
-import { UploadController } from 'src/app/services/upload.controller';
+import { FileQueueObject } from 'src/app/controller/upload/file-queue.model';
+import { UploadController } from 'src/app/controller/upload/upload.controller';
 
 @Component({
   selector: 'app-upload',

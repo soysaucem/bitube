@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { List } from 'immutable';
-import { Video } from '../../models/video.model';
 import { VideoService } from '../../services/video.service';
 import { UserService } from '../../services/user.service';
+import { Video } from '../../services/video/state/video.model';
 
 @Component({
   selector: 'app-video-grid',

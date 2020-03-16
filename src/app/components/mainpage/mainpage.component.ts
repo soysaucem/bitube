@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { VideoService } from '../../services/video.service';
-import { Video } from '../../models/video.model';
 import { List } from 'immutable';
 import { Observable } from 'rxjs';
+import { Video } from '../../services/video/state/video.model';
 
 @Component({
   selector: 'app-mainpage',

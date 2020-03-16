@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanDeactivate } from '@angular/router';
 import { UploadComponent } from '../components/upload/upload.component';
-import { warningUploading } from '../models/popup-messages';
+import { warningUploading } from '../util/variables';
 
 @Injectable({
   providedIn: 'root',

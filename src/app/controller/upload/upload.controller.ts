@@ -2,11 +2,8 @@ import * as S3 from 'aws-sdk/clients/s3';
 import { List } from 'immutable';
 import { Subject } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
-import { awsS3Config } from '../../environments/environment';
-import {
-  FileQueueObject,
-  makeFileQueueObject,
-} from '../models/file-queue.model';
+import { awsS3Config } from '../../../environments/environment';
+import { FileQueueObject, makeFileQueueObject } from './file-queue.model';
 
 export class UploadController {
   private bucket = new S3({

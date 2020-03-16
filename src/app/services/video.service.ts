@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Video, toJS, VideoJSON, fromJS } from '../models/video.model';
 import { map } from 'rxjs/operators';
 import { List } from 'immutable';
+import { Video, toJS, VideoJSON, fromJS } from './video/state/video.model';
 
 @Injectable({
   providedIn: 'root',

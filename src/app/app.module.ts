@@ -34,18 +34,19 @@ import { MatTabsModule } from '@angular/material/tabs';
 // Components
 import { AuthGuard } from './guards/auth.guard';
 import { MainpageComponent } from './components/mainpage/mainpage.component';
-import { LoginComponent } from './components/login/login.component';
-import { SignupComponent } from './components/signup/signup.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CurrentUserComponent } from './components/current-user/current-user.component';
 import { UploadComponent } from './components/upload/upload.component';
 import { UploadingComponent } from './components/upload/uploading/uploading.component';
 import { UploadingItemComponent } from './components/upload/uploading/uploading-item/uploading-item.component';
 import { VideoGridComponent } from './components/video-grid/video-grid.component';
-import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { WatchVideoComponent } from './components/watch-video/watch-video.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { SearchComponent } from './components/search/search.component';
+import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
+import { LoginComponent } from './components/auth/login/login.component';
+import { SignupComponent } from './components/auth/signup/signup.component';
+import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { SearchComponent } from './components/search/search.component';
     MatChipsModule,
     MatTooltipModule,
     MatTabsModule,
+    environment.production ? [] : AkitaNgDevtools.forRoot(),
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],
