@@ -18,24 +18,34 @@
       height: 100%;
       border-radius: 4px;
 
-      .upload-button {
+      mat-icon {
         @include none-highlight;
         width: 150px;
         height: 150px;
-
-        mat-icon {
-          transform: scale(9);
-        }
+        font-size: 150px;
       }
 
       input {
         display: none;
       }
-    }
 
-    span {
-      @include x-large-desktop-size;
-      color: $gray-600;
+      label {
+        @include x-large-desktop-size;
+        color: $gray-600;
+        cursor: pointer;
+
+        .select-file {
+          &:hover {
+            color: darken($color: $gray-600, $amount: 15);
+          }
+        }
+      }
+
+      .restrict-message {
+        @include large-desktop-size;
+        color: $gray-600;
+        margin-top: 5px;
+      }
     }
   }
 }

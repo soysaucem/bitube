@@ -4,6 +4,8 @@ import { ComponentWithSubscription } from 'src/app/helper-components/component-w
 import { FileQueueObject } from 'src/app/controller/upload/file-queue.model';
 import { UploadController } from 'src/app/controller/upload/upload.controller';
 
+const BASE_MB = 1024 * 1024;
+
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
@@ -29,8 +31,9 @@ export class UploadComponent extends ComponentWithSubscription
     let files =
       event.type === 'drop' ? event.dataTransfer.files : event.target.files;
 
-    files = Array.prototype.filter.call(files, (file: File) =>
-      file.type.includes('video')
+    files = Array.prototype.filter.call(
+      files,
+      (file: File) => file.type.includes('video') && file.size <= 50 * BASE_MB
     );
 
     this.controller.add(files);

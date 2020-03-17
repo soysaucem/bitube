@@ -7,14 +7,7 @@
       (dragleave)="cancelEventInvoke($event)"
       (drop)="onDrop($event)"
     >
-      <button
-        class="upload-button"
-        mat-icon-button
-        color="primary"
-        (click)="uploadInput.click()"
-      >
-        <mat-icon inline="true">cloud_upload</mat-icon>
-      </button>
+      <mat-icon color="primary">cloud_upload</mat-icon>
       <input
         #uploadInput
         id="upload-input"
@@ -22,7 +15,11 @@
         accept="video/*"
         (change)="addUploadFile($event)"
       />
-      <span class="message">Drag and drop files here to upload</span>
+      <label for="upload-input">
+        <strong class="select-file">Choose a file</strong>
+        <span> or drag it here</span>
+      </label>
+      <span class="restrict-message">Only allow file under 50MB</span>
     </div>
   </mat-card>
 </div>
