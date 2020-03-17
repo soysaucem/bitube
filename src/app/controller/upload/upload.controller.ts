@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { awsS3Config } from '../../../environments/environment';
 import { FileQueueObject, makeFileQueueObject } from './file-queue.model';
+import { BUCKET_NAME } from '../../util/variables';
 
 export class UploadController {
   private bucket = new S3({
@@ -18,14 +19,12 @@ export class UploadController {
   constructor() {}
 
   private makeUploadRequest(id: string, file: File): S3.ManagedUpload {
-    const contentType = file.type;
-
     const params = {
-      Bucket: 'bibo-app',
+      Bucket: BUCKET_NAME,
       Key: id,
       Body: file,
-      ACL: 'public-read',
-      contentType,
+      ACL: 'private',
+      ContentType: file.type,
     };
 
     return this.bucket.upload(params);
