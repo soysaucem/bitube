@@ -15,7 +15,13 @@
       >
         <mat-icon inline="true">cloud_upload</mat-icon>
       </button>
-      <input #uploadInput id="upload-input" type="file" accept="video/*" />
+      <input
+        #uploadInput
+        id="upload-input"
+        type="file"
+        accept="video/*"
+        (change)="addUploadFile($event)"
+      />
       <span class="message">Drag and drop files here to upload</span>
     </div>
   </mat-card>

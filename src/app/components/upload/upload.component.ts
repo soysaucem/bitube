@@ -22,8 +22,12 @@ export class UploadComponent extends ComponentWithSubscription
 
   onDrop(event: DragEvent) {
     this.cancelEventInvoke(event);
+    this.addUploadFile(event);
+  }
 
-    let files = event.dataTransfer.files;
+  addUploadFile(event: any) {
+    let files =
+      event.type === 'drop' ? event.dataTransfer.files : event.target.files;
 
     files = Array.prototype.filter.call(files, (file: File) =>
       file.type.includes('video')
