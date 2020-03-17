@@ -97,6 +97,19 @@
   }
 }
 
+@mixin truncate-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+}
+
 .divider {
   margin: 10px 0;
+}
+
+.tooltip-without-truncated {
+  font-size: 12px;
+  word-break: break-word;
+  white-space: normal;
 }

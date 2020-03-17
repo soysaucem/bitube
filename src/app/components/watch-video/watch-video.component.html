@@ -1,13 +1,18 @@
 <div class="watch-video-container" *ngIf="video && owner">
   <div class="watch-video-wrapper">
     <div class="watch-video">
-      <video class="video-player" controls autoplay>
-        <source src="{{ bucketUrl + videoId }}" />
+      <video class="video-player" controls autoplay controlslist="nodownload">
+        <source [src]="link" />
       </video>
 
       <div class="player-footer">
         <div class="video-info">
-          <span class="video-title">{{ video.title }}</span>
+          <span
+            class="video-title"
+            matTooltip="{{ video.title }}"
+            matTooltipClass="tooltip-without-truncated"
+            >{{ video.title }}</span
+          >
           <div class="owner">
             <mat-icon class="owner-avatar">account_circle</mat-icon>
             <div class="owner-info">

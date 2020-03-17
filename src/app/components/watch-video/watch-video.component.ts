@@ -1,19 +1,18 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { BUCKET_URL } from '../../util/variables';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
-import {
-  Video,
-  VideoJSON,
-  fromJS,
-} from '../../services/video/state/video.model';
-import { User } from '../../services/user/state/user.model';
-import { VideoQuery } from '../../services/video/state/video.query';
-import { VideoService } from '../../services/video/state/video.service';
-import { UserQuery } from '../../services/user/state/user.query';
 import { switchMap } from 'rxjs/operators';
 import { ComponentWithSubscription } from '../../helper-components/component-with-subscription/component-with-subscription';
-import { combineLatest } from 'rxjs';
+import { User } from '../../services/user/state/user.model';
+import { UserQuery } from '../../services/user/state/user.query';
+import {
+  fromJS,
+  Video,
+  VideoJSON,
+} from '../../services/video/state/video.model';
+import { VideoService } from '../../services/video/state/video.service';
+import { BUCKET_URL } from '../../util/variables';
+import { generateS3Link } from '../../util/s3-link-generator';
 
 type Opinion = 'like' | 'dislike';
 
@@ -31,6 +30,7 @@ export class WatchVideoComponent extends ComponentWithSubscription
   owner: User;
   me: User;
   likeRatio: number;
+  link: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,6 +49,9 @@ export class WatchVideoComponent extends ComponentWithSubscription
       const fromJSVideo = fromJS(video);
       this.videoId = fromJSVideo.id;
       this.video = fromJSVideo;
+
+      this.link = await generateS3Link(this.videoId);
+
       this.owner = await this.userQuery.getUser(this.video.ownerId);
       this.me = await this.userQuery.getMyAccount();
       this.likeRatio =

@@ -8,7 +8,12 @@
     >
       <img src="{{ video.thumbnail }}" />
       <div class="video-info">
-        <span class="video-title">{{ video.title }}</span>
+        <span
+          class="video-title"
+          matTooltip="{{ video.title }}"
+          matTooltipClass="tooltip-without-truncated"
+          >{{ video.title }}</span
+        >
         <span class="video-views">{{ video.views }} views</span>
         <span class="video-owner">By {{ video.ownerName }}</span>
       </div>
