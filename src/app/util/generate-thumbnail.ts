@@ -6,6 +6,11 @@ export function generateThumbnail(video: Blob) {
   const canvas = document.createElement('canvas');
   const canvasContext = canvas.getContext('2d');
 
+  videoEl.style.display = 'none';
+  canvas.style.display = 'none';
+  document.body.appendChild(videoEl);
+  document.body.appendChild(canvas);
+
   return new Promise<string>((resolve, reject) => {
     canvas.addEventListener('error', reject);
     videoEl.addEventListener('error', reject);
@@ -14,7 +19,13 @@ export function generateThumbnail(video: Blob) {
       canvas.width = IMAGE_WIDTH;
       canvas.height = IMAGE_HEIGHT;
       canvasContext.drawImage(videoEl, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
-      resolve(canvas.toDataURL('image/webp'));
+
+      const thumbnail = canvas.toDataURL('image/webp');
+
+      document.body.removeChild(videoEl);
+      document.body.removeChild(canvas);
+
+      resolve(thumbnail);
     });
 
     videoEl.setAttribute('type', video.type);

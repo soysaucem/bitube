@@ -13,6 +13,7 @@ import {
 import { VideoService } from '../../services/video/state/video.service';
 import { BUCKET_URL } from '../../util/variables';
 import { generateS3Link } from '../../util/s3-link-generator';
+import { downloadVideo } from '../../util/download';
 
 type Opinion = 'like' | 'dislike';
 
@@ -111,5 +112,10 @@ export class WatchVideoComponent extends ComponentWithSubscription
   get publishedDate() {
     const date = moment(this.video.createdAt);
     return date.format('DD MMM YYYY');
+  }
+
+  async download() {
+    const url = await generateS3Link(this.videoId);
+    downloadVideo(url, this.video.title);
   }
 }

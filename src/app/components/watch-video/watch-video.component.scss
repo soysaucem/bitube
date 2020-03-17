@@ -6,12 +6,16 @@
 
   .watch-video-wrapper {
     margin: $front-main-margin $side-main-margin;
+
     .watch-video {
-      width: 70%;
-      height: 39.375%;
+      width: 80%;
+      max-width: 1280px;
+      height: 100%;
 
       .video-player {
         @include full-width-height;
+        max-width: 1280px;
+        max-height: 720px;
       }
 
       .player-footer {

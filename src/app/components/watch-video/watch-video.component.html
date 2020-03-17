@@ -53,7 +53,11 @@
       <mat-tab-group class="tab-group">
         <mat-tab label="Description">{{ description }}</mat-tab>
         <mat-tab label="Share">Content 2 </mat-tab>
-        <mat-tab label="Download"> Content 3 </mat-tab>
+        <mat-tab label="Download">
+          <button mat-flat-button color="primary" (click)="download()">
+            Generate download link
+          </button>
+        </mat-tab>
       </mat-tab-group>
 
       <div class="publish">Published on {{ publishedDate }}</div>

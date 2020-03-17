@@ -24,6 +24,7 @@ export class UploadController {
       Key: id,
       Body: file,
       ACL: 'private',
+      ContentDisposition: `inline; filename=${file.name};`,
       ContentType: file.type,
     };
 
