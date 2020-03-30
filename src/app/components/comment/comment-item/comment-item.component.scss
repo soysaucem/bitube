@@ -4,6 +4,7 @@
   .comment-item {
     .owner {
       @include small-owner-info;
+      align-items: flex-start;
 
       .content {
         .owner-info {

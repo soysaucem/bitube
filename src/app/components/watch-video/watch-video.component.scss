@@ -29,7 +29,7 @@
           .video-title {
             @include xx-large-desktop-size;
             @include truncate-text;
-            width: 100%;
+            max-width: 100%;
             font-weight: 500;
             margin: 10px 0;
           }
