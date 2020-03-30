@@ -20,14 +20,14 @@ export class UploadComponent extends ComponentWithSubscription
     super();
   }
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
-  onDrop(event: DragEvent) {
+  onDrop(event: DragEvent): void {
     this.cancelEventInvoke(event);
     this.addUploadFile(event);
   }
 
-  addUploadFile(event: any) {
+  addUploadFile(event: any): void {
     let files =
       event.type === 'drop' ? event.dataTransfer.files : event.target.files;
 
@@ -39,21 +39,21 @@ export class UploadComponent extends ComponentWithSubscription
     this.controller.add(files);
   }
 
-  cancelEventInvoke(event: DragEvent) {
+  cancelEventInvoke(event: DragEvent): void {
     event.preventDefault();
     event.stopPropagation();
   }
 
-  setQueue(event: any) {
+  setQueue(event: any): void {
     this.queue = event;
   }
 
-  hasUploadingJob() {
+  hasUploadingJob(): boolean {
     return this.queue?.size > 0 ? true : false;
   }
 
   @HostListener('window:beforeunload', ['$event'])
-  unloadNotification($event: any) {
+  unloadNotification($event: any): void {
     if (this.hasUploadingJob()) {
       $event.returnValue = true;
     }

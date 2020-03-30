@@ -16,11 +16,11 @@ export class VideoGridComponent implements OnInit {
 
   constructor(private videoQuery: VideoQuery, private userQuery: UserQuery) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.videos$ = this.videoQuery.selectVideos();
   }
 
-  async getOwner(id: string) {
+  async getOwner(id: string): Promise<string> {
     const owner = await this.userQuery.getUser(id);
     return owner.name;
   }

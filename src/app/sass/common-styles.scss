@@ -104,6 +104,18 @@
   -webkit-line-clamp: 2;
 }
 
+@mixin small-owner-info {
+  @include row-left;
+  width: 100%;
+
+  .owner-avatar {
+    width: $small-avatar;
+    height: $small-avatar;
+    font-size: $small-avatar;
+    margin-right: 5px;
+  }
+}
+
 .divider {
   margin: 10px 0;
 }

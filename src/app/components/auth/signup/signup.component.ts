@@ -86,9 +86,6 @@ export class SignupComponent implements OnInit {
   }
 
   get disabled() {
-    if (this.signupForm.invalid) {
-      return true;
-    }
-    return false;
+    return this.signupForm.invalid ? true : false;
   }
 }

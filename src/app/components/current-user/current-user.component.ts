@@ -18,11 +18,11 @@ export class CurrentUserComponent implements OnInit {
     private userQuery: UserQuery
   ) {}
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.me = await this.userQuery.getMyAccount();
   }
 
-  async logout() {
+  async logout(): Promise<void> {
     await this.auth.logout();
     this.router.navigate(['login']);
   }

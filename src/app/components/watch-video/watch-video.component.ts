@@ -11,9 +11,9 @@ import {
   VideoJSON,
 } from '../../services/video/state/video.model';
 import { VideoService } from '../../services/video/state/video.service';
-import { BUCKET_URL } from '../../util/variables';
 import { generateS3Link } from '../../util/s3-link-generator';
 import { downloadVideo } from '../../util/download';
+import { VideoStore } from '../../services/video/state/video.store';
 
 type Opinion = 'like' | 'dislike';
 
@@ -25,43 +25,52 @@ type Opinion = 'like' | 'dislike';
 })
 export class WatchVideoComponent extends ComponentWithSubscription
   implements OnInit {
-  bucketUrl = BUCKET_URL;
-  videoId: string;
   video: Video;
   owner: User;
   me: User;
   likeRatio: number;
-  link: any;
+  link: string;
 
   constructor(
     private route: ActivatedRoute,
     private videoService: VideoService,
-    private userQuery: UserQuery
+    private userQuery: UserQuery,
+    private videoStore: VideoStore
   ) {
     super();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.setupVideoSubscriber();
+  }
+
+  setupVideoSubscriber() {
     this.autoUnsubscribe(
       this.route.params.pipe(
         switchMap(({ id }) => this.videoService.syncDoc({ id }))
       )
     ).subscribe(async (video: VideoJSON) => {
-      const fromJSVideo = fromJS(video);
-      this.videoId = fromJSVideo.id;
-      this.video = fromJSVideo;
+      try {
+        const fromJSVideo = fromJS(video);
 
-      this.link = await generateS3Link(this.videoId);
+        this.video = fromJSVideo;
+        this.videoStore.setActive(this.video.id);
 
-      this.owner = await this.userQuery.getUser(this.video.ownerId);
-      this.me = await this.userQuery.getMyAccount();
-      this.likeRatio =
-        this.video.likes.size /
-        (this.video.likes.size + this.video.dislikes.size);
+        this.link = await generateS3Link(this.video.id);
+
+        this.owner = await this.userQuery.getUser(this.video.ownerId);
+        this.me = await this.userQuery.getMyAccount();
+        this.likeRatio =
+          this.video.likes.size /
+          (this.video.likes.size + this.video.dislikes.size);
+      } catch (err) {
+        console.error('Failed to retrieve video');
+        console.error(err);
+      }
     });
   }
 
-  async updateOpinion(type: Opinion) {
+  async updateOpinion(type: Opinion): Promise<void> {
     if (!this.me) {
       return;
     }
@@ -75,7 +84,7 @@ export class WatchVideoComponent extends ComponentWithSubscription
         dislikes = dislikes.filter(dislike => dislike !== this.me.id);
       }
 
-      await this.videoService.updateVideo(this.videoId, {
+      await this.videoService.updateVideo(this.video.id, {
         likes: likes.toArray(),
         dislikes: dislikes.toArray(),
       });
@@ -88,34 +97,34 @@ export class WatchVideoComponent extends ComponentWithSubscription
         likes = likes.filter(like => like !== this.me.id);
       }
 
-      await this.videoService.updateVideo(this.videoId, {
+      await this.videoService.updateVideo(this.video.id, {
         likes: likes.toArray(),
         dislikes: dislikes.toArray(),
       });
     }
   }
 
-  isLiked() {
+  isLiked(): boolean {
     return this.video.likes.includes(this.me?.id) ? true : false;
   }
 
-  isDisliked() {
+  isDisliked(): boolean {
     return this.video.dislikes.includes(this.me?.id) ? true : false;
   }
 
-  get description() {
+  get description(): string {
     return this.video.description
       ? this.video.description
       : 'There is no description for this video';
   }
 
-  get publishedDate() {
+  get publishedDate(): string {
     const date = moment(this.video.createdAt);
     return date.format('DD MMM YYYY');
   }
 
-  async download() {
-    const url = await generateS3Link(this.videoId);
+  async download(): Promise<void> {
+    const url = await generateS3Link(this.video.id);
     downloadVideo(url, this.video.title);
   }
 }

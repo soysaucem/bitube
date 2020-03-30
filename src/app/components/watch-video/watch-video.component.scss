@@ -35,15 +35,7 @@
           }
 
           .owner {
-            @include row-left;
-            width: 100%;
-
-            .owner-avatar {
-              width: $small-avatar;
-              height: $small-avatar;
-              font-size: $small-avatar;
-              margin-right: 5px;
-            }
+            @include small-owner-info;
 
             .owner-info {
               @include column-left;
@@ -126,6 +118,7 @@
       }
 
       .comment-section {
+        width: 100%;
         h1 {
           font-weight: normal;
         }

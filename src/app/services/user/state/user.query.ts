@@ -19,19 +19,13 @@ export class UserQuery extends QueryEntity<UserState> {
   }
 
   async getMyAccount(): Promise<User> {
-    const googleAuthAccount = await this.firebaseAuth.authState
-      .pipe(take(1))
-      .toPromise();
+    const googleAuthAccount = this.firebaseAuth.auth.currentUser;
     return googleAuthAccount ? this.getUser(googleAuthAccount.uid) : null;
   }
 
   async getUser(id: string): Promise<User> {
     if (!this.hasEntity(id)) {
-      const doc = await this.collection
-        .doc(id)
-        .get()
-        .pipe(take(1))
-        .toPromise();
+      const doc = await this.collection.doc(id).ref.get();
 
       this.store.add(fromJS(doc.data() as UserJSON));
     }

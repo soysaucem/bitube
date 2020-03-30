@@ -31,9 +31,7 @@ export class VideoQuery extends QueryEntity<VideoState> {
       const doc = await this.firestore
         .collection('videos')
         .doc(id)
-        .get()
-        .pipe(take(1))
-        .toPromise();
+        .ref.get();
 
       this.store.add(fromJS(doc.data() as VideoJSON));
     }

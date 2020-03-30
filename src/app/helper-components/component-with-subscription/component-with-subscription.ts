@@ -10,7 +10,7 @@ export class ComponentWithSubscription implements OnDestroy {
     this.complete$.complete();
   }
 
-  autoUnsubscribe(observable: Observable<any>) {
+  autoUnsubscribe<T>(observable: Observable<T>) {
     return observable.pipe(takeUntil(this.complete$));
   }
 }

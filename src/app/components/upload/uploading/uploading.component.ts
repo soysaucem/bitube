@@ -20,7 +20,7 @@ export class UploadingComponent extends ComponentWithSubscription
     super();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.autoUnsubscribe(this.controller.selectQueue()).subscribe(objects => {
       this.queueObjects = objects;
       this.queue.emit(objects);

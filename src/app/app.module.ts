@@ -47,6 +47,7 @@ import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
+import { CommentItemComponent } from './components/comment/comment-item/comment-item.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { ForgotPasswordComponent } from './components/auth/forgot-password/forgo
     WatchVideoComponent,
     CommentComponent,
     SearchComponent,
+    CommentItemComponent,
   ],
   imports: [
     BrowserModule,

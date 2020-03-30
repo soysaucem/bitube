@@ -33,7 +33,7 @@ export function makeUser(props: Partial<User>): User {
   });
 }
 
-export function fromJS(input: UserJSON) {
+export function fromJS(input: UserJSON): User {
   return Object.freeze({
     ...input,
     followers: List(input.followers),
@@ -41,7 +41,7 @@ export function fromJS(input: UserJSON) {
   });
 }
 
-export function toJS(input: User) {
+export function toJS(input: User): UserJSON {
   return Object.freeze({
     ...input,
     followers: input.followers.toArray(),

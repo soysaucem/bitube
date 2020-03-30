@@ -42,7 +42,7 @@ export class UploadingItemComponent implements OnInit {
 
   ngOnInit() {}
 
-  upload() {
+  upload(): void {
     this.file.request
       .on('httpUploadProgress', event => {
         this.status = FileQueueStatus.Progress;
@@ -65,7 +65,7 @@ export class UploadingItemComponent implements OnInit {
       });
   }
 
-  cancel() {
+  cancel(): void {
     if (this.status === FileQueueStatus.Progress) {
       this.file.request.abort();
     }
@@ -73,11 +73,11 @@ export class UploadingItemComponent implements OnInit {
     this.controller.remove(this.file);
   }
 
-  get currentProgress() {
+  get currentProgress(): number {
     return this.progress * 100;
   }
 
-  async handleInput(event: any, type: InputType) {
+  async handleInput(event: any, type: InputType): Promise<void> {
     if (type === 'title') {
       this.title = event.target.value;
       if (this.status === FileQueueStatus.Success) {
@@ -95,7 +95,7 @@ export class UploadingItemComponent implements OnInit {
     }
   }
 
-  async addTag(event: MatChipInputEvent) {
+  async addTag(event: MatChipInputEvent): Promise<void> {
     const input = event.input;
     const value = event.value;
 
@@ -124,7 +124,7 @@ export class UploadingItemComponent implements OnInit {
     }
   }
 
-  private async processSucceedUpload() {
+  private async processSucceedUpload(): Promise<void> {
     this.status = FileQueueStatus.Success;
 
     // Make video thumbnail

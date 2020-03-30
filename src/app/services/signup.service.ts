@@ -22,8 +22,7 @@ export class SignupService {
     );
 
     // Send verification link to user email
-    const user = await this.firebaseAuth.user.pipe(take(1)).toPromise();
-    user.sendEmailVerification();
+    res.user.sendEmailVerification();
 
     // Create user entity in database
     return await this.userService.addUser(res.user.uid, res.user.email, name);

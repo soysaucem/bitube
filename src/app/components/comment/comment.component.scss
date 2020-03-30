@@ -1,0 +1,29 @@
+@import 'base.scss';
+
+.comment-container {
+  width: 100%;
+
+  .comment-box {
+    width: 50%;
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+
+  .buttons-wrapper {
+    @include row-left;
+
+    .cancel-button {
+      margin-right: 10px;
+    }
+  }
+
+  .comment-list {
+    margin-top: 50px;
+
+    .comment {
+      margin-bottom: 30px;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+<div class="comment-item-container" *ngIf="owner">
+  <div class="comment-item">
+    <div class="owner">
+      <mat-icon class="owner-avatar">account_circle</mat-icon>
+
+      <div class="content">
+        <div class="owner-info">
+          <span class="name">{{ owner.name }}</span>
+          <span class="time">{{ createdDuration }}</span>
+        </div>
+        <span class="comment-content">{{ comment.content }}</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,5 @@
 import { List } from 'immutable';
+import * as moment from 'moment';
 
 export interface Video {
   id: string;
@@ -40,7 +41,7 @@ export function createDefault(): Video {
     tags: List(),
     likes: List(),
     dislikes: List(),
-    createdAt: new Date().toISOString(),
+    createdAt: moment().toISOString(),
   });
 }
 

@@ -12,7 +12,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(private router: Router, private auth: AuthService) {}
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.isAuthenticated = await this.auth.isAuthenticated();
   }
 }

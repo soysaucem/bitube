@@ -15,7 +15,7 @@ export class MainpageComponent implements OnInit {
 
   constructor(readonly auth: AuthService, private videoQuery: VideoQuery) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.videos$ = this.videoQuery.selectVideos();
   }
 }
