@@ -10,12 +10,12 @@ export class VideoService extends CollectionService<VideoState> {
     super(store);
   }
 
-  addVideo(video: Video) {
+  addVideo(video: Video): Promise<any> {
     const videoJS = toJS(video);
     return this.add(videoJS);
   }
 
-  updateVideo(id: string, props: Partial<VideoJSON>) {
+  updateVideo(id: string, props: Partial<VideoJSON>): any {
     return this.update({ ...props, id: id });
   }
 }

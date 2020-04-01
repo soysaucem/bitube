@@ -32,7 +32,7 @@ export class UploadController {
     return this.bucket.upload(params);
   }
 
-  add(files: FileList) {
+  add(files: FileList): void {
     // Add files to queue
     const arr = Array.from(files);
     arr.forEach(file => {
@@ -49,12 +49,12 @@ export class UploadController {
     this.queueStream$.next(this.queue);
   }
 
-  remove(file: FileQueueObject) {
+  remove(file: FileQueueObject): void {
     this.queue = this.queue.filter(object => object.id !== file.id);
     this.queueStream$.next(this.queue);
   }
 
-  selectQueue() {
+  selectQueue(): Subject<List<FileQueueObject>> {
     return this.queueStream$;
   }
 }

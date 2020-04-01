@@ -1,6 +1,6 @@
 import { CLOUD_FUNTIONS } from './variables';
 
-export async function generateVideoUrl(id: string) {
+export async function generateVideoUrl(id: string): Promise<any> {
   const response = await fetch(CLOUD_FUNTIONS.getVideo, {
     method: 'POST',
     mode: 'cors',
@@ -12,5 +12,5 @@ export async function generateVideoUrl(id: string) {
     body: JSON.stringify({ videoId: id }),
   });
 
-  return await response.json();
+  return response.json();
 }

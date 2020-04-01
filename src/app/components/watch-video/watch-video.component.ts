@@ -44,7 +44,7 @@ export class WatchVideoComponent extends ComponentWithSubscription
     this.setupVideoSubscriber();
   }
 
-  setupVideoSubscriber() {
+  setupVideoSubscriber(): void {
     this.autoUnsubscribe(
       this.route.params.pipe(
         switchMap(({ id }) => this.videoService.syncDoc({ id }))

@@ -10,7 +10,7 @@ export class UserService extends CollectionService<UserState> {
     super(store);
   }
 
-  addUser(id: string, email: string, name: string) {
+  addUser(id: string, email: string, name: string): Promise<any> {
     const userJS = toJS(makeUser({ id, email, name }));
     return this.add(userJS);
   }

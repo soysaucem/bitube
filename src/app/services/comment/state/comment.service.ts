@@ -23,7 +23,7 @@ export class CommentService extends SubcollectionService<CommentState> {
     super(store);
   }
 
-  addComment(comment: Comment) {
+  addComment(comment: Comment): Promise<any> {
     const commentJS = toJS({
       ...comment,
       ownerRef: this.firestore
@@ -33,7 +33,7 @@ export class CommentService extends SubcollectionService<CommentState> {
     return this.add(commentJS);
   }
 
-  updateComment(id: string, props: Partial<CommentJSON>) {
+  updateComment(id: string, props: Partial<CommentJSON>): any {
     return this.update({ ...props, id: id });
   }
 

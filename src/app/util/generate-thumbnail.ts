@@ -1,7 +1,7 @@
 const IMAGE_WIDTH = 720;
 const IMAGE_HEIGHT = 404;
 
-export function generateThumbnail(video: Blob) {
+export function generateThumbnail(video: Blob): Promise<string> {
   const videoEl = document.createElement('video');
   const canvas = document.createElement('canvas');
   const canvasContext = canvas.getContext('2d');

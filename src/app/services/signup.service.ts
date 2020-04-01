@@ -14,7 +14,7 @@ export class SignupService {
     private userService: UserService
   ) {}
 
-  async signup(email: string, password: string, name: string) {
+  async signup(email: string, password: string, name: string): Promise<any> {
     // Create user in user pool
     const res = await this.firebaseAuth.auth.createUserWithEmailAndPassword(
       email,

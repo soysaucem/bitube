@@ -8,7 +8,7 @@ jobs:
       - image: circleci/node:10.16.3
     executor:
       name: node/default
-    steps:
+    steps:s
       - checkout
       - restore_cache:
           key: v1-dependencies-{{ checksum "package.json" }}
@@ -21,6 +21,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
           paths:
             - 'node_modules'
+      - run: cd functions && npm install && cd ..
       - run:
           name: Build project
           command: npm run build

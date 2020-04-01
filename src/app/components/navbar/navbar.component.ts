@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -10,7 +9,7 @@ import { AuthService } from '../../services/auth.service';
 export class NavbarComponent implements OnInit {
   isAuthenticated = false;
 
-  constructor(private router: Router, private auth: AuthService) {}
+  constructor(private auth: AuthService) {}
 
   async ngOnInit(): Promise<void> {
     this.isAuthenticated = await this.auth.isAuthenticated();
