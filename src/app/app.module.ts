@@ -12,6 +12,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 // Angular Material Modules
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
@@ -95,6 +96,7 @@ import { CommentItemComponent } from './components/comment/comment-item/comment-
     MatTooltipModule,
     MatTabsModule,
     environment.production ? [] : AkitaNgDevtools.forRoot(),
+    HttpClientModule,
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],

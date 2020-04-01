@@ -11,7 +11,7 @@ import {
   VideoJSON,
 } from '../../services/video/state/video.model';
 import { VideoService } from '../../services/video/state/video.service';
-import { generateS3Link } from '../../util/s3-link-generator';
+import { generateVideoUrl } from '../../util/video-url-generator';
 import { downloadVideo } from '../../util/download';
 import { VideoStore } from '../../services/video/state/video.store';
 
@@ -56,7 +56,7 @@ export class WatchVideoComponent extends ComponentWithSubscription
         this.video = fromJSVideo;
         this.videoStore.setActive(this.video.id);
 
-        this.link = await generateS3Link(this.video.id);
+        this.link = await generateVideoUrl(this.video.id);
 
         this.owner = await this.userQuery.getUser(this.video.ownerId);
         this.me = await this.userQuery.getMyAccount();
@@ -124,7 +124,7 @@ export class WatchVideoComponent extends ComponentWithSubscription
   }
 
   async download(): Promise<void> {
-    const url = await generateS3Link(this.video.id);
+    const url = await generateVideoUrl(this.video.id);
     downloadVideo(url, this.video.title);
   }
 }

@@ -11,6 +11,8 @@ export class UploadController {
     accessKeyId: awsS3Config.aws_access_key_id,
     secretAccessKey: awsS3Config.aws_secret_access_key,
     region: 'ap-southeast-2',
+    endpoint: 'video.bibo.trietapps.com',
+    s3BucketEndpoint: true,
   });
 
   private queueStream$ = new Subject<List<FileQueueObject>>();
@@ -24,8 +26,7 @@ export class UploadController {
       Key: id,
       Body: file,
       ACL: 'private',
-      ContentDisposition: `inline; filename=${file.name};`,
-      ContentType: file.type,
+      ContentType: 'application/octet-stream',
     };
 
     return this.bucket.upload(params);
