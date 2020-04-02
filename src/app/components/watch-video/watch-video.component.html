@@ -53,7 +53,22 @@
 
       <mat-tab-group class="tab-group">
         <mat-tab label="Description">{{ description }}</mat-tab>
-        <mat-tab label="Share">Content 2 </mat-tab>
+        <mat-tab class="share-tab" label="Share">
+          <a target="_blank" [href]="facebookUrl">
+            <img
+              class="facebook-share"
+              src="assets/facebook.svg"
+              style="margin-right: 10px; cursor: pointer;"
+            />
+          </a>
+          <a target="_blank" [href]="twitterUrl">
+            <img
+              class="twitter-share"
+              src="assets/twitter.svg"
+              style="margin-right: 10px; cursor: pointer;"
+            />
+          </a>
+        </mat-tab>
         <mat-tab label="Download">
           <button mat-flat-button color="primary" (click)="download()">
             Generate download link

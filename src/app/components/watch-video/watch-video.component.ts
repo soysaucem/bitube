@@ -31,6 +31,8 @@ export class WatchVideoComponent extends ComponentWithSubscription
   me: User;
   likeRatio: number;
   link: string;
+  facebookUrl: string;
+  twitterUrl: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -45,6 +47,8 @@ export class WatchVideoComponent extends ComponentWithSubscription
 
   ngOnInit(): void {
     this.setupVideoSubscriber();
+    this.facebookUrl = `https://www.facebook.com/sharer/sharer.php?display=page&u=${this.router.url}&src=sdkpreparse`;
+    this.twitterUrl = `https://twitter.com/intent/tweet?url=${this.router.url}`;
   }
 
   setupVideoSubscriber(): void {
