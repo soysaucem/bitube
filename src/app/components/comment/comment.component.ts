@@ -1,13 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
-import { CommentService } from '../../services/comment/state/comment.service';
-import { User } from '../../services/user/state/user.model';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { List } from 'immutable';
+import { ComponentWithSubscription } from '../../helper-components/component-with-subscription/component-with-subscription';
+import { AuthService } from '../../services/auth.service';
 import {
-  makeComment,
   Comment,
+  makeComment,
 } from '../../services/comment/state/comment.model';
 import { CommentQuery } from '../../services/comment/state/comment.query';
-import { ComponentWithSubscription } from '../../helper-components/component-with-subscription/component-with-subscription';
-import { List } from 'immutable';
+import { CommentService } from '../../services/comment/state/comment.service';
 
 @Component({
   selector: 'app-comment',
@@ -22,8 +23,10 @@ export class CommentComponent extends ComponentWithSubscription
   comments: List<Comment>;
 
   constructor(
+    private auth: AuthService,
     private commentService: CommentService,
-    private commentQuery: CommentQuery
+    private commentQuery: CommentQuery,
+    private router: Router
   ) {
     super();
   }
@@ -36,6 +39,13 @@ export class CommentComponent extends ComponentWithSubscription
 
   handleInput(event: any): void {
     this.content = event.target.value;
+  }
+
+  async redirect(): Promise<void> {
+    if (!(await this.auth.isAuthenticated())) {
+      this.router.navigate(['login']);
+      return;
+    }
   }
 
   async post(): Promise<void> {

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { switchMap } from 'rxjs/operators';
 import { ComponentWithSubscription } from '../../helper-components/component-with-subscription/component-with-subscription';
@@ -14,6 +14,7 @@ import { VideoService } from '../../services/video/state/video.service';
 import { generateVideoUrl } from '../../util/video-url-generator';
 import { downloadVideo } from '../../util/download';
 import { VideoStore } from '../../services/video/state/video.store';
+import { AuthService } from '../../services/auth.service';
 
 type Opinion = 'like' | 'dislike';
 
@@ -35,7 +36,9 @@ export class WatchVideoComponent extends ComponentWithSubscription
     private route: ActivatedRoute,
     private videoService: VideoService,
     private userQuery: UserQuery,
-    private videoStore: VideoStore
+    private videoStore: VideoStore,
+    private auth: AuthService,
+    private router: Router
   ) {
     super();
   }
@@ -124,6 +127,11 @@ export class WatchVideoComponent extends ComponentWithSubscription
   }
 
   async download(): Promise<void> {
+    if (!(await this.auth.isAuthenticated())) {
+      this.router.navigate(['login']);
+      return;
+    }
+
     const url = await generateVideoUrl(this.video.id);
     downloadVideo(url, this.video.title);
   }

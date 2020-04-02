@@ -7,7 +7,7 @@ const CloudFront = require('aws-sdk/clients/cloudfront');
 // exports.helloWorld = functions.https.onRequest((request, response) => {
 //  response.send("Hello from Firebase!");
 // });
-const VIDEO_BUCKET_URL = 'https://video.bibo.trietapps.com/';
+const VIDEO_BUCKET_URL = 'https://video.bibo.trietapps.com';
 
 exports.getVideo = functions.https.onRequest((req, res) => {
   try {
@@ -23,7 +23,7 @@ exports.getVideo = functions.https.onRequest((req, res) => {
     res.status(200).send(
       JSON.stringify(
         cf.getSignedUrl({
-          url: `https://d3q8gwbeevzezt.cloudfront.net/${req.body.videoId}`,
+          url: `${VIDEO_BUCKET_URL}/${req.body.videoId}`,
           expires: Math.floor(new Date().getTime() / 1000) + 60 * 60 * 1,
         })
       )

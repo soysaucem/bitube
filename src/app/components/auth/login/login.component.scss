@@ -6,6 +6,13 @@
   .login-form {
     @include base-form;
 
+    .title {
+      color: $primary;
+      font-weight: 500;
+      width: $form-content-width;
+      text-align: center;
+    }
+
     .forgot-password {
       @include small-desktop-size;
       padding-bottom: 10px;
