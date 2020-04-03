@@ -1,0 +1,9 @@
+@import 'base.scss';
+
+.circle {
+  border-radius: 50%;
+
+  img {
+    @include full-width-height;
+  }
+}

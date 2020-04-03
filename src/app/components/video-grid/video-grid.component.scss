@@ -31,7 +31,7 @@
         .video-title {
           @include large-desktop-size;
           @include truncate-text;
-          width: 100%;
+          max-width: 100%;
           font-weight: 500;
         }
 

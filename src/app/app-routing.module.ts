@@ -8,6 +8,7 @@ import { WatchVideoComponent } from './components/watch-video/watch-video.compon
 import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
+import { SettingsRoutingModule } from './components/settings/settings-routing.module';
 
 const routes: Routes = [
   {
@@ -34,6 +35,7 @@ const routes: Routes = [
         loadChildren: () => UploadRoutingModule,
       },
       { path: '', loadChildren: () => VideoGridRoutingModule },
+      { path: 'settings', loadChildren: () => SettingsRoutingModule },
       { path: 'watch/:id', component: WatchVideoComponent },
     ],
   },

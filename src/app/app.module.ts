@@ -49,6 +49,9 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
 import { CommentItemComponent } from './components/comment/comment-item/comment-item.component';
+import { AvatarComponent } from './components/avatar/avatar.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { MyVideosComponent } from './components/my-videos/my-videos.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +70,9 @@ import { CommentItemComponent } from './components/comment/comment-item/comment-
     CommentComponent,
     SearchComponent,
     CommentItemComponent,
+    AvatarComponent,
+    SettingsComponent,
+    MyVideosComponent,
   ],
   imports: [
     BrowserModule,

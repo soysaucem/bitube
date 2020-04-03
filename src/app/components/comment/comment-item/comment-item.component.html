@@ -1,7 +1,11 @@
 <div class="comment-item-container" *ngIf="owner">
   <div class="comment-item">
     <div class="owner">
-      <mat-icon class="owner-avatar">account_circle</mat-icon>
+      <app-avatar
+        class="owner-avatar"
+        [avatarBase64]="owner.avatar"
+        [size]="48"
+      ></app-avatar>
 
       <div class="content">
         <div class="owner-info">

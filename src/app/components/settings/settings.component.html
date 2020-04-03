@@ -1,0 +1,49 @@
+<div class="settings-container" *ngIf="me">
+  <mat-card class="settings-wrapper">
+    <div class="avatar-column">
+      <app-avatar [avatarBase64]="me.avatar" [size]="150"></app-avatar>
+      <button mat-button>CHANGE</button>
+    </div>
+    <div class="settings-column">
+      <div class="personal-settings">
+        <span class="personal-settings-title">Personal Settings</span>
+        <mat-form-field appearance="outline">
+          <mat-label>Full name</mat-label>
+          <input matInput [value]="me.name" />
+        </mat-form-field>
+        <mat-form-field
+          appearance="outline"
+          matTooltip="{{ message }}"
+          matTooltipPosition="right"
+        >
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            [value]="me.email"
+            [readonly]="true"
+            [disabled]="true"
+          />
+        </mat-form-field>
+      </div>
+      <div class="divider"></div>
+      <div class="password-settings">
+        <span class="password-settings-title">Password Settings</span>
+        <mat-form-field appearance="outline">
+          <mat-label>Current password</mat-label>
+          <input matInput />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>New password</mat-label>
+          <input matInput />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Confirm new password</mat-label>
+          <input matInput />
+        </mat-form-field>
+        <button mat-flat-button color="primary" [disabled]="disabled">
+          Save changes
+        </button>
+      </div>
+    </div>
+  </mat-card>
+</div>

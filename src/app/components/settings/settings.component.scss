@@ -1,0 +1,75 @@
+@import 'base.scss';
+
+@mixin title() {
+  @include large-desktop-size;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+@mixin customized-input() {
+  width: 300px;
+
+  .mat-form-field-wrapper {
+    .mat-form-field-flex {
+      .mat-form-field-infix {
+        padding: 10px 0;
+        border-top: 7px solid transparent;
+      }
+    }
+  }
+}
+
+$section-margin-top: 20px;
+
+.settings-container {
+  @include full-width-height;
+
+  .settings-wrapper {
+    @include row-left;
+    width: 70%;
+    margin: $front-main-margin auto;
+
+    .avatar-column {
+      @include column-center;
+      align-self: flex-start;
+      margin: 70px $side-main-margin 0 60px;
+
+      button {
+        margin-top: 10px;
+        color: $button-blue;
+      }
+    }
+
+    .settings-column {
+      width: 100%;
+
+      .personal-settings {
+        @include row-left;
+        margin-top: $section-margin-top;
+
+        @include column-left;
+
+        mat-form-field {
+          @include customized-input;
+        }
+
+        .personal-settings-title {
+          @include title;
+        }
+      }
+
+      .password-settings {
+        @include column-left;
+        margin: $section-margin-top 0 0 0;
+
+        .password-settings-title {
+          @include title;
+        }
+
+        mat-form-field {
+          @include customized-input;
+        }
+      }
+    }
+  }
+}

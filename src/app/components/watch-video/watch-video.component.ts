@@ -1,8 +1,10 @@
-import { Component, OnInit, ViewEncapsulation, Inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { switchMap } from 'rxjs/operators';
 import { ComponentWithSubscription } from '../../helper-components/component-with-subscription/component-with-subscription';
+import { AuthService } from '../../services/auth.service';
 import { User } from '../../services/user/state/user.model';
 import { UserQuery } from '../../services/user/state/user.query';
 import {
@@ -11,12 +13,10 @@ import {
   VideoJSON,
 } from '../../services/video/state/video.model';
 import { VideoService } from '../../services/video/state/video.service';
-import { generateVideoUrl } from '../../util/video-url-generator';
-import { downloadVideo } from '../../util/download';
 import { VideoStore } from '../../services/video/state/video.store';
-import { AuthService } from '../../services/auth.service';
-import { DOCUMENT } from '@angular/common';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { downloadVideo } from '../../util/download';
+import { generateVideoUrl } from '../../util/video-url-generator';
+import { generateImageUrlFromPath } from '../../util/generate-image-url';
 
 type Opinion = 'like' | 'dislike';
 
@@ -43,16 +43,16 @@ export class WatchVideoComponent extends ComponentWithSubscription
     private videoStore: VideoStore,
     private auth: AuthService,
     private router: Router,
-    private snackbar: MatSnackBar,
-    @Inject(DOCUMENT) private document: any
+    private snackbar: MatSnackBar
   ) {
     super();
   }
 
   ngOnInit(): void {
+    console.log(generateImageUrlFromPath('assets/account.png'));
     this.setupVideoSubscriber();
-    this.facebookUrl = `https://www.facebook.com/sharer/sharer.php?display=page&u=${this.document.location.href}&src=sdkpreparse`;
-    this.twitterUrl = `https://twitter.com/intent/tweet?url=${this.document.location.href}`;
+    this.facebookUrl = `https://www.facebook.com/sharer/sharer.php?display=page&u=${document.location.href}&src=sdkpreparse`;
+    this.twitterUrl = `https://twitter.com/intent/tweet?url=${document.location.href}`;
   }
 
   setupVideoSubscriber(): void {

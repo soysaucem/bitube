@@ -104,15 +104,15 @@
   width: 100%;
 
   .owner-avatar {
-    width: $small-avatar;
-    height: $small-avatar;
-    font-size: $small-avatar;
-    margin-right: 5px;
+    margin-right: $avatar-space;
   }
 }
 
 .divider {
   margin: 10px 0;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: rgba(0, 0, 0, 0.12);
 }
 
 .tooltip-without-truncated {

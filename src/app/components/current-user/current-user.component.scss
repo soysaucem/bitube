@@ -1,4 +1,4 @@
-@import "base.scss";
+@import 'base.scss';
 
 .current-user-container {
   position: relative;
@@ -11,8 +11,8 @@
     height: 100%;
     padding: $navbar-padding;
 
-    i {
-      margin-right: 5px;
+    app-avatar {
+      margin-right: $avatar-space;
     }
 
     &:hover {
@@ -32,7 +32,8 @@
     border-radius: 4px;
 
     .dropdown-item {
-      @include full-width-height;
+      width: calc(100% - (#{$menu-side-padding} * 2));
+      height: 100%;
       @include row-left;
 
       background: transparent;
@@ -40,7 +41,7 @@
       font-size: 18px;
       font-weight: 400;
       cursor: pointer;
-      padding: 0 16px;
+      padding: 0 $menu-side-padding;
       height: 48px;
 
       &:hover {

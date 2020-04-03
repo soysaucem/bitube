@@ -4,6 +4,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
+  avatar: string;
   followers: List<string>;
   videos: List<string>;
 }
@@ -12,6 +13,7 @@ export interface UserJSON {
   id: string;
   email: string;
   name: string;
+  avatar: string;
   followers: string[];
   videos: string[];
 }
@@ -21,6 +23,7 @@ export function createDefault(): User {
     id: null,
     email: null,
     name: null,
+    avatar: null,
     followers: List(),
     videos: List(),
   });

@@ -14,7 +14,11 @@
             >{{ video.title }}</span
           >
           <div class="owner">
-            <mat-icon class="owner-avatar">account_circle</mat-icon>
+            <app-avatar
+              class="owner-avatar"
+              [avatarBase64]="owner.avatar"
+              [size]="48"
+            ></app-avatar>
             <div class="owner-info">
               <span class="name">{{ owner.name }}</span>
               <span class="follow">{{ owner.followers.size }} followers</span>
