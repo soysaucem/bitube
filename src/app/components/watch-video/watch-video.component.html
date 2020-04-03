@@ -54,19 +54,17 @@
       <mat-tab-group class="tab-group">
         <mat-tab label="Description">{{ description }}</mat-tab>
         <mat-tab class="share-tab" label="Share">
-          <a target="_blank" [href]="facebookUrl">
-            <img
-              class="facebook-share"
-              src="assets/facebook.svg"
-              style="margin-right: 10px; cursor: pointer;"
-            />
+          <div class="link-share" (click)="copy()">
+            <img src="assets/document.svg" style="cursor: pointer;" />
+            <span>Copy link</span>
+          </div>
+          <a target="_blank" [href]="facebookUrl" class="facebook-share">
+            <img src="assets/facebook-cartoon.svg" style="cursor: pointer;" />
+            <span>Facebook</span>
           </a>
-          <a target="_blank" [href]="twitterUrl">
-            <img
-              class="twitter-share"
-              src="assets/twitter.svg"
-              style="margin-right: 10px; cursor: pointer;"
-            />
+          <a target="_blank" [href]="twitterUrl" class="twitter-share">
+            <img src="assets/twitter-cartoon.svg" style="cursor: pointer;" />
+            <span>Twitter</span>
           </a>
         </mat-tab>
         <mat-tab label="Download">

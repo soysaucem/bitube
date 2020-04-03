@@ -108,6 +108,12 @@
           font-size: 14px;
           line-height: 22px;
           margin-top: 15px;
+
+          .mat-tab-body {
+            .mat-tab-body-content {
+              @include row-left;
+            }
+          }
         }
       }
 
@@ -124,5 +130,20 @@
         }
       }
     }
+  }
+}
+
+/* ADDITIONAL STYLES */
+.link-share,
+.facebook-share,
+.twitter-share {
+  @include column-center;
+  @include regular-desktop-size;
+  color: #000000;
+  margin-right: 15px;
+  text-decoration: none;
+
+  span {
+    margin-top: 5px;
   }
 }

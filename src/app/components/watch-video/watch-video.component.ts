@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { switchMap } from 'rxjs/operators';
@@ -15,6 +15,8 @@ import { generateVideoUrl } from '../../util/video-url-generator';
 import { downloadVideo } from '../../util/download';
 import { VideoStore } from '../../services/video/state/video.store';
 import { AuthService } from '../../services/auth.service';
+import { DOCUMENT } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 type Opinion = 'like' | 'dislike';
 
@@ -40,15 +42,17 @@ export class WatchVideoComponent extends ComponentWithSubscription
     private userQuery: UserQuery,
     private videoStore: VideoStore,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private snackbar: MatSnackBar,
+    @Inject(DOCUMENT) private document: any
   ) {
     super();
   }
 
   ngOnInit(): void {
     this.setupVideoSubscriber();
-    this.facebookUrl = `https://www.facebook.com/sharer/sharer.php?display=page&u=${this.router.url}&src=sdkpreparse`;
-    this.twitterUrl = `https://twitter.com/intent/tweet?url=${this.router.url}`;
+    this.facebookUrl = `https://www.facebook.com/sharer/sharer.php?display=page&u=${this.document.location.href}&src=sdkpreparse`;
+    this.twitterUrl = `https://twitter.com/intent/tweet?url=${this.document.location.href}`;
   }
 
   setupVideoSubscriber(): void {
@@ -74,6 +78,23 @@ export class WatchVideoComponent extends ComponentWithSubscription
         console.error('Failed to retrieve video');
         console.error(err);
       }
+    });
+  }
+
+  copy() {
+    const el = document.createElement('textarea');
+    el.value = document.location.href;
+    el.setAttribute('readonly', '');
+    el.style.position = 'absolute';
+    el.style.left = '-9999px';
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+
+    this.snackbar.open('Copied!', 'Dismiss', {
+      duration: 3000,
+      horizontalPosition: 'left',
     });
   }
 
