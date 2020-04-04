@@ -63,7 +63,7 @@
 }
 
 @mixin base-auth-container {
-  @include column-center;
+  @include row-spread;
   @include full-width-height;
 }
 
@@ -72,22 +72,29 @@
   width: $form-width;
   margin: 20px auto;
 
-  mat-form-field {
+  .title {
+    color: $pure-grey;
+    font-weight: 500;
     width: $form-content-width;
+    text-align: center;
+  }
+
+  mat-form-field {
+    width: 100%;
     padding: 5px;
 
     input {
-      @include large-desktop-size;
+      @include regular-desktop-size;
     }
   }
 
   .button-wrapper {
-    @include row-center-space-around;
+    @include row-spread;
     width: 100%;
     padding-bottom: 20px;
 
     button {
-      width: 30%;
+      width: 40%;
     }
   }
 }

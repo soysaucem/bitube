@@ -1,27 +1,62 @@
 @import 'base.scss';
 
-.login-container {
-  @include base-auth-container;
-
-  .login-form {
+app-auth-wrapper {
+  .login-form-column {
     @include base-form;
 
-    .title {
-      color: $primary;
+    .login-header {
+      font-size: 1rem;
       font-weight: 500;
-      width: $form-content-width;
-      text-align: center;
+      text-align: right;
     }
 
     .forgot-password {
       @include small-desktop-size;
-      padding-bottom: 10px;
+      align-self: flex-start;
+      text-decoration: none;
+      position: relative;
+      display: inline-block;
+      font-weight: 400;
+      color: $light-grey;
+      padding-bottom: 20px;
+
+      &:hover {
+        color: $pure-blue;
+      }
     }
 
-    .google-button {
-      img {
-        width: 24px;
-        height: 24px;
+    .divider-with-text {
+      @include row-center;
+      width: 100%;
+
+      span {
+        &:not(:first-child):not(:last-child) {
+          @include small-desktop-size;
+          padding: 0 2rem;
+          font-weight: 400;
+          color: $light-grey;
+        }
+
+        &:first-child,
+        &:last-child {
+          width: 100%;
+          height: 1px;
+          -webkit-box-flex: 1;
+          flex: 1;
+          background: #ebecf1;
+          display: inline-block;
+        }
+      }
+    }
+
+    .alternative-login {
+      margin-top: 10px;
+
+      .google-button {
+        img {
+          width: 24px;
+          height: 24px;
+        }
       }
     }
   }

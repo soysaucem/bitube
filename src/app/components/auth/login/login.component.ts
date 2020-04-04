@@ -11,6 +11,7 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class LoginComponent implements OnInit {
   emailControl = new FormControl('', [Validators.required, Validators.email]);
+  passwordControl = new FormControl('', [Validators.required]);
 
   hide = true;
 
@@ -27,7 +28,7 @@ export class LoginComponent implements OnInit {
 
   getErrorMessage() {
     return this.emailControl.hasError('required')
-      ? 'You must enter a value'
+      ? 'You must enter an email'
       : this.emailControl.hasError('email')
       ? 'Not a valid email'
       : '';
@@ -42,6 +43,10 @@ export class LoginComponent implements OnInit {
   }
 
   async login() {
+    if (!this.email || !this.password) {
+      return;
+    }
+
     try {
       await this.auth.login(this.email, this.password);
 

@@ -21,7 +21,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   getErrorMessage() {
     return this.emailControl.hasError('required')
-      ? 'You must enter a value'
+      ? 'You must enter an email'
       : this.emailControl.hasError('email')
       ? 'Not a valid email'
       : '';
@@ -32,6 +32,10 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   async reset() {
+    if (!this.email) {
+      return;
+    }
+
     await this.authService.resetPassword(this.email);
     this.snackbar.open(
       'A reset password link has been sent to your email',

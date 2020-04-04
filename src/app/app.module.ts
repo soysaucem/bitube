@@ -52,6 +52,7 @@ import { CommentItemComponent } from './components/comment/comment-item/comment-
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { MyVideosComponent } from './components/my-videos/my-videos.component';
+import { AuthWrapperComponent } from './components/auth/auth-wrapper/auth-wrapper.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { MyVideosComponent } from './components/my-videos/my-videos.component';
     AvatarComponent,
     SettingsComponent,
     MyVideosComponent,
+    AuthWrapperComponent,
   ],
   imports: [
     BrowserModule,

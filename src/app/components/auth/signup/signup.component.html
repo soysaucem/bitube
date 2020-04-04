@@ -1,6 +1,6 @@
-<div class="signup-container">
-  <mat-card class="signup-form" [formGroup]="signupForm">
-    <h1 class="title">Sign Up</h1>
+<app-auth-wrapper>
+  <div class="signup-form" [formGroup]="signupForm">
+    <h2 class="title">Sign Up</h2>
 
     <mat-form-field appearance="legacy">
       <mat-label>Enter your name</mat-label>
@@ -51,6 +51,9 @@
       >
         <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
       </button>
+      <mat-error *ngIf="passwordControl.invalid">
+        You must enter a password
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="legacy">
@@ -77,7 +80,6 @@
     </mat-form-field>
 
     <div class="button-wrapper">
-      <button mat-raised-button routerLink="/login">Back to login</button>
       <button
         mat-raised-button
         color="primary"
@@ -86,6 +88,7 @@
       >
         Sign up
       </button>
+      <button mat-raised-button routerLink="/login">Back to login</button>
     </div>
-  </mat-card>
-</div>
+  </div>
+</app-auth-wrapper>

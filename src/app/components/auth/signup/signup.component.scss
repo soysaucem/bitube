@@ -1,16 +1,7 @@
 @import 'base.scss';
 
-.signup-container {
-  @include base-auth-container;
-
+app-auth-wrapper {
   .signup-form {
     @include base-form;
-
-    .title {
-      color: $primary;
-      font-weight: 500;
-      width: $form-content-width;
-      text-align: center;
-    }
   }
 }

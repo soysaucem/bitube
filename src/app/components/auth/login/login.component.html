@@ -1,6 +1,6 @@
-<div class="login-container">
-  <mat-card class="login-form">
-    <h1 class="title">Login</h1>
+<app-auth-wrapper>
+  <div class="login-form-column">
+    <h2 class="title">Login</h2>
 
     <mat-form-field appearance="legacy">
       <mat-label>Enter your email</mat-label>
@@ -20,6 +20,8 @@
       <mat-label>Enter your password</mat-label>
       <input
         matInput
+        required
+        [formControl]="passwordControl"
         [type]="hide ? 'password' : 'text'"
         (input)="handlePassword($event)"
       />
@@ -32,21 +34,32 @@
       >
         <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
       </button>
+      <mat-error *ngIf="passwordControl.invalid">
+        You must enter a password
+      </mat-error>
     </mat-form-field>
 
     <a class="forgot-password" routerLink="/forgot-password"
       >Forgot password?</a
     >
     <div class="button-wrapper">
-      <button mat-raised-button routerLink="/signup">Sign up</button>
       <button mat-raised-button color="primary" (click)="login()">
         Log in
       </button>
+      <button mat-raised-button routerLink="/signup">Sign up</button>
     </div>
 
-    <button mat-stroked-button class="google-button">
-      <img src="assets/google-icon.svg" />
-      Google
-    </button>
-  </mat-card>
-</div>
+    <div class="divider-with-text">
+      <span></span>
+      <span>OR</span>
+      <span></span>
+    </div>
+
+    <div class="alternative-login">
+      <button mat-stroked-button class="google-button">
+        <img src="assets/google-icon.svg" />
+        Google
+      </button>
+    </div>
+  </div>
+</app-auth-wrapper>
