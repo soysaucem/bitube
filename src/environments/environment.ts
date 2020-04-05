@@ -28,6 +28,12 @@ export const awsS3Config = {
   aws_secret_access_key: 'FP6Ff42RxmsjSIrjVOvAZEmuNuDxgzTCQGqhRrG5',
 };
 
+export const algoliaConfig = {
+  app_id: 'PBV5PBYK7K',
+  search_key: 'd3a57716f06919c298a6630ce75858b9',
+  admin_key: '85749a70981351517034d93aaddcec3f',
+};
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

@@ -1,0 +1,94 @@
+@import 'base.scss';
+
+.search-container {
+  width: 100%;
+
+  .search-form {
+    height: 36px;
+    background-color: $button-hover;
+    border-radius: 4px;
+    width: $search-form-width;
+    margin: 0 auto;
+    position: relative;
+
+    .search-input {
+      @include row-center;
+      @include regular-desktop-size;
+      background-color: transparent;
+      height: 100%;
+      width: 100%;
+      border: none;
+      outline: none;
+      color: $light-grey;
+
+      .prefix-icon {
+        padding: 8.5px 10px;
+        color: $light-grey;
+      }
+
+      .suffix-icon {
+        display: grid;
+
+        .loading,
+        .close {
+          grid-column: 1;
+          grid-row: 1;
+        }
+
+        .loading {
+          position: relative;
+          z-index: 1;
+          padding: 8.5px 10px;
+
+          mat-progress-spinner {
+            circle {
+              stroke: $pure-blue;
+            }
+          }
+        }
+
+        .close {
+          padding: 8.5px 10px;
+          color: $light-grey;
+          cursor: pointer;
+        }
+      }
+
+      .search-results {
+        @include popover-menu;
+        width: 100%;
+        top: 36px;
+
+        .message {
+          padding: 0 $menu-side-padding;
+          span {
+            color: red;
+            font-weight: 500;
+          }
+        }
+
+        mat-list {
+          max-height: 200px;
+          overflow: auto;
+          padding-top: 0;
+
+          .result-item {
+            mat-list-item {
+              height: 50px;
+
+              img {
+                width: 35px;
+                height: 50px;
+                margin-right: 10px;
+              }
+
+              &:hover {
+                @include hover;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

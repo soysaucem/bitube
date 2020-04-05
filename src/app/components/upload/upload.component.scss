@@ -23,6 +23,7 @@
         width: 150px;
         height: 150px;
         font-size: 150px;
+        color: $light-grey;
       }
 
       input {
@@ -31,12 +32,12 @@
 
       label {
         @include x-large-desktop-size;
-        color: $gray-600;
+        color: $light-grey;
         cursor: pointer;
 
         .select-file {
           &:hover {
-            color: darken($color: $gray-600, $amount: 15);
+            color: $pure-blue;
           }
         }
       }

@@ -21,14 +21,9 @@
   }
 
   .current-user-dropdown {
+    @include popover-menu;
     display: none;
-    position: absolute;
-    background-color: $clean-white;
-    min-width: 160px;
     width: 100%;
-    box-shadow: $menu-box-shadow;
-    z-index: 1;
-    padding: 8px 0;
 
     .dropdown-item {
       @include regular-desktop-size;

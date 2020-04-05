@@ -4,15 +4,14 @@ import { Subject } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { awsS3Config } from '../../../environments/environment';
 import { FileQueueObject, makeFileQueueObject } from './file-queue.model';
-import { BUCKET_NAME } from '../../util/variables';
+import { BUCKET_NAME, PROFILE_BUCKET_NAME } from '../../util/variables';
+import { Buffer } from 'buffer';
 
 export class UploadController {
   private bucket = new S3({
     accessKeyId: awsS3Config.aws_access_key_id,
     secretAccessKey: awsS3Config.aws_secret_access_key,
     region: 'ap-southeast-2',
-    endpoint: 'video.bibo.trietapps.com',
-    s3BucketEndpoint: true,
   });
 
   private queueStream$ = new Subject<List<FileQueueObject>>();
@@ -56,5 +55,31 @@ export class UploadController {
 
   selectQueue(): Subject<List<FileQueueObject>> {
     return this.queueStream$;
+  }
+
+  uploadProfile(id: string, base64Thumbnail: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const base64Data = new Buffer(
+        base64Thumbnail.replace(/^data:image\/\w+;base64,/, ''),
+        'base64'
+      );
+
+      const params = {
+        Bucket: PROFILE_BUCKET_NAME,
+        Key: id + '-thumbnail',
+        Body: base64Data,
+        ACL: 'public-read',
+        ContentEncoding: 'base64',
+        ContentType: 'image/webp',
+      };
+
+      this.bucket.upload(params).send((err, data) => {
+        if (err) {
+          reject(err);
+        }
+
+        resolve(data);
+      });
+    });
   }
 }

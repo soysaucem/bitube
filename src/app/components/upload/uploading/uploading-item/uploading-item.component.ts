@@ -8,6 +8,7 @@ import { generateThumbnail } from '../../../../util/generate-thumbnail';
 import { makeVideo } from '../../../../services/video/state/video.model';
 import { VideoService } from '../../../../services/video/state/video.service';
 import { UserQuery } from '../../../../services/user/state/user.query';
+import { ProfileUploadService } from '../../../../services/profile-upload.service';
 
 type InputType = 'description' | 'title';
 const ENTER = 13;
@@ -37,7 +38,8 @@ export class UploadingItemComponent implements OnInit {
 
   constructor(
     private userQuery: UserQuery,
-    private videoService: VideoService
+    private videoService: VideoService,
+    private profileUploadService: ProfileUploadService
   ) {}
 
   ngOnInit() {}
@@ -75,6 +77,10 @@ export class UploadingItemComponent implements OnInit {
 
   get currentProgress(): number {
     return this.progress * 100;
+  }
+
+  get fileName(): string {
+    return this.title ? this.title : this.file.file.name;
   }
 
   async handleInput(event: any, type: InputType): Promise<void> {
@@ -129,6 +135,10 @@ export class UploadingItemComponent implements OnInit {
 
     // Make video thumbnail
     const thumbnail = await generateThumbnail(this.file.file);
+    const thumbnailData = await this.controller.uploadProfile(
+      this.file.id,
+      thumbnail
+    );
 
     // Add video reference to firebase
     const currentUser = await this.userQuery.getMyAccount();
@@ -136,7 +146,7 @@ export class UploadingItemComponent implements OnInit {
       id: this.file.id,
       title: this.title ? this.title : this.file.file.name,
       description: this.description ? this.description : null,
-      thumbnail,
+      thumbnail: thumbnailData.Location,
       tags: this.tags,
       ownerId: currentUser.id,
       ownerName: currentUser.name,

@@ -115,6 +115,20 @@
   }
 }
 
+@mixin popover-menu {
+  position: absolute;
+  background-color: $clean-white;
+  min-width: 160px;
+  box-shadow: $menu-box-shadow;
+  z-index: 1;
+  padding: 8px 0;
+}
+
+@mixin hover {
+  background: $background-hover;
+  color: $pure-blue;
+}
+
 .divider {
   width: 100%;
   margin: 10px 0;

@@ -26,6 +26,15 @@ export class VideoQuery extends QueryEntity<VideoState> {
       );
   }
 
+  async getVideosWith(title: string): Promise<List<Video>> {
+    const docs = await this.firestore
+      .collection('videos')
+      .ref.where('keywords', 'array-contains', title.toLowerCase())
+      .get();
+
+    return List(docs.docs.map(doc => fromJS(doc.data() as VideoJSON)));
+  }
+
   async getVideo(id: string): Promise<Video> {
     if (!this.hasEntity(id)) {
       const doc = await this.firestore
