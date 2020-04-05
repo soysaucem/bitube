@@ -1,0 +1,58 @@
+@import 'base.scss';
+
+.sidenav-container {
+  height: 100%;
+
+  .sidenav {
+    width: $sidenav-width;
+    box-shadow: $nav-box-shadow;
+
+    .logo {
+      @include row-center;
+      @include none-highlight;
+      width: calc(100% - 26px);
+      height: calc(#{$navbar-height} - 20px);
+      padding: 10px 13px;
+      cursor: pointer;
+      font-family: 'Baloo Da 2', cursive;
+      font-size: 30px;
+      line-height: 38px;
+      color: $pure-blue;
+      outline: none;
+    }
+
+    mat-nav-list {
+      .upload-button,
+      .settings-button {
+        @include small-desktop-size;
+        margin-right: 20px;
+        border-color: rgba(255, 255, 255, 0.12);
+        color: $light-grey;
+        padding: 5px 0;
+
+        .mat-list-item-content {
+          @include column-center;
+        }
+
+        &:hover {
+          color: $pure-blue;
+        }
+      }
+    }
+  }
+
+  .sidenav .mat-toolbar {
+    background: inherit;
+  }
+
+  .sidenav.mat-drawer-side {
+    border: none;
+  }
+
+  .sidenav-content {
+    .content-container {
+      position: relative;
+      top: $navbar-height;
+    }
+  }
+}

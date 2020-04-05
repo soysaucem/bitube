@@ -1,12 +1,22 @@
 <div class="current-user-container" *ngIf="me">
   <div class="current-user-wrapper">
-    <app-avatar [avatarBase64]="me.avatar" [size]="24"></app-avatar>
+    <app-avatar [avatarBase64]="me.avatar" [size]="30"></app-avatar>
     <div class="current-user">{{ me.name }}</div>
   </div>
 
   <div class="current-user-dropdown">
-    <span class="dropdown-item" routerLink="/settings">Settings</span>
-    <span class="dropdown-item">My Videos</span>
-    <span class="dropdown-item" (click)="logout()">Logout</span>
+    <span class="dropdown-item">
+      <mat-icon>video_library</mat-icon>
+      My Videos
+    </span>
+    <span class="dropdown-item" routerLink="/settings">
+      <mat-icon>settings</mat-icon>
+      Settings
+    </span>
+    <div class="divider"></div>
+    <span class="dropdown-item" (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon>
+      Logout
+    </span>
   </div>
 </div>

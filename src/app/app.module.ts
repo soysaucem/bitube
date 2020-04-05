@@ -31,6 +31,11 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // Components
 import { AuthGuard } from './guards/auth.guard';
@@ -53,6 +58,7 @@ import { AvatarComponent } from './components/avatar/avatar.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { MyVideosComponent } from './components/my-videos/my-videos.component';
 import { AuthWrapperComponent } from './components/auth/auth-wrapper/auth-wrapper.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +81,7 @@ import { AuthWrapperComponent } from './components/auth/auth-wrapper/auth-wrappe
     SettingsComponent,
     MyVideosComponent,
     AuthWrapperComponent,
+    SidenavComponent,
   ],
   imports: [
     BrowserModule,
@@ -105,6 +112,11 @@ import { AuthWrapperComponent } from './components/auth/auth-wrapper/auth-wrappe
     MatTabsModule,
     environment.production ? [] : AkitaNgDevtools.forRoot(),
     HttpClientModule,
+    LayoutModule,
+    MatSidenavModule,
+    MatListModule,
+    MatBadgeModule,
+    MatProgressSpinnerModule,
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],
