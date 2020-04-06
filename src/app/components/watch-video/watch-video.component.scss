@@ -58,7 +58,7 @@
         }
 
         .video-opinions {
-          @include column-center;
+          @include column-right;
           width: 30%;
           margin-top: 10px;
 
@@ -66,6 +66,7 @@
           mat-progress-bar,
           .opinion-buttons {
             width: 90%;
+            color: $light-grey;
           }
 
           .ratio-view-display {
@@ -81,7 +82,7 @@
             }
 
             .active {
-              color: $primary;
+              color: $pure-blue;
             }
 
             .views {
@@ -97,7 +98,7 @@
             @include row-spread;
 
             button {
-              width: 45%;
+              width: 49%;
             }
           }
         }
@@ -125,6 +126,8 @@
 
       .comment-section {
         width: 100%;
+        margin-top: 40px;
+
         h1 {
           font-weight: normal;
         }

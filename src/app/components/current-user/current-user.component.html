@@ -1,4 +1,4 @@
-<div class="current-user-container" *ngIf="me">
+<div class="current-user-container" *ngIf="me$ | async as me">
   <div class="current-user-wrapper">
     <app-avatar [avatarBase64]="me.avatar" [size]="30"></app-avatar>
     <div class="current-user">{{ me.name }}</div>

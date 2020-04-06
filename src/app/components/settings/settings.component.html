@@ -1,15 +1,25 @@
 <div class="settings-container" *ngIf="me">
   <mat-card class="settings-wrapper">
     <div class="avatar-column">
-      <app-avatar [avatarBase64]="me.avatar" [size]="150"></app-avatar>
-      <button mat-button>CHANGE</button>
+      <app-avatar [avatarBase64]="myAvatar" [size]="150"></app-avatar>
+      <input
+        #uploadInput
+        id="upload-input"
+        type="file"
+        accept="image/*"
+        style="display: none;"
+        (change)="updateProfileImage($event)"
+      />
+      <label for="upload-input">
+        <span mat-button>CHANGE</span>
+      </label>
     </div>
     <div class="settings-column">
       <div class="personal-settings">
         <span class="personal-settings-title">Personal Settings</span>
         <mat-form-field appearance="outline">
           <mat-label>Full name</mat-label>
-          <input matInput [value]="me.name" />
+          <input matInput [value]="me.name" (input)="updateName($event)" />
         </mat-form-field>
         <mat-form-field
           appearance="outline"
@@ -26,21 +36,28 @@
         </mat-form-field>
       </div>
       <div class="divider"></div>
-      <div class="password-settings">
+      <div class="password-settings" [formGroup]="passwordForm">
         <span class="password-settings-title">Password Settings</span>
         <mat-form-field appearance="outline">
           <mat-label>Current password</mat-label>
-          <input matInput />
+          <input matInput required formControlName="currentPasswordControl" />
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>New password</mat-label>
-          <input matInput />
+          <input matInput required formControlName="passwordControl" />
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Confirm new password</mat-label>
-          <input matInput />
+          <input
+            matInput
+            required
+            formControlName="passwordConfirmationControl"
+          />
+          <mat-error *ngIf="passwordConfirmationControl.errors?.notMatch">
+            Password does not match
+          </mat-error>
         </mat-form-field>
-        <button mat-flat-button color="primary" [disabled]="disabled">
+        <button mat-flat-button class="primary-button" [disabled]="disabled">
           Save changes
         </button>
       </div>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UserStore, UserState } from './user.store';
 import { CollectionConfig, CollectionService } from 'akita-ng-fire';
-import { toJS, makeUser } from './user.model';
+import { toJS, makeUser, UserJSON } from './user.model';
 import { generateImageUrlFromPath } from '../../../util/generate-image-url';
 
 @Injectable({ providedIn: 'root' })
@@ -17,5 +17,9 @@ export class UserService extends CollectionService<UserState> {
       makeUser({ id, email, name, avatar: defaultAvatar as string })
     );
     return this.add(userJS);
+  }
+
+  updateUser(id: string, props: Partial<UserJSON>): any {
+    return this.update({ ...props, id: id });
   }
 }

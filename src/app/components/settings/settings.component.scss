@@ -34,9 +34,15 @@ $section-margin-top: 20px;
       align-self: flex-start;
       margin: 70px $side-main-margin 0 60px;
 
-      button {
+      label {
         margin-top: 10px;
-        color: $button-blue;
+        cursor: pointer;
+
+        span {
+          color: $button-blue;
+          font-size: 14px;
+          font-weight: 500;
+        }
       }
     }
 

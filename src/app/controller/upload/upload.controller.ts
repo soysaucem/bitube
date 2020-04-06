@@ -7,6 +7,8 @@ import { FileQueueObject, makeFileQueueObject } from './file-queue.model';
 import { BUCKET_NAME, PROFILE_BUCKET_NAME } from '../../util/variables';
 import { Buffer } from 'buffer';
 
+export type ImageType = 'profile' | 'thumbnail';
+
 export class UploadController {
   private bucket = new S3({
     accessKeyId: awsS3Config.aws_access_key_id,
@@ -57,17 +59,17 @@ export class UploadController {
     return this.queueStream$;
   }
 
-  uploadProfile(id: string, base64Thumbnail: string): Promise<any> {
+  uploadImage(id: string, base64Data: string, type: ImageType): Promise<any> {
     return new Promise((resolve, reject) => {
-      const base64Data = new Buffer(
-        base64Thumbnail.replace(/^data:image\/\w+;base64,/, ''),
+      const bufferData = new Buffer(
+        base64Data.replace(/^data:image\/\w+;base64,/, ''),
         'base64'
       );
 
       const params = {
         Bucket: PROFILE_BUCKET_NAME,
-        Key: id + '-thumbnail',
-        Body: base64Data,
+        Key: id + '-' + type,
+        Body: bufferData,
         ACL: 'public-read',
         ContentEncoding: 'base64',
         ContentType: 'image/webp',

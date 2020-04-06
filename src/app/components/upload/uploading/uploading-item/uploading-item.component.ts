@@ -135,9 +135,10 @@ export class UploadingItemComponent implements OnInit {
 
     // Make video thumbnail
     const thumbnail = await generateThumbnail(this.file.file);
-    const thumbnailData = await this.controller.uploadProfile(
+    const thumbnailData = await this.controller.uploadImage(
       this.file.id,
-      thumbnail
+      thumbnail,
+      'thumbnail'
     );
 
     // Add video reference to firebase

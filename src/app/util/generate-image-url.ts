@@ -1,8 +1,8 @@
 export function generateImageUrlFromFile(img: File) {
-  return new Promise((resolve, reject) => {
+  return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(img);
-    reader.onload = () => resolve(reader.result);
+    reader.onload = () => resolve(reader.result.toString());
     reader.onerror = error => reject(error);
   });
 }
@@ -17,7 +17,7 @@ export function generateImageUrlFromPath(filePath: string) {
   document.body.appendChild(img);
   document.body.appendChild(canvas);
 
-  return new Promise((resolve, reject) => {
+  return new Promise<string>((resolve, reject) => {
     img.addEventListener('error', reject);
     canvas.addEventListener('error', reject);
 

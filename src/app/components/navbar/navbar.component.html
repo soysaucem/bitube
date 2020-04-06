@@ -12,17 +12,11 @@
       <app-current-user></app-current-user>
     </ng-container>
     <ng-container *ngIf="!isAuthenticated">
-      <button
-        mat-raised-button
-        class="create-account-button"
-        color="accent"
-        routerLink="/signup"
-      >
-        Create account
-      </button>
-      <button mat-raised-button routerLink="/login">
-        Log in
-      </button>
+      <div class="button-wrapper">
+        <button mat-flat-button class="primary-button" routerLink="/login">
+          Log in
+        </button>
+      </div>
     </ng-container>
   </div>
 </div>

@@ -1,4 +1,10 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnInit,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { List } from 'immutable';
 import { ComponentWithSubscription } from 'src/app/helper-components/component-with-subscription/component-with-subscription';
 import { FileQueueObject } from 'src/app/controller/upload/file-queue.model';
@@ -13,6 +19,8 @@ const BASE_MB = 1024 * 1024;
 })
 export class UploadComponent extends ComponentWithSubscription
   implements OnInit {
+  @ViewChild('uploadInput') uploadInput: ElementRef;
+
   controller = new UploadController();
   queue: List<FileQueueObject>;
 
@@ -37,6 +45,9 @@ export class UploadComponent extends ComponentWithSubscription
     );
 
     this.controller.add(files);
+
+    // Clear selected file after added
+    (this.uploadInput.nativeElement as HTMLInputElement).value = '';
   }
 
   cancelEventInvoke(event: DragEvent): void {

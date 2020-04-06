@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { User } from '../../services/user/state/user.model';
 import { UserQuery } from '../../services/user/state/user.query';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-current-user',
@@ -10,7 +11,7 @@ import { UserQuery } from '../../services/user/state/user.query';
   styleUrls: ['./current-user.component.scss'],
 })
 export class CurrentUserComponent implements OnInit {
-  me: User;
+  me$: Observable<User>;
 
   constructor(
     private auth: AuthService,
@@ -18,8 +19,8 @@ export class CurrentUserComponent implements OnInit {
     private userQuery: UserQuery
   ) {}
 
-  async ngOnInit(): Promise<void> {
-    this.me = await this.userQuery.getMyAccount();
+  ngOnInit(): void {
+    this.me$ = this.userQuery.selectMyAccount();
   }
 
   async logout(): Promise<void> {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SignupService } from '../../../services/signup.service';
+import { checkPassword } from '../../../util/password-validation';
 
 @Component({
   selector: 'app-signup',
@@ -31,7 +32,7 @@ export class SignupComponent implements OnInit {
         passwordControl: ['', [Validators.required]],
         passwordConfirmationControl: ['', [Validators.required]],
       },
-      { validator: this.checkPassword }
+      { validator: checkPassword }
     );
   }
 
@@ -45,15 +46,6 @@ export class SignupComponent implements OnInit {
 
   handleName(event: any) {
     this.name = event.target.value;
-  }
-
-  checkPassword(group: FormGroup) {
-    return group.controls.passwordControl.value ===
-      group.controls.passwordConfirmationControl.value
-      ? group.controls.passwordConfirmationControl.setErrors(null)
-      : group.controls.passwordConfirmationControl.setErrors({
-          notMatch: true,
-        });
   }
 
   async sigup() {
