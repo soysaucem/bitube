@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { FileQueueObject } from 'src/app/controller/upload/file-queue.model';
 import { UploadController } from '../../../../controller/upload/upload.controller';
 import { FileQueueStatus } from '../../../../controller/upload/file-queue.model';
@@ -8,7 +8,6 @@ import { generateThumbnail } from '../../../../util/generate-thumbnail';
 import { makeVideo } from '../../../../services/video/state/video.model';
 import { VideoService } from '../../../../services/video/state/video.service';
 import { UserQuery } from '../../../../services/user/state/user.query';
-import { ProfileUploadService } from '../../../../services/profile-upload.service';
 
 type InputType = 'description' | 'title';
 const ENTER = 13;
@@ -18,6 +17,7 @@ const COMMA = 188;
   selector: 'app-uploading-item',
   templateUrl: './uploading-item.component.html',
   styleUrls: ['./uploading-item.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class UploadingItemComponent implements OnInit {
   @Input() file: FileQueueObject;
@@ -38,15 +38,14 @@ export class UploadingItemComponent implements OnInit {
 
   constructor(
     private userQuery: UserQuery,
-    private videoService: VideoService,
-    private profileUploadService: ProfileUploadService
+    private videoService: VideoService
   ) {}
 
   ngOnInit() {}
 
   upload(): void {
     this.file.request
-      .on('httpUploadProgress', event => {
+      .on('httpUploadProgress', (event) => {
         this.status = FileQueueStatus.Progress;
         this.progress = event.loaded / event.total;
       })
@@ -85,7 +84,7 @@ export class UploadingItemComponent implements OnInit {
 
   async handleInput(event: any, type: InputType): Promise<void> {
     if (type === 'title') {
-      this.title = event.target.value;
+      this.title = event;
       if (this.status === FileQueueStatus.Success) {
         await this.videoService.updateVideo(this.file.id, {
           title: this.title,

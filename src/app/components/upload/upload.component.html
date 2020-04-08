@@ -7,7 +7,7 @@
       (dragleave)="cancelEventInvoke($event)"
       (drop)="onDrop($event)"
     >
-      <mat-icon>cloud_upload</mat-icon>
+      <img src="assets/upload.svg" (click)="uploadInput.click()" />
       <input
         #uploadInput
         id="upload-input"

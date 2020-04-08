@@ -15,7 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 // Angular Material Modules
-import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -37,6 +37,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 // Components
 import { AuthGuard } from './guards/auth.guard';
@@ -134,7 +135,8 @@ import { MainPageVideosComponent } from './components/mainpage-videos/mainpage-v
     MatListModule,
     MatBadgeModule,
     MatProgressSpinnerModule,
-    NgbProgressbarModule,
+    NgbModule,
+    MatExpansionModule,
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],

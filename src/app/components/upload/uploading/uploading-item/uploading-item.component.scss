@@ -3,54 +3,73 @@
 .uploading-item {
   @include column-left;
   width: 100%;
-  margin: 20px 0;
+  margin: 20px 0 !important;
 
   .uploading-item-header {
     @include row-spread;
     width: 100%;
 
     .file-name {
+      @include row-left;
       @include large-desktop-size;
+      max-width: 200px;
+
+      img {
+        height: 48px;
+        margin-right: 5px;
+      }
+
+      span {
+        @include truncate-text;
+
+        width: 100%;
+      }
     }
 
-    .options {
-      @include row-center;
+    mat-panel-description {
+      .upload-progress {
+        @include row-left;
+        width: 100%;
 
-      .option-button {
-        @include none-highlight;
-        padding: 0 5px;
+        mat-progress-bar,
+        ngb-progressbar {
+          width: 90%;
+        }
+      }
+
+      .options {
+        @include row-center;
+
+        .option-button {
+          @include none-highlight;
+          padding: 0 5px;
+        }
       }
     }
   }
 
-  .upload-progress {
-    @include row-left;
-    width: 100%;
-    margin: 10px 0 20px;
+  .mat-expansion-panel-content {
+    .mat-expansion-panel-body {
+      width: 100%;
 
-    mat-progress-bar {
-      width: 60%;
-      margin-right: 15px;
-    }
+      .title-wrapper,
+      .tags-wrapper,
+      .description-wrapper {
+        @include row-left;
+        width: 100%;
 
-    .progress-value {
-      @include small-desktop-size;
-    }
-  }
+        .config-title {
+          @include regular-desktop-size;
+          margin-right: 20px;
+          width: 100px;
+        }
 
-  .title-wrapper,
-  .tags-wrapper,
-  .description-wrapper {
-    @include row-spread;
-    width: 30%;
-
-    span {
-      @include regular-desktop-size;
-      margin-right: 20px;
-    }
-
-    mat-form-field {
-      width: 70%;
+        .chip-field,
+        .title-field,
+        .description-field {
+          width: 70%;
+        }
+      }
     }
   }
 }

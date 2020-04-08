@@ -18,12 +18,11 @@
       height: 100%;
       border-radius: 4px;
 
-      mat-icon {
+      img {
         @include none-highlight;
         width: 150px;
         height: 150px;
-        font-size: 150px;
-        color: $light-grey;
+        cursor: pointer;
       }
 
       input {
@@ -34,6 +33,7 @@
         @include x-large-desktop-size;
         color: $light-grey;
         cursor: pointer;
+        margin-top: 10px;
 
         .select-file {
           &:hover {
@@ -55,6 +55,6 @@
   @include column-top;
 
   .display {
-    width: 80%;
+    width: 70%;
   }
 }
