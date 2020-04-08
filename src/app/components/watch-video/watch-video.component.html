@@ -56,7 +56,13 @@
       </div>
 
       <mat-tab-group class="tab-group">
-        <mat-tab label="Description">{{ description }}</mat-tab>
+        <mat-tab label="Description">
+          <div class="video-description">
+            <p>{{ description }}</p>
+            <p><strong>Tags:</strong> {{ tags }}</p>
+          </div>
+        </mat-tab>
+
         <mat-tab class="share-tab" label="Share">
           <div class="link-share" (click)="copy()">
             <img src="assets/document.svg" style="cursor: pointer;" />
@@ -71,6 +77,7 @@
             <span>Twitter</span>
           </a>
         </mat-tab>
+
         <mat-tab label="Download">
           <button mat-flat-button class="primary-button" (click)="download()">
             Generate download link

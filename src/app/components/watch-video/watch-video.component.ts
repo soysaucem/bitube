@@ -170,6 +170,18 @@ export class WatchVideoComponent extends ComponentWithSubscription
     return date.format('DD MMM YYYY');
   }
 
+  get tags(): string {
+    let tagString = '';
+    this.video.tags.forEach((tag, index) => {
+      if (index === this.video.tags.size - 1) {
+        tagString += `${tag}.`;
+      } else {
+        tagString += `${tag}, `;
+      }
+    });
+    return tagString;
+  }
+
   /**
    * Generate download link and invoke it to download
    */
