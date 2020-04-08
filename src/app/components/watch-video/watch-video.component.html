@@ -59,7 +59,7 @@
         <mat-tab label="Description">
           <div class="video-description">
             <p>{{ description }}</p>
-            <p><strong>Tags:</strong> {{ tags }}</p>
+            <p *ngIf="video.tags.size"><strong>Tags:</strong> {{ tags }}</p>
           </div>
         </mat-tab>
 

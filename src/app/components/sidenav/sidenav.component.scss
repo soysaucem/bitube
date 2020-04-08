@@ -24,7 +24,8 @@ $sidenav-top-bot-padding: 10px;
       outline: none;
     }
 
-    mat-nav-list {
+    .list-start,
+    .list-end {
       .list-button {
         @include small-desktop-size;
         @include full-width-height;
@@ -39,6 +40,10 @@ $sidenav-top-bot-padding: 10px;
         &:hover {
           color: $pure-blue;
         }
+      }
+
+      .list-item-active {
+        color: red;
       }
     }
 

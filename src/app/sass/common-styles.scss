@@ -155,3 +155,8 @@
   word-break: break-word;
   white-space: normal;
 }
+
+.menu-item-active {
+  color: $pure-blue !important;
+  background-color: $background-hover;
+}

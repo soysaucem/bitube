@@ -6,38 +6,81 @@
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false"
+    [disableClose]="true"
   >
     <div class="logo" routerLink="/">Bibo</div>
     <mat-nav-list class="list-start">
-      <a mat-list-item class="list-button" routerLink="/">
+      <a
+        mat-list-item
+        class="list-button"
+        routerLink="/"
+        [routerLinkActive]="'menu-item-active'"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <mat-icon>home</mat-icon>
         <span>Home</span>
       </a>
-      <a mat-list-item class="list-button" routerLink="/trending">
+      <a
+        mat-list-item
+        class="list-button"
+        routerLink="/trending"
+        [routerLinkActive]="'menu-item-active'"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <mat-icon>trending_up</mat-icon>
         <span>Trending</span>
       </a>
-      <a mat-list-item class="list-button" routerLink="/followings">
+      <a
+        mat-list-item
+        class="list-button"
+        routerLink="/followings"
+        [routerLinkActive]="'menu-item-active'"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <mat-icon>subscriptions</mat-icon>
         <span>Following</span>
       </a>
-      <a mat-list-item class="list-button" routerLink="/upload">
+      <a
+        mat-list-item
+        class="list-button"
+        routerLink="/upload"
+        [routerLinkActive]="'menu-item-active'"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <mat-icon>cloud_upload</mat-icon>
         <span>Upload</span>
       </a>
       <div class="divider"></div>
-      <a mat-list-item class="list-button" routerLink="/following-channels">
+      <a
+        mat-list-item
+        class="list-button"
+        routerLink="/following-channels"
+        [routerLinkActive]="'menu-item-active'"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <mat-icon>group</mat-icon>
         <span>Channels</span>
       </a>
-      <a mat-list-item class="list-button" routerLink="/history">
+      <a
+        mat-list-item
+        class="list-button"
+        routerLink="/history"
+        [routerLinkActive]="'menu-item-active'"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <mat-icon>history</mat-icon>
         <span>History</span>
       </a>
     </mat-nav-list>
 
     <mat-nav-list class="list-end">
-      <a mat-list-item class="list-button" routerLink="/settings">
+      <a
+        mat-list-item
+        class="list-button"
+        routerLink="/settings"
+        [routerLinkActive]="'menu-item-active'"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <mat-icon>settings</mat-icon>
         <span>Settings</span>
       </a>
