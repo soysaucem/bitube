@@ -64,11 +64,13 @@ export class SettingsComponent implements OnInit {
   }
 
   updateName(event: string) {
-    try {
-      this.userService.updateUser(this.me.id, { name: event });
-    } catch (err) {
-      console.error('Failed to change name');
-      console.error(err);
+    if (event) {
+      try {
+        this.userService.updateUser(this.me.id, { name: event });
+      } catch (err) {
+        console.error('Failed to change name');
+        console.error(err);
+      }
     }
   }
 

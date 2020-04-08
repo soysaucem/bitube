@@ -13,7 +13,12 @@ import { Subject } from 'rxjs';
 import { ComponentWithSubscription } from '../../helper-components/component-with-subscription/component-with-subscription';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
-export type InputType = 'text' | 'password' | 'password-confirm' | 'email';
+export type InputType =
+  | 'text'
+  | 'text-required'
+  | 'password'
+  | 'password-confirm'
+  | 'email';
 
 @Component({
   selector: 'app-validation-input',
@@ -65,7 +70,7 @@ export class ValidationInputComponent extends ComponentWithSubscription
         { value: this.initialValue, disabled: this.disabled },
         [Validators.required, Validators.email]
       );
-    } else if (this.type === 'text') {
+    } else if (this.type === 'text-required') {
       this.control = new FormControl(
         { value: this.initialValue, disabled: this.disabled },
         [Validators.required]
@@ -88,6 +93,11 @@ export class ValidationInputComponent extends ComponentWithSubscription
           [Validators.required, checkPassword(this.password)]
         );
       }
+    } else if (this.type === 'text') {
+      this.control = new FormControl({
+        value: this.initialValue,
+        disabled: this.disabled,
+      });
     }
   }
 
