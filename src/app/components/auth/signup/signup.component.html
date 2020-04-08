@@ -1,90 +1,52 @@
 <app-auth-wrapper>
-  <div class="signup-form" [formGroup]="signupForm">
+  <div class="signup-form">
     <h2 class="title">Sign Up</h2>
 
-    <mat-form-field appearance="legacy">
-      <mat-label>Enter your name</mat-label>
-      <input
-        id="nameInput"
-        matInput
-        placeholder="The Witcher"
-        required
-        (input)="handleName($event)"
-        formControlName="nameControl"
-      />
-      <mat-error *ngIf="nameControl.invalid && nameControl.errors.required">
-        You must enter your name
-      </mat-error>
-    </mat-form-field>
+    <app-validation-input
+      [label]="'Enter your name'"
+      [placeholder]="'The Witcher'"
+      [type]="'text'"
+      [appearance]="'legacy'"
+      [errorMessage]="'You must enter your name'"
+      (value)="handleName($event)"
+      (valid)="handleNameValid($event)"
+    ></app-validation-input>
 
-    <mat-form-field appearance="legacy">
-      <mat-label>Enter your email</mat-label>
-      <input
-        id="emailInput"
-        matInput
-        placeholder="pat@example.com"
-        formControlName="emailControl"
-        required
-        (input)="handleEmail($event)"
-      />
-      <mat-error *ngIf="emailControl.invalid">
-        {{ getEmailErrorMessage() }}
-      </mat-error>
-    </mat-form-field>
+    <app-validation-input
+      [label]="'Enter your email'"
+      [placeholder]="'pat@example.com'"
+      [type]="'email'"
+      [appearance]="'legacy'"
+      (value)="handleEmail($event)"
+      (valid)="handleEmailValid($event)"
+    ></app-validation-input>
 
-    <mat-form-field appearance="legacy">
-      <mat-label>Enter your password</mat-label>
-      <input
-        id="passwordInput"
-        matInput
-        required
-        [type]="hide ? 'password' : 'text'"
-        (input)="handlePassword($event)"
-        formControlName="passwordControl"
-      />
-      <button
-        mat-icon-button
-        matSuffix
-        (click)="hide = !hide"
-        [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="hide"
-      >
-        <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-      </button>
-      <mat-error *ngIf="passwordControl.invalid">
-        You must enter a password
-      </mat-error>
-    </mat-form-field>
+    <app-validation-input
+      [label]="'Enter your password'"
+      [type]="'password'"
+      [appearance]="'legacy'"
+      [errorMessage]="'You must enter a password'"
+      [hide]="'true'"
+      (value)="handlePassword($event)"
+      (valid)="handlePasswordValid($event)"
+    ></app-validation-input>
 
-    <mat-form-field appearance="legacy">
-      <mat-label>Confirm your password</mat-label>
-      <input
-        id="passwordConfirmationInput"
-        matInput
-        required
-        [type]="hide ? 'password' : 'text'"
-        formControlName="passwordConfirmationControl"
-      />
-      <mat-error *ngIf="passwordConfirmationControl.errors?.notMatch">
-        Password does not match
-      </mat-error>
-      <button
-        mat-icon-button
-        matSuffix
-        (click)="hide = !hide"
-        [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="hide"
-      >
-        <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-      </button>
-    </mat-form-field>
+    <app-validation-input
+      [label]="'Confirm your password'"
+      [type]="'password-confirm'"
+      [appearance]="'legacy'"
+      [errorMessage]="'Password does not match'"
+      [hide]="'true'"
+      [password]="password"
+      (valid)="handlePasswordConfirmValid($event)"
+    ></app-validation-input>
 
     <div class="button-wrapper">
       <button
         mat-raised-button
         class="primary-button"
-        [disabled]="disabled"
         (click)="sigup()"
+        [disabled]="disabled"
       >
         Sign up
       </button>

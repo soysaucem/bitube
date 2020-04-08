@@ -1,22 +1,8 @@
 <div class="video-grid-container" *ngIf="videos$ | async as videos">
-  <h2 class="video-grid-title">Featured Videos</h2>
+  <h2 class="video-grid-title">{{ title }}</h2>
   <div class="video-wrapper">
-    <mat-card
-      class="video-item"
-      *ngFor="let video of videos"
-      routerLink="/watch/{{ video.id }}"
-    >
-      <img src="{{ video.thumbnail }}" />
-      <div class="video-info">
-        <span
-          class="video-title"
-          matTooltip="{{ video.title }}"
-          matTooltipClass="tooltip-without-truncated"
-          >{{ video.title }}</span
-        >
-        <span class="video-views">{{ video.views }} views</span>
-        <span class="video-owner">By {{ video.ownerName }}</span>
-      </div>
-    </mat-card>
+    <ng-container *ngFor="let video of videos">
+      <app-video-item [type]="'card'" [video]="video"></app-video-item>
+    </ng-container>
   </div>
 </div>

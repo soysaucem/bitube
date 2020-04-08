@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SignupService } from '../../../services/signup.service';
-import { checkPassword } from '../../../util/password-validation';
 
 @Component({
   selector: 'app-signup',
@@ -10,42 +8,48 @@ import { checkPassword } from '../../../util/password-validation';
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent implements OnInit {
-  signupForm: FormGroup;
-
   hide = true;
-
-  email: string;
   password: string;
-  name: string;
 
-  constructor(
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private signupService: SignupService
-  ) {}
+  private email: string;
+  private name: string;
 
-  ngOnInit() {
-    this.signupForm = this.formBuilder.group(
-      {
-        nameControl: ['', [Validators.required]],
-        emailControl: ['', [Validators.required, Validators.email]],
-        passwordControl: ['', [Validators.required]],
-        passwordConfirmationControl: ['', [Validators.required]],
-      },
-      { validator: checkPassword }
-    );
+  private emailValid = false;
+  private passwordValid = false;
+  private passwordConfirmValid = false;
+  private nameValid = false;
+
+  constructor(private router: Router, private signupService: SignupService) {}
+
+  ngOnInit() {}
+
+  handleEmail(event: string) {
+    this.email = event;
   }
 
-  handleEmail(event: any) {
-    this.email = event.target.value;
+  handlePassword(event: string) {
+    this.password = event;
   }
 
-  handlePassword(event: any) {
-    this.password = event.target.value;
+  handleName(event: string) {
+    console.log(event);
+    this.name = event;
   }
 
-  handleName(event: any) {
-    this.name = event.target.value;
+  handleEmailValid(event: boolean) {
+    this.emailValid = event;
+  }
+
+  handlePasswordValid(event: boolean) {
+    this.passwordValid = event;
+  }
+
+  handleNameValid(event: boolean) {
+    this.nameValid = event;
+  }
+
+  handlePasswordConfirmValid(event: boolean) {
+    this.passwordConfirmValid = event;
   }
 
   async sigup() {
@@ -53,31 +57,12 @@ export class SignupComponent implements OnInit {
     this.router.navigate(['']);
   }
 
-  get nameControl() {
-    return this.signupForm.get('nameControl');
-  }
-
-  get emailControl() {
-    return this.signupForm.get('emailControl');
-  }
-
-  get passwordControl() {
-    return this.signupForm.get('passwordControl');
-  }
-
-  get passwordConfirmationControl() {
-    return this.signupForm.get('passwordConfirmationControl');
-  }
-
-  getEmailErrorMessage() {
-    return this.emailControl.errors.required
-      ? 'You must enter an email'
-      : this.emailControl.errors.email
-      ? 'Not a valid email'
-      : '';
-  }
-
   get disabled() {
-    return this.signupForm.invalid ? true : false;
+    return !(
+      this.emailValid &&
+      this.passwordValid &&
+      this.passwordConfirmValid &&
+      this.nameValid
+    );
   }
 }

@@ -1,0 +1,34 @@
+<div class="validation-input-container">
+  <mat-form-field
+    [appearance]="appearance"
+    [class.legacy]="appearance === 'legacy'"
+    [class.outline]="appearance === 'outline'"
+  >
+    <mat-label>{{ label }}</mat-label>
+    <input
+      matInput
+      [matTooltip]="tooltipMessage"
+      [matTooltipPosition]="tooltipPosition"
+      [matTooltipDisabled]="displayTooltip"
+      [placeholder]="placeholder"
+      [formControl]="control"
+      [required]="required"
+      [type]="hide ? 'password' : 'text'"
+      [value]="initialValue"
+      (input)="handleInput($event)"
+    />
+    <button
+      mat-icon-button
+      matSuffix
+      *ngIf="type === 'password' || type === 'password-confirm'"
+      (click)="hide = !hide"
+      [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hide"
+    >
+      <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+    </button>
+    <mat-error *ngIf="control.invalid">
+      {{ getErrorMessage() }}
+    </mat-error>
+  </mat-form-field>
+</div>

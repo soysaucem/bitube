@@ -9,7 +9,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./forgot-password.component.scss'],
 })
 export class ForgotPasswordComponent implements OnInit {
-  emailControl = new FormControl('', [Validators.required, Validators.email]);
   email: string;
 
   constructor(
@@ -19,16 +18,8 @@ export class ForgotPasswordComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  getErrorMessage() {
-    return this.emailControl.hasError('required')
-      ? 'You must enter an email'
-      : this.emailControl.hasError('email')
-      ? 'Not a valid email'
-      : '';
-  }
-
   handleEmail(event: any) {
-    this.email = event.target.value;
+    this.email = event;
   }
 
   async reset() {

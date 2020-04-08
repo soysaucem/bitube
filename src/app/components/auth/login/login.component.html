@@ -2,42 +2,22 @@
   <div class="login-form-column">
     <h2 class="title">Login</h2>
 
-    <mat-form-field appearance="legacy">
-      <mat-label>Enter your email</mat-label>
-      <input
-        matInput
-        placeholder="pat@example.com"
-        [formControl]="emailControl"
-        required
-        (input)="handleEmail($event)"
-      />
-      <mat-error *ngIf="emailControl.invalid">{{
-        getErrorMessage()
-      }}</mat-error>
-    </mat-form-field>
+    <app-validation-input
+      [label]="'Enter your email'"
+      [placeholder]="'pat@example.com'"
+      [type]="'email'"
+      [appearance]="'legacy'"
+      (value)="handleEmail($event)"
+    ></app-validation-input>
 
-    <mat-form-field appearance="legacy">
-      <mat-label>Enter your password</mat-label>
-      <input
-        matInput
-        required
-        [formControl]="passwordControl"
-        [type]="hide ? 'password' : 'text'"
-        (input)="handlePassword($event)"
-      />
-      <button
-        mat-icon-button
-        matSuffix
-        (click)="hide = !hide"
-        [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="hide"
-      >
-        <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-      </button>
-      <mat-error *ngIf="passwordControl.invalid">
-        You must enter a password
-      </mat-error>
-    </mat-form-field>
+    <app-validation-input
+      [label]="'Enter your password'"
+      [type]="'password'"
+      [appearance]="'legacy'"
+      [errorMessage]="'You must enter a password'"
+      [hide]="'true'"
+      (value)="handlePassword($event)"
+    ></app-validation-input>
 
     <a class="forgot-password" routerLink="/forgot-password"
       >Forgot password?</a

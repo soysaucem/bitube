@@ -12,13 +12,14 @@ $sidenav-top-bot-padding: 10px;
     .logo {
       @include row-center;
       @include none-highlight;
-      width: calc(100% - 26px);
-      height: calc(#{$navbar-height} - 20px);
+      width: 100%;
+      height: 80px;
       padding: $sidenav-top-bot-padding 13px;
       cursor: pointer;
       font-family: 'Baloo Da 2', cursive;
-      font-size: 30px;
+      font-size: 35px;
       line-height: 38px;
+      font-weight: 600;
       color: $pure-blue;
       outline: none;
     }
@@ -26,13 +27,13 @@ $sidenav-top-bot-padding: 10px;
     mat-nav-list {
       .list-button {
         @include small-desktop-size;
-        margin-right: 20px;
+        @include full-width-height;
         border-color: rgba(255, 255, 255, 0.12);
         color: $light-grey;
-        padding: 5px 0;
 
         .mat-list-item-content {
           @include column-center;
+          padding: 10px 16px;
         }
 
         &:hover {

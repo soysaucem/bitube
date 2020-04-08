@@ -12,34 +12,8 @@
   .video-wrapper {
     display: grid;
     max-width: 1280px;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    grid-gap: 50px;
-    list-style: none;
-
-    .video-item {
-      outline: none;
-      width: 100%;
-      cursor: pointer;
-
-      img {
-        width: 100%;
-      }
-
-      .video-info {
-        @include column-left;
-
-        .video-title {
-          @include large-desktop-size;
-          @include truncate-text;
-          max-width: 100%;
-          font-weight: 500;
-        }
-
-        .video-views,
-        .video-owner {
-          @include small-desktop-size;
-        }
-      }
-    }
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    column-gap: 15px;
+    row-gap: 30px;
   }
 }

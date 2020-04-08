@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
@@ -10,11 +9,6 @@ import { AuthService } from '../../../services/auth.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  emailControl = new FormControl('', [Validators.required, Validators.email]);
-  passwordControl = new FormControl('', [Validators.required]);
-
-  hide = true;
-
   email: string;
   password: string;
 
@@ -26,20 +20,12 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {}
 
-  getErrorMessage() {
-    return this.emailControl.hasError('required')
-      ? 'You must enter an email'
-      : this.emailControl.hasError('email')
-      ? 'Not a valid email'
-      : '';
+  handleEmail(event: string) {
+    this.email = event;
   }
 
-  handleEmail(event: any) {
-    this.email = event.target.value;
-  }
-
-  handlePassword(event: any) {
-    this.password = event.target.value;
+  handlePassword(event: string) {
+    this.password = event;
   }
 
   async login() {

@@ -1,6 +1,8 @@
 @import 'base.scss';
 
 .circle {
+  margin-right: 5px;
+
   img {
     @include full-width-height;
     border-radius: 50%;

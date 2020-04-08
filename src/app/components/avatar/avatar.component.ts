@@ -12,8 +12,4 @@ export class AvatarComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
-
-  get style() {
-    return `width: ${this.size}; height: ${this.size};`;
-  }
 }

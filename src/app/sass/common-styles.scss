@@ -93,19 +93,14 @@
     text-align: center;
   }
 
-  mat-form-field {
+  app-validation-input {
     width: 100%;
-    padding: 5px;
-
-    input {
-      @include regular-desktop-size;
-    }
   }
 
   .button-wrapper {
     @include row-spread;
     width: 100%;
-    padding-bottom: 20px;
+    padding: 20px 0;
 
     button {
       width: 40%;
@@ -146,9 +141,13 @@
 .divider {
   width: 100%;
   margin: 10px 0;
-  border-top-width: 1px;
-  border-top-style: solid;
-  border-top-color: rgba(0, 0, 0, 0.12);
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.vertical-divider {
+  // should define height for divider before using
+  margin: 10px;
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .tooltip-without-truncated {

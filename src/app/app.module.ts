@@ -15,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 // Angular Material Modules
+import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -39,7 +40,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // Components
 import { AuthGuard } from './guards/auth.guard';
-import { MainpageComponent } from './components/mainpage/mainpage.component';
+import { MainPageComponent } from './components/mainpage/mainpage.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { CurrentUserComponent } from './components/current-user/current-user.component';
 import { UploadComponent } from './components/upload/upload.component';
@@ -59,11 +60,19 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { MyVideosComponent } from './components/my-videos/my-videos.component';
 import { AuthWrapperComponent } from './components/auth/auth-wrapper/auth-wrapper.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { FollowingVideosComponent } from './components/following-videos/following-videos.component';
+import { FollowingChannelsComponent } from './components/following-channels/following-channels.component';
+import { ValidationInputComponent } from './components/validation-input/validation-input.component';
+import { VideoItemComponent } from './components/video-item/video-item.component';
+import { HistoryComponent } from './components/history/history.component';
+import { NotificationComponent } from './components/notification/notification.component';
+import { DataListComponent } from './components/data-list/data-list.component';
+import { MainPageVideosComponent } from './components/mainpage-videos/mainpage-videos.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainpageComponent,
+    MainPageComponent,
     LoginComponent,
     SignupComponent,
     NavbarComponent,
@@ -82,6 +91,14 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
     MyVideosComponent,
     AuthWrapperComponent,
     SidenavComponent,
+    FollowingVideosComponent,
+    FollowingChannelsComponent,
+    ValidationInputComponent,
+    VideoItemComponent,
+    HistoryComponent,
+    NotificationComponent,
+    DataListComponent,
+    MainPageVideosComponent,
   ],
   imports: [
     BrowserModule,
@@ -117,6 +134,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
     MatListModule,
     MatBadgeModule,
     MatProgressSpinnerModule,
+    NgbProgressbarModule,
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],

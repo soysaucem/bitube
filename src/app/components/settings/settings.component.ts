@@ -1,14 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { User } from '../../services/user/state/user.model';
-import { UserService } from '../../services/user/state/user.service';
-import { UserQuery } from '../../services/user/state/user.query';
 import { UploadController } from '../../controller/upload/upload.controller';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { User } from '../../services/user/state/user.model';
+import { UserQuery } from '../../services/user/state/user.query';
+import { UserService } from '../../services/user/state/user.service';
 import {
   generateImageUrlFromFile,
   generateImageUrlFromPath,
 } from '../../util/generate-image-url';
-import { checkPassword } from '../../util/password-validation';
 
 @Component({
   selector: 'app-settings',
@@ -18,38 +16,56 @@ import { checkPassword } from '../../util/password-validation';
 })
 export class SettingsComponent implements OnInit {
   me: User;
-  message = 'Email cannot be changed since it is your primary login method';
+  message = 'Email cannot be changed since it is your primary login method.';
   myAvatar: string;
-  passwordForm: FormGroup;
+
+  newPassword: string;
+
+  private currentPassword: string;
+  private currentPasswordValid = false;
+  private newPasswordValid = false;
+  private passwordConfirmValid = false;
 
   private controller = new UploadController();
 
-  constructor(
-    private userQuery: UserQuery,
-    private userService: UserService,
-    private formBuilder: FormBuilder
-  ) {}
+  constructor(private userQuery: UserQuery, private userService: UserService) {}
 
   async ngOnInit(): Promise<void> {
     this.me = await this.userQuery.getMyAccount();
     this.myAvatar = this.me.avatar;
-    this.passwordForm = this.formBuilder.group(
-      {
-        currentPasswordControl: ['', [Validators.required]],
-        passwordControl: ['', [Validators.required]],
-        passwordConfirmationControl: ['', [Validators.required]],
-      },
-      { validator: checkPassword }
-    );
   }
 
   get disabled() {
-    return true;
+    return !(
+      this.currentPasswordValid &&
+      this.newPasswordValid &&
+      this.passwordConfirmValid
+    );
   }
 
-  updateName(event: any) {
+  handleCurrentPassword(event: string) {
+    this.currentPassword = event;
+  }
+
+  handleNewPassword(event: string) {
+    this.newPassword = event;
+  }
+
+  handleCurrentPasswordValid(event: boolean) {
+    this.currentPasswordValid = event;
+  }
+
+  handleNewPasswordValid(event: boolean) {
+    this.newPasswordValid = event;
+  }
+
+  handlePasswordConfirmValid(event: boolean) {
+    this.passwordConfirmValid = event;
+  }
+
+  updateName(event: string) {
     try {
-      this.userService.updateUser(this.me.id, { name: event.target.value });
+      this.userService.updateUser(this.me.id, { name: event });
     } catch (err) {
       console.error('Failed to change name');
       console.error(err);
@@ -74,17 +90,5 @@ export class SettingsComponent implements OnInit {
       console.error('Failed to change profile image');
       console.error(err);
     }
-  }
-
-  get currentPasswordControl() {
-    return this.passwordForm.get('currentPasswordControl');
-  }
-
-  get passwordControl() {
-    return this.passwordForm.get('passwordControl');
-  }
-
-  get passwordConfirmationControl() {
-    return this.passwordForm.get('passwordConfirmationControl');
   }
 }

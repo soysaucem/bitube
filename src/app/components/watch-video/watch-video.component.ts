@@ -36,6 +36,8 @@ export class WatchVideoComponent extends ComponentWithSubscription
   facebookUrl: string;
   twitterUrl: string;
 
+  private updated = false;
+
   constructor(
     private route: ActivatedRoute,
     private videoService: VideoService,
@@ -49,12 +51,14 @@ export class WatchVideoComponent extends ComponentWithSubscription
   }
 
   ngOnInit(): void {
-    console.log(generateImageUrlFromPath('assets/account.png'));
     this.setupVideoSubscriber();
     this.facebookUrl = `https://www.facebook.com/sharer/sharer.php?display=page&u=${document.location.href}&src=sdkpreparse`;
     this.twitterUrl = `https://twitter.com/intent/tweet?url=${document.location.href}`;
   }
 
+  /**
+   * Setup video stream
+   */
   setupVideoSubscriber(): void {
     this.autoUnsubscribe(
       this.route.params.pipe(
@@ -62,18 +66,26 @@ export class WatchVideoComponent extends ComponentWithSubscription
       )
     ).subscribe(async (video: VideoJSON) => {
       try {
-        const fromJSVideo = fromJS(video);
-
-        this.video = fromJSVideo;
+        this.video = fromJS(video);
         this.videoStore.setActive(this.video.id);
 
+        // Generate cloudfront link
         this.link = await generateVideoUrl(this.video.id);
 
+        // Set video display information
         this.owner = await this.userQuery.getUser(this.video.ownerId);
         this.me = await this.userQuery.getMyAccount();
         this.likeRatio =
           this.video.likes.size /
           (this.video.likes.size + this.video.dislikes.size);
+
+        // Update view count for video
+        if (!this.updated) {
+          this.videoService.updateVideo(this.video.id, {
+            views: this.video.views + 1,
+          });
+          this.updated = true;
+        }
       } catch (err) {
         console.error('Failed to retrieve video');
         console.error(err);
@@ -81,6 +93,9 @@ export class WatchVideoComponent extends ComponentWithSubscription
     });
   }
 
+  /**
+   * Copy video link to clipboard
+   */
   copy() {
     const el = document.createElement('textarea');
     el.value = document.location.href;
@@ -98,6 +113,10 @@ export class WatchVideoComponent extends ComponentWithSubscription
     });
   }
 
+  /**
+   * Update likes/dislikes for video on user action
+   * @param type type of action (like/dislike)
+   */
   async updateOpinion(type: Opinion): Promise<void> {
     if (!this.me) {
       return;
@@ -109,7 +128,7 @@ export class WatchVideoComponent extends ComponentWithSubscription
 
       // Remove dislike on like
       if (dislikes.includes(this.me.id)) {
-        dislikes = dislikes.filter(dislike => dislike !== this.me.id);
+        dislikes = dislikes.filter((dislike) => dislike !== this.me.id);
       }
 
       await this.videoService.updateVideo(this.video.id, {
@@ -122,7 +141,7 @@ export class WatchVideoComponent extends ComponentWithSubscription
 
       // Remove like on dislike
       if (likes.includes(this.me.id)) {
-        likes = likes.filter(like => like !== this.me.id);
+        likes = likes.filter((like) => like !== this.me.id);
       }
 
       await this.videoService.updateVideo(this.video.id, {
@@ -151,6 +170,9 @@ export class WatchVideoComponent extends ComponentWithSubscription
     return date.format('DD MMM YYYY');
   }
 
+  /**
+   * Generate download link and invoke it to download
+   */
   async download(): Promise<void> {
     if (!(await this.auth.isAuthenticated())) {
       this.router.navigate(['login']);

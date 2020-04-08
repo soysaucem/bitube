@@ -10,7 +10,7 @@ import { VideoQuery } from '../../services/video/state/video.query';
   templateUrl: './mainpage.component.html',
   styleUrls: ['./mainpage.component.scss'],
 })
-export class MainpageComponent implements OnInit {
+export class MainPageComponent implements OnInit {
   videos$: Observable<List<Video>>;
 
   constructor(readonly auth: AuthService, private videoQuery: VideoQuery) {}

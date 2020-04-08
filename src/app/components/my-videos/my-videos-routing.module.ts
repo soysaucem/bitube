@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { VideoGridComponent } from './video-grid.component';
+import { LoginGuard } from '../../guards/login.guard';
+import { MyVideosComponent } from './my-videos.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: VideoGridComponent,
+    component: MyVideosComponent,
+    canActivate: [LoginGuard],
   },
 ];
 
@@ -13,4 +15,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class VideoGridRoutingModule {}
+export class MyVideosRoutingModule {}

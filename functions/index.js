@@ -34,7 +34,7 @@ exports.getVideo = functions.https.onRequest((req, res) => {
       JSON.stringify(
         cf.getSignedUrl({
           url: `${VIDEO_BUCKET_URL}/${req.body.videoId}`,
-          expires: Math.floor(new Date().getTime() / 1000) + 60 * 60 * 1,
+          expires: Math.floor(new Date().getTime() / 1000) + 60 * 60 * 1, // expire after 1 hour
         })
       )
     );

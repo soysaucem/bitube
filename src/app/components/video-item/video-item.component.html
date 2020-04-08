@@ -1,0 +1,21 @@
+<div class="video-item-container">
+  <ng-container [ngSwitch]="type">
+    <ng-container *ngSwitchCase="'card'">
+      <mat-card class="video-item-card" routerLink="/watch/{{ video.id }}">
+        <img src="{{ video.thumbnail }}" />
+        <div class="video-info">
+          <span
+            class="video-title"
+            matTooltip="{{ video.title }}"
+            matTooltipClass="tooltip-without-truncated"
+            >{{ video.title }}</span
+          >
+          <span class="video-views">{{ video.views }} views</span>
+          <span class="video-owner">By {{ video.ownerName }}</span>
+        </div>
+      </mat-card>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'list'"> </ng-container>
+  </ng-container>
+</div>

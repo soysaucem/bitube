@@ -19,7 +19,7 @@ export class CommentComponent extends ComponentWithSubscription
   implements OnInit {
   @ViewChild('commentInput') commentInput: ElementRef;
 
-  content = '';
+  private content = '';
   comments: List<Comment>;
 
   constructor(
@@ -33,7 +33,7 @@ export class CommentComponent extends ComponentWithSubscription
 
   ngOnInit(): void {
     this.autoUnsubscribe(this.commentQuery.selectComments()).subscribe(
-      data => (this.comments = data)
+      (data) => (this.comments = data)
     );
   }
 

@@ -1,0 +1,26 @@
+@import 'base.scss';
+
+.validation-input-container {
+  width: 100%;
+
+  .legacy {
+    width: 100%;
+
+    input {
+      @include regular-desktop-size;
+    }
+  }
+
+  .outline {
+    width: 300px;
+
+    .mat-form-field-wrapper {
+      .mat-form-field-flex {
+        .mat-form-field-infix {
+          padding: 10px 0;
+          border-top: 7px solid transparent;
+        }
+      }
+    }
+  }
+}

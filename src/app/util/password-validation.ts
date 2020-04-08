@@ -1,10 +1,7 @@
-import { FormGroup } from '@angular/forms';
+import { ValidatorFn, AbstractControl } from '@angular/forms';
 
-export function checkPassword(group: FormGroup) {
-  return group.controls.passwordControl.value ===
-    group.controls.passwordConfirmationControl.value
-    ? group.controls.passwordConfirmationControl.setErrors(null)
-    : group.controls.passwordConfirmationControl.setErrors({
-        notMatch: true,
-      });
+export function checkPassword(password: string): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    return control.value === password ? null : { notMatch: true };
+  };
 }

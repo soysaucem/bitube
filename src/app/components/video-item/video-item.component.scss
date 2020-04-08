@@ -1,0 +1,34 @@
+@import 'base.scss';
+
+.video-item-container {
+  width: 100%;
+
+  .video-item-card {
+    outline: none;
+    width: 100%;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 0;
+
+    img {
+      width: 100%;
+    }
+
+    .video-info {
+      @include column-left;
+      padding: 5px 10px;
+
+      .video-title {
+        @include large-desktop-size;
+        @include truncate-text;
+        max-width: 100%;
+        font-weight: 500;
+      }
+
+      .video-views,
+      .video-owner {
+        @include small-desktop-size;
+      }
+    }
+  }
+}

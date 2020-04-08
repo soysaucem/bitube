@@ -62,6 +62,22 @@ $section-margin-top: 20px;
         .personal-settings-title {
           @include title;
         }
+
+        .email-settings {
+          @include row-left;
+
+          .message {
+            @include row-left;
+            @include regular-desktop-size;
+            line-height: 45px;
+            padding-bottom: 21.5px;
+
+            .vertical-divider {
+              height: 45px;
+              border-left: 3px solid #dd3434;
+            }
+          }
+        }
       }
 
       .password-settings {
@@ -74,6 +90,10 @@ $section-margin-top: 20px;
 
         mat-form-field {
           @include customized-input;
+        }
+
+        .save-changes {
+          margin-bottom: 20px;
         }
       }
     }

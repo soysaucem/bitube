@@ -1,14 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MainpageComponent } from './components/mainpage/mainpage.component';
+import { MainPageComponent } from './components/mainpage/mainpage.component';
 import { UploadRoutingModule } from './components/upload/upload-routing.module';
-import { VideoGridRoutingModule } from './components/video-grid/video-grid-routing.module';
+import { MainPageVideosRoutingModule } from './components/mainpage-videos/mainpage-videos-routing.module';
 import { AuthGuard } from './guards/auth.guard';
 import { WatchVideoComponent } from './components/watch-video/watch-video.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
 import { SettingsRoutingModule } from './components/settings/settings-routing.module';
+import { HistoryRoutingModule } from './components/history/history-routing.module';
+import { FollowingVideosRoutingModule } from './components/following-videos/following-videos-routing.module';
+import { FollowingChannelsRoutingModule } from './components/following-channels/following-channels-routing.module';
+import { MyVideosRoutingModule } from './components/my-videos/my-videos-routing.module';
 
 const routes: Routes = [
   {
@@ -28,14 +32,21 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: MainpageComponent,
+    component: MainPageComponent,
     children: [
       {
         path: 'upload',
         loadChildren: () => UploadRoutingModule,
       },
-      { path: '', loadChildren: () => VideoGridRoutingModule },
+      { path: '', loadChildren: () => MainPageVideosRoutingModule },
       { path: 'settings', loadChildren: () => SettingsRoutingModule },
+      { path: 'history', loadChildren: () => HistoryRoutingModule },
+      { path: 'followings', loadChildren: () => FollowingVideosRoutingModule },
+      {
+        path: 'following-channels',
+        loadChildren: () => FollowingChannelsRoutingModule,
+      },
+      { path: 'my-videos', loadChildren: () => MyVideosRoutingModule },
       { path: 'watch/:id', component: WatchVideoComponent },
     ],
   },
