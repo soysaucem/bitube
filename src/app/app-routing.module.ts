@@ -13,6 +13,7 @@ import { HistoryRoutingModule } from './components/history/history-routing.modul
 import { FollowingVideosRoutingModule } from './components/following-videos/following-videos-routing.module';
 import { FollowingChannelsRoutingModule } from './components/following-channels/following-channels-routing.module';
 import { MyVideosRoutingModule } from './components/my-videos/my-videos-routing.module';
+import { TrendingPageRoutingModule } from './components/trending-page/trending-page-routing.module';
 
 const routes: Routes = [
   {
@@ -42,6 +43,7 @@ const routes: Routes = [
       { path: 'settings', loadChildren: () => SettingsRoutingModule },
       { path: 'history', loadChildren: () => HistoryRoutingModule },
       { path: 'followings', loadChildren: () => FollowingVideosRoutingModule },
+      { path: 'trending', loadChildren: () => TrendingPageRoutingModule },
       {
         path: 'following-channels',
         loadChildren: () => FollowingChannelsRoutingModule,
