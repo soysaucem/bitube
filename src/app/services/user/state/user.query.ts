@@ -20,8 +20,12 @@ export class UserQuery extends QueryEntity<UserState> {
     super(store);
   }
 
+  getMyFirebaseAccount(): firebase.User {
+    return this.firebaseAuth.auth.currentUser;
+  }
+
   async getMyAccount(): Promise<User> {
-    const googleAuthAccount = this.firebaseAuth.auth.currentUser;
+    const googleAuthAccount = this.getMyFirebaseAccount();
     return googleAuthAccount ? this.getUser(googleAuthAccount.uid) : null;
   }
 
@@ -40,6 +44,6 @@ export class UserQuery extends QueryEntity<UserState> {
 
     return this.userService
       .syncDoc({ id: googleAuthAccount.uid })
-      .pipe(map(me => fromJS(me as UserJSON)));
+      .pipe(map((me) => fromJS(me as UserJSON)));
   }
 }
