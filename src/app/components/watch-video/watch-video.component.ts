@@ -174,9 +174,9 @@ export class WatchVideoComponent extends ComponentWithSubscription
     let tagString = '';
     this.video.tags.forEach((tag, index) => {
       if (index === this.video.tags.size - 1) {
-        tagString += `${tag}.`;
+        tagString += `#${tag}.`;
       } else {
-        tagString += `${tag}, `;
+        tagString += `#${tag}, `;
       }
     });
     return tagString;
