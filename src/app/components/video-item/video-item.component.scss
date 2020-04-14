@@ -3,7 +3,7 @@
 .video-item-container {
   width: 100%;
 
-  .video-item-card {
+  .video-card-item {
     outline: none;
     width: 100%;
     cursor: pointer;
@@ -14,20 +14,30 @@
       width: 100%;
     }
 
-    .video-info {
-      @include column-left;
-      padding: 5px 10px;
+    .video-item-footer {
+      @include row-spread;
 
-      .video-title {
-        @include large-desktop-size;
-        @include truncate-text;
-        max-width: 100%;
-        font-weight: 500;
+      .video-info {
+        @include column-left;
+        padding: 5px 10px;
+
+        .video-title {
+          @include large-desktop-size;
+          @include truncate-text;
+          max-width: 100%;
+          font-weight: 500;
+          margin-bottom: 5px;
+        }
+
+        .video-views,
+        .video-owner {
+          @include small-desktop-size;
+        }
       }
 
-      .video-views,
-      .video-owner {
-        @include small-desktop-size;
+      .video-settings {
+        padding: 0 5px;
+        position: relative;
       }
     }
   }

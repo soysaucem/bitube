@@ -12,3 +12,14 @@
   background: $pure-blue;
   color: $clean-white;
 }
+
+.icon-button {
+  @include none-highlight();
+  color: $light-grey;
+  outline: none;
+
+  &:hover {
+    color: $pure-blue;
+    background-color: $background-hover;
+  }
+}

@@ -1,8 +1,7 @@
 @import 'base.scss';
 
 .video-grid-container {
-  width: 70%;
-  margin: $front-main-margin 0 $front-main-margin $side-main-margin;
+  width: 100%;
 
   .video-grid-title {
     @include x-large-desktop-size;

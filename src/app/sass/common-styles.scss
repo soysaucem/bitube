@@ -1,3 +1,7 @@
+@import 'font-size.scss';
+@import 'variables.scss';
+@import 'colors.scss';
+
 @mixin column-center {
   display: flex;
   flex-direction: column;
@@ -131,6 +135,40 @@
   box-shadow: $menu-box-shadow;
   z-index: 1;
   padding: 8px 0;
+}
+
+@mixin popover-item-common {
+  @include regular-desktop-size;
+  @include row-left;
+  width: 100%;
+  background: transparent;
+  font-weight: 400;
+  cursor: pointer;
+  padding: 0 $menu-side-padding;
+  height: 48px;
+
+  mat-icon {
+    margin-right: 5px;
+  }
+}
+
+.popover-item {
+  @include popover-item-common;
+  color: $light-grey;
+
+  &:hover {
+    background: $menu-item-hover;
+    color: $pure-blue;
+  }
+}
+
+.popover-item-warning {
+  @include popover-item-common;
+  color: $warning;
+
+  &:hover {
+    background: $menu-item-hover;
+  }
 }
 
 @mixin hover {

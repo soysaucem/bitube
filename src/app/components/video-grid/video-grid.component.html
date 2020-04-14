@@ -2,7 +2,7 @@
   <h2 class="video-grid-title">{{ title }}</h2>
   <div class="video-wrapper">
     <ng-container *ngFor="let video of videos">
-      <app-video-item [type]="'card'" [video]="video"></app-video-item>
+      <app-video-item [type]="type" [video]="video"></app-video-item>
     </ng-container>
   </div>
 </div>

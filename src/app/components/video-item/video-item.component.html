@@ -1,21 +1,43 @@
 <div class="video-item-container">
-  <ng-container [ngSwitch]="type">
-    <ng-container *ngSwitchCase="'card'">
-      <mat-card class="video-item-card" routerLink="/watch/{{ video.id }}">
-        <img src="{{ video.thumbnail }}" />
-        <div class="video-info">
-          <span
-            class="video-title"
-            matTooltip="{{ video.title }}"
-            matTooltipClass="tooltip-without-truncated"
-            >{{ video.title }}</span
-          >
-          <span class="video-views">{{ video.views }} views</span>
-          <span class="video-owner">By {{ video.ownerName }}</span>
-        </div>
-      </mat-card>
-    </ng-container>
+  <mat-card class="video-card-item" routerLink="/watch/{{ video.id }}">
+    <img src="{{ video.thumbnail }}" />
 
-    <ng-container *ngSwitchCase="'list'"> </ng-container>
-  </ng-container>
+    <div class="video-item-footer">
+      <div class="video-info">
+        <span
+          class="video-title"
+          matTooltip="{{ video.title }}"
+          matTooltipClass="tooltip-without-truncated"
+          >{{ video.title }}</span
+        >
+        <span class="video-owner" *ngIf="type === 'card'"
+          >By {{ video.ownerName }}
+        </span>
+        <span class="video-views"
+          >{{ video.views }} views • {{ createdDuration }}</span
+        >
+      </div>
+      <div class="video-settings" *ngIf="type === 'card-settings'">
+        <button
+          mat-icon-button
+          class="icon-button"
+          matTooltip="Actions"
+          (click)="toggleMenu($event)"
+        >
+          <mat-icon fontSet="material-icons-outlined">more_vert</mat-icon>
+        </button>
+
+        <app-menu-wrapper [hidden]="hidden">
+          <span class="popover-item">
+            <mat-icon fontSet="material-icons-outlined">create</mat-icon>
+            Edit
+          </span>
+          <span class="popover-item-warning">
+            <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
+            Remove
+          </span>
+        </app-menu-wrapper>
+      </div>
+    </div>
+  </mat-card>
 </div>
