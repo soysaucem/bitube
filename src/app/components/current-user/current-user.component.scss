@@ -29,27 +29,6 @@
     @include popover-menu;
     display: none;
     width: 100%;
-
-    .dropdown-item {
-      @include regular-desktop-size;
-      @include row-left;
-      width: 100%;
-      background: transparent;
-      color: $light-grey;
-      font-weight: 400;
-      cursor: pointer;
-      padding: 0 $menu-side-padding;
-      height: 48px;
-
-      mat-icon {
-        margin-right: 5px;
-      }
-
-      &:hover {
-        background: $menu-item-hover;
-        color: $pure-blue;
-      }
-    }
   }
 
   &:hover {
