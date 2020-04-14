@@ -64,9 +64,9 @@ export class UploadComponent extends ComponentWithSubscription
   }
 
   @HostListener('window:beforeunload', ['$event'])
-  unloadNotification($event: any): void {
+  unloadNotification(event: any): void {
     if (this.hasUploadingJob()) {
-      $event.returnValue = true;
+      event.returnValue = true;
     }
   }
 }

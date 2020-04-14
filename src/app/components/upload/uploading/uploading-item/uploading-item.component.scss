@@ -43,6 +43,10 @@
         .option-button {
           @include none-highlight;
           padding: 0 5px;
+
+          &:hover {
+            color: $pure-blue;
+          }
         }
       }
     }
