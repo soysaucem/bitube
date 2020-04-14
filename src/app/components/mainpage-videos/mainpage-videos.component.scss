@@ -1,0 +1,13 @@
+@import 'base.scss';
+
+.mainpage-container {
+  @include full-width-height;
+
+  app-video-grid {
+    width: 70%;
+
+    .video-grid-container {
+      margin: $front-main-margin $side-main-margin;
+    }
+  }
+}

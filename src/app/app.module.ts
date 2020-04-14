@@ -70,6 +70,7 @@ import { NotificationComponent } from './components/notification/notification.co
 import { DataListComponent } from './components/data-list/data-list.component';
 import { MainPageVideosComponent } from './components/mainpage-videos/mainpage-videos.component';
 import { TrendingPageComponent } from './components/trending-page/trending-page.component';
+import { MenuWrapperComponent } from './components/menu-wrapper/menu-wrapper.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +103,7 @@ import { TrendingPageComponent } from './components/trending-page/trending-page.
     DataListComponent,
     MainPageVideosComponent,
     TrendingPageComponent,
+    MenuWrapperComponent,
   ],
   imports: [
     BrowserModule,
