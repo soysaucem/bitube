@@ -26,7 +26,7 @@ $section-margin-top: 20px;
 
   .settings-wrapper {
     @include row-left;
-    width: 70%;
+    width: $main-content-width;
     margin: $front-main-margin auto;
 
     .avatar-column {

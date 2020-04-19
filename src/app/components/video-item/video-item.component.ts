@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { Video } from '../../services/video/state/video.model';
 import * as moment from 'moment';
+import { User } from '../../services/user/state/user.model';
 
 export type ItemType = 'card' | 'card-settings';
 
@@ -10,6 +11,7 @@ export type ItemType = 'card' | 'card-settings';
   styleUrls: ['./video-item.component.scss'],
 })
 export class VideoItemComponent implements OnInit {
+  @Input() me: User;
   @Input() video: Video;
   @Input() type: ItemType;
 
@@ -27,5 +29,9 @@ export class VideoItemComponent implements OnInit {
 
   get createdDuration(): string {
     return moment(this.video.createdAt).fromNow();
+  }
+
+  get showSettings(): boolean {
+    return this.type === 'card-settings' && this.video.ownerId === this.me.id;
   }
 }

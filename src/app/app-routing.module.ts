@@ -12,8 +12,8 @@ import { SettingsRoutingModule } from './components/settings/settings-routing.mo
 import { HistoryRoutingModule } from './components/history/history-routing.module';
 import { FollowingVideosRoutingModule } from './components/following-videos/following-videos-routing.module';
 import { FollowingChannelsRoutingModule } from './components/following-channels/following-channels-routing.module';
-import { MyVideosRoutingModule } from './components/my-videos/my-videos-routing.module';
 import { TrendingPageRoutingModule } from './components/trending-page/trending-page-routing.module';
+import { ChannelComponent } from './components/channel/channel.component';
 
 const routes: Routes = [
   {
@@ -48,8 +48,8 @@ const routes: Routes = [
         path: 'following-channels',
         loadChildren: () => FollowingChannelsRoutingModule,
       },
-      { path: 'my-videos', loadChildren: () => MyVideosRoutingModule },
       { path: 'watch/:id', component: WatchVideoComponent },
+      { path: 'channel/:id', component: ChannelComponent },
     ],
   },
 ];

@@ -1,0 +1,46 @@
+<div
+  class="channel-sidenav-container"
+  *ngIf="user && me"
+  [@openClose]="visible ? 'open' : 'close'"
+>
+  <ng-container *ngIf="visible">
+    <div class="channel-info">
+      <app-avatar [avatarBase64]="user.avatar" [size]="48"></app-avatar>
+      <div class="channel-info-text">
+        <div class="channel-name">{{ user.name }}</div>
+        <div class="channel-followers">{{ user.followers.size }} followers</div>
+      </div>
+    </div>
+
+    <div class="channel-nav">
+      <span
+        class="side-menu-item"
+        [class.menu-item-active]="active === 'videos'"
+      >
+        <mat-icon fontSet="material-icons-outlined">video_library</mat-icon>
+        Videos
+      </span>
+      <span
+        class="side-menu-item"
+        [class.menu-item-active]="active === 'channels'"
+      >
+        <mat-icon fontSet="material-icons-outlined">group</mat-icon>
+        Channels
+      </span>
+    </div>
+
+    <button
+      mat-button
+      class="follow-button accent-button"
+      *ngIf="me.id !== user.id"
+    >
+      <mat-icon fontSet="material-icons-outlined">add</mat-icon>
+      Follow this channel
+    </button>
+  </ng-container>
+
+  <div class="toggle-button show-on-top" (click)="toggleChannelSidenav()">
+    <mat-icon *ngIf="!visible">keyboard_arrow_right</mat-icon>
+    <mat-icon *ngIf="visible">keyboard_arrow_left</mat-icon>
+  </div>
+</div>

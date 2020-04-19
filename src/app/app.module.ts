@@ -58,7 +58,6 @@ import { ForgotPasswordComponent } from './components/auth/forgot-password/forgo
 import { CommentItemComponent } from './components/comment/comment-item/comment-item.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { SettingsComponent } from './components/settings/settings.component';
-import { MyVideosComponent } from './components/my-videos/my-videos.component';
 import { AuthWrapperComponent } from './components/auth/auth-wrapper/auth-wrapper.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { FollowingVideosComponent } from './components/following-videos/following-videos.component';
@@ -71,6 +70,9 @@ import { DataListComponent } from './components/data-list/data-list.component';
 import { MainPageVideosComponent } from './components/mainpage-videos/mainpage-videos.component';
 import { TrendingPageComponent } from './components/trending-page/trending-page.component';
 import { MenuWrapperComponent } from './components/menu-wrapper/menu-wrapper.component';
+import { ChannelHeaderComponent } from './components/channel-header/channel-header.component';
+import { ChannelComponent } from './components/channel/channel.component';
+import { ChannelSidenavComponent } from './components/channel-sidenav/channel-sidenav.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +93,6 @@ import { MenuWrapperComponent } from './components/menu-wrapper/menu-wrapper.com
     CommentItemComponent,
     AvatarComponent,
     SettingsComponent,
-    MyVideosComponent,
     AuthWrapperComponent,
     SidenavComponent,
     FollowingVideosComponent,
@@ -104,8 +105,12 @@ import { MenuWrapperComponent } from './components/menu-wrapper/menu-wrapper.com
     MainPageVideosComponent,
     TrendingPageComponent,
     MenuWrapperComponent,
+    ChannelHeaderComponent,
+    ChannelComponent,
+    ChannelSidenavComponent,
   ],
   imports: [
+    environment.production ? [] : AkitaNgDevtools.forRoot(),
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -132,7 +137,6 @@ import { MenuWrapperComponent } from './components/menu-wrapper/menu-wrapper.com
     MatChipsModule,
     MatTooltipModule,
     MatTabsModule,
-    environment.production ? [] : AkitaNgDevtools.forRoot(),
     HttpClientModule,
     LayoutModule,
     MatSidenavModule,

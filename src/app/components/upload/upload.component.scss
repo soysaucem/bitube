@@ -55,6 +55,6 @@
   @include column-top;
 
   .display {
-    width: 70%;
+    width: $main-content-width;
   }
 }

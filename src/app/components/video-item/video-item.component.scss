@@ -33,6 +33,12 @@
         .video-owner {
           @include small-desktop-size;
         }
+
+        .video-owner {
+          &:hover {
+            color: $pure-blue;
+          }
+        }
       }
 
       .video-settings {

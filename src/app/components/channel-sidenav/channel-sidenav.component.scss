@@ -1,0 +1,61 @@
+@import 'base.scss';
+
+.channel-sidenav-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: $clean-white;
+  box-shadow: $nav-box-shadow;
+  padding: 20px 15px;
+
+  .channel-info {
+    @include row-left;
+
+    .channel-info-text {
+      @include column-left;
+
+      .channel-name {
+        @include large-desktop-size;
+      }
+
+      .channel-followers {
+        @include small-desktop-size;
+      }
+    }
+  }
+
+  .channel-nav {
+    @include column-center;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .follow-button {
+    position: absolute;
+    width: calc(100% - 32px);
+    bottom: 20px;
+    outline: none;
+  }
+
+  .toggle-button {
+    box-shadow: rgba(9, 30, 66, 0.08) 0px 0px 0px 1px,
+      rgba(9, 30, 66, 0.08) 0px 2px 4px 1px;
+    color: rgb(107, 119, 140);
+    cursor: pointer;
+    height: 24px;
+    opacity: 1;
+    position: absolute;
+    top: 32px;
+    right: -23px;
+    transform: translate(-50%);
+    width: 24px;
+    background: 0px center white;
+    border-radius: 50%;
+    outline: 0px;
+
+    &:hover {
+      background-color: $pure-blue;
+      color: $clean-white;
+    }
+  }
+}

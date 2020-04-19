@@ -1,4 +1,4 @@
-<div class="video-item-container">
+<div class="video-item-container" *ngIf="video">
   <mat-card class="video-card-item" routerLink="/watch/{{ video.id }}">
     <img src="{{ video.thumbnail }}" />
 
@@ -10,14 +10,17 @@
           matTooltipClass="tooltip-without-truncated"
           >{{ video.title }}</span
         >
-        <span class="video-owner" *ngIf="type === 'card'"
+        <span
+          class="video-owner"
+          *ngIf="type === 'card'"
+          routerLink="channel/{{ video.ownerId }}"
           >By {{ video.ownerName }}
         </span>
         <span class="video-views"
           >{{ video.views }} views • {{ createdDuration }}</span
         >
       </div>
-      <div class="video-settings" *ngIf="type === 'card-settings'">
+      <div class="video-settings" *ngIf="showSettings">
         <button
           mat-icon-button
           class="icon-button"

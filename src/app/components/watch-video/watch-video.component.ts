@@ -16,7 +16,6 @@ import { VideoService } from '../../services/video/state/video.service';
 import { VideoStore } from '../../services/video/state/video.store';
 import { downloadVideo } from '../../util/download';
 import { generateVideoUrl } from '../../util/video-url-generator';
-import { generateImageUrlFromPath } from '../../util/generate-image-url';
 
 type Opinion = 'like' | 'dislike';
 

@@ -152,6 +152,11 @@
   }
 }
 
+@mixin hover {
+  background: $background-hover;
+  color: $pure-blue;
+}
+
 .popover-item {
   @include popover-item-common;
   color: $light-grey;
@@ -162,6 +167,26 @@
   }
 }
 
+.side-menu-item {
+  @include none-highlight;
+  @include row-left;
+  width: 100%;
+  height: 40px;
+  cursor: pointer;
+  outline: none;
+  padding: 0 12px;
+  color: $light-grey;
+  border-radius: 3px;
+
+  mat-icon {
+    margin-right: 5px;
+  }
+
+  &:hover {
+    @include hover;
+  }
+}
+
 .popover-item-warning {
   @include popover-item-common;
   color: $warning;
@@ -169,11 +194,6 @@
   &:hover {
     background: $menu-item-hover;
   }
-}
-
-@mixin hover {
-  background: $background-hover;
-  color: $pure-blue;
 }
 
 .divider {

@@ -24,7 +24,7 @@
 
         .video-info {
           @include column-left;
-          width: 70%;
+          width: $main-content-width;
 
           .video-title {
             @include xx-large-desktop-size;
@@ -36,6 +36,9 @@
 
           .owner {
             @include small-owner-info;
+            @include none-highlight;
+            outline: none;
+            cursor: pointer;
 
             .owner-info {
               @include column-left;

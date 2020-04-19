@@ -13,7 +13,7 @@
             matTooltipClass="tooltip-without-truncated"
             >{{ video.title }}</span
           >
-          <div class="owner">
+          <div class="owner" routerLink="channel/{{ owner.id }}">
             <app-avatar
               class="owner-avatar"
               [avatarBase64]="owner.avatar"

@@ -1,8 +1,6 @@
 @import 'base.scss';
 
 .video-grid-container {
-  width: 100%;
-
   .video-grid-title {
     @include x-large-desktop-size;
     font-weight: 500;
@@ -10,9 +8,9 @@
 
   .video-wrapper {
     display: grid;
-    max-width: 1280px;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    column-gap: 15px;
+    max-width: $video-grid-max-width;
+    grid-template-columns: repeat(auto-fit, minmax($video-item-min-width, 1fr));
+    column-gap: $video-grid-column-gap;
     row-gap: 40px;
   }
 }

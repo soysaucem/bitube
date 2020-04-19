@@ -1,0 +1,27 @@
+@import 'base.scss';
+
+.channel-container {
+  @include row-left;
+  align-items: flex-start;
+
+  .channel-side {
+    position: fixed;
+    height: 700px;
+    top: calc(#{$navbar-height} + 30px);
+
+    app-channel-sidenav {
+      width: 100%;
+    }
+  }
+
+  .channel-body {
+    width: $main-content-width;
+    margin: $front-main-margin auto;
+
+    app-video-grid {
+      .video-grid-container {
+        @include column-top;
+      }
+    }
+  }
+}

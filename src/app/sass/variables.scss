@@ -9,5 +9,16 @@ $avatar-space: 5px;
 $menu-side-padding: 16px;
 $sidenav-width: 100px;
 $navbar-height: 80px;
+$channel-sidenav-width: 250px;
 $search-form-width: 50%;
 $image-info-spacing: 10px;
+
+$main-content-width: 80%;
+
+$item-numbers-in-video-grid: 4;
+
+$video-grid-max-width: 1280px;
+$video-grid-column-gap: 15px;
+$video-item-min-width: calc(
+  (#{$video-grid-max-width} - (#{$video-grid-column-gap} * 3)) / #{$item-numbers-in-video-grid}
+);

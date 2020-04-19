@@ -1,14 +1,25 @@
+@mixin base-button {
+  @include row-center;
+  border: none;
+  border-radius: 3px;
+  height: 40px;
+  font-weight: 400;
+}
+
 .accent-button {
+  @include base-button;
   background-color: rgba(34, 185, 255, 0.1);
   color: $pure-blue;
 }
 
 .basic-button {
+  @include base-button;
   background: #e1e3ec;
   color: #959cb6;
 }
 
 .primary-button {
+  @include base-button;
   background: $pure-blue;
   color: $clean-white;
 }

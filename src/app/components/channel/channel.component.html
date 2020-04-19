@@ -1,0 +1,20 @@
+<div
+  class="channel-container"
+  *ngIf="{ videos: videos$ | async, user: user } as channel"
+>
+  <div class="channel-side">
+    <app-channel-sidenav
+      [user]="user"
+      [me]="me"
+      (visibleState)="setVisible($event)"
+    ></app-channel-sidenav>
+  </div>
+
+  <div class="channel-body" [@padLeft]="visible ? 'pad' : 'unpad'">
+    <app-video-grid
+      [type]="'card-settings'"
+      [videos$]="videos$"
+      [me]="me"
+    ></app-video-grid>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { VideoQuery } from '../../services/video/state/video.query';
 import { VideoService } from '../../services/video/state/video.service';
 import { tap } from 'rxjs/operators';
@@ -11,7 +11,6 @@ import { Video } from '../../services/video/state/video.model';
   selector: 'app-mainpage-videos',
   templateUrl: './mainpage-videos.component.html',
   styleUrls: ['./mainpage-videos.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class MainPageVideosComponent implements OnInit {
   featuredVideos$: Observable<List<Video>>;

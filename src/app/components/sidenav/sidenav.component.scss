@@ -12,7 +12,7 @@ $sidenav-top-bot-padding: 10px;
     .logo {
       @include row-center;
       @include none-highlight;
-      width: 100%;
+      width: $sidenav-width;
       height: 80px;
       padding: $sidenav-top-bot-padding 13px;
       cursor: pointer;
@@ -48,8 +48,8 @@ $sidenav-top-bot-padding: 10px;
     }
 
     .list-end {
-      width: 100%;
-      position: absolute;
+      width: $sidenav-width;
+      position: fixed;
       bottom: 0;
       padding-bottom: $sidenav-top-bot-padding;
     }
@@ -65,6 +65,7 @@ $sidenav-top-bot-padding: 10px;
 
   .sidenav-content {
     .content-container {
+      @include full-width-height;
       position: relative;
       top: $navbar-height;
     }
