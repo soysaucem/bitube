@@ -2,6 +2,7 @@
 
 .validation-input-container {
   width: 100%;
+  padding-bottom: 10px;
 
   .legacy {
     width: 100%;
@@ -20,6 +21,19 @@
           padding: 10px 0;
           border-top: 7px solid transparent;
         }
+      }
+    }
+  }
+
+  .password-validation-status {
+    @include column-left;
+
+    .condition {
+      @include row-center;
+      font-size: 13px;
+
+      mat-icon {
+        margin-right: 2px;
       }
     }
   }

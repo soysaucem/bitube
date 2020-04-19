@@ -23,9 +23,8 @@
 
     <app-validation-input
       [label]="'Enter your password'"
-      [type]="'password'"
+      [type]="'password-validation'"
       [appearance]="'legacy'"
-      [errorMessage]="'You must enter a password'"
       [hide]="'true'"
       (value)="handlePassword($event)"
       (valid)="handlePasswordValid($event)"

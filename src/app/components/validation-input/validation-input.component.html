@@ -20,15 +20,116 @@
     <button
       mat-icon-button
       matSuffix
-      *ngIf="type === 'password' || type === 'password-confirm'"
+      *ngIf="
+        type === 'password' ||
+        type === 'password-confirm' ||
+        type === 'password-validation'
+      "
       (click)="hide = !hide"
       [attr.aria-label]="'Hide password'"
       [attr.aria-pressed]="hide"
     >
       <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
     </button>
-    <mat-error *ngIf="control.invalid">
+    <mat-error *ngIf="control.invalid && type !== 'password-validation'">
       {{ getErrorMessage() }}
     </mat-error>
   </mat-form-field>
+
+  <div
+    class="password-validation-status"
+    *ngIf="type === 'password-validation' && (control.touched || control.dirty)"
+  >
+    <span
+      class="condition"
+      [ngClass]="
+        control.hasError('required') || control.hasError('notContainLowerCase')
+          ? 'text-danger'
+          : 'text-success'
+      "
+    >
+      <mat-icon>
+        {{
+          control.hasError('required') ||
+          control.hasError('notContainLowerCase')
+            ? 'cancel'
+            : 'check_circle'
+        }}
+      </mat-icon>
+      Must contain at least 1 lowercase letter
+    </span>
+
+    <span
+      class="condition"
+      [ngClass]="
+        control.hasError('required') || control.hasError('notContainUpperCase')
+          ? 'text-danger'
+          : 'text-success'
+      "
+    >
+      <mat-icon>
+        {{
+          control.hasError('required') ||
+          control.hasError('notContainUpperCase')
+            ? 'cancel'
+            : 'check_circle'
+        }}
+      </mat-icon>
+      Must contain at least 1 uppercase letter
+    </span>
+
+    <span
+      class="condition"
+      [ngClass]="
+        control.hasError('required') || control.hasError('notContainDigit')
+          ? 'text-danger'
+          : 'text-success'
+      "
+    >
+      <mat-icon>
+        {{
+          control.hasError('required') || control.hasError('notContainDigit')
+            ? 'cancel'
+            : 'check_circle'
+        }}
+      </mat-icon>
+      Must contain at least 1 digit
+    </span>
+
+    <span
+      class="condition"
+      [ngClass]="
+        control.hasError('required') || control.hasError('notContainSpecChar')
+          ? 'text-danger'
+          : 'text-success'
+      "
+    >
+      <mat-icon>
+        {{
+          control.hasError('required') || control.hasError('notContainSpecChar')
+            ? 'cancel'
+            : 'check_circle'
+        }}
+      </mat-icon>
+      Must contain at least 1 special character (!, @, #, $, %, ^, &, *)
+    </span>
+
+    <span
+      class="condition"
+      [ngClass]="
+        control.hasError('required') || control.hasError('minlength')
+          ? 'text-danger'
+          : 'text-success'
+      "
+    >
+      <mat-icon>
+        {{
+          control.hasError('required') || control.hasError('minlength')
+            ? 'cancel'
+            : 'check_circle'
+        }}
+      </mat-icon>
+      Must have minimum length equals 8
+    </span>
+  </div>
 </div>

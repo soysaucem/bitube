@@ -8,15 +8,25 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { checkPassword } from '../../util/password-validation';
+import {
+  checkPasswordMatches,
+  patternValidator,
+} from '../../util/password-validation';
 import { Subject } from 'rxjs';
 import { ComponentWithSubscription } from '../../helper-components/component-with-subscription/component-with-subscription';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import {
+  lowerCaseRegex,
+  upperCaseRegex,
+  digitRegex,
+  specialCharRegex,
+} from '../../util/regex';
 
 export type InputType =
   | 'text'
   | 'text-required'
   | 'password'
+  | 'password-validation'
   | 'password-confirm'
   | 'email';
 
@@ -33,13 +43,13 @@ export class ValidationInputComponent extends ComponentWithSubscription
   @Input() appearance: string;
   @Input() password: string;
   @Input() errorMessage: string;
-  @Input() required = true;
-  @Input() hide = false;
+  @Input() required: boolean = true;
+  @Input() hide: boolean = false;
   @Input() initialValue: string;
-  @Input() disabled = false;
+  @Input() disabled: boolean = false;
   @Input() tooltipMessage: string;
   @Input() tooltipPosition: string;
-  @Input() displayTooltip = false;
+  @Input() displayTooltip: boolean = false;
 
   @Output() value = new EventEmitter();
   @Output() valid = new EventEmitter();
@@ -53,9 +63,15 @@ export class ValidationInputComponent extends ComponentWithSubscription
 
   ngOnInit(): void {
     this.createFormControl();
+
     this.autoUnsubscribe(this.debouncer)
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((value) => this.value.emit(value));
+
+    this.autoUnsubscribe(this.control.statusChanges).subscribe((status) => {
+      const valid: boolean = status === 'VALID' ? true : false;
+      this.valid.emit(valid);
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -80,17 +96,29 @@ export class ValidationInputComponent extends ComponentWithSubscription
         { value: this.initialValue, disabled: this.disabled },
         [Validators.required]
       );
+    } else if (this.type === 'password-validation') {
+      this.control = new FormControl(
+        { value: this.initialValue, disabled: this.disabled },
+        [
+          Validators.required,
+          Validators.minLength(8),
+          patternValidator(lowerCaseRegex, { notContainLowerCase: true }),
+          patternValidator(upperCaseRegex, { notContainUpperCase: true }),
+          patternValidator(digitRegex, { notContainDigit: true }),
+          patternValidator(specialCharRegex, { notContainSpecChar: true }),
+        ]
+      );
     } else if (this.type === 'password-confirm') {
       if (this.control) {
         this.control.setValidators([
           Validators.required,
-          checkPassword(this.password),
+          checkPasswordMatches(this.password),
         ]);
         this.control.updateValueAndValidity();
       } else {
         this.control = new FormControl(
           { value: this.initialValue, disabled: this.disabled },
-          [Validators.required, checkPassword(this.password)]
+          [Validators.required, checkPasswordMatches(this.password)]
         );
       }
     } else if (this.type === 'text') {
@@ -103,7 +131,6 @@ export class ValidationInputComponent extends ComponentWithSubscription
 
   handleInput(event: any) {
     this.debouncer.next(event.target.value);
-    this.valid.emit(this.control.valid);
   }
 
   getErrorMessage() {
@@ -116,12 +143,6 @@ export class ValidationInputComponent extends ComponentWithSubscription
         ? 'You must enter an email'
         : this.control.hasError('email')
         ? 'Not a valid email'
-        : '';
-    } else if (this.type === 'password') {
-      return this.control.hasError('required')
-        ? 'You must enter a password'
-        : this.control.hasError('minlength')
-        ? 'Not a valid password'
         : '';
     }
   }
