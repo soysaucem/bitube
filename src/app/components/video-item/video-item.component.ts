@@ -32,6 +32,6 @@ export class VideoItemComponent implements OnInit {
   }
 
   get showSettings(): boolean {
-    return this.type === 'card-settings' && this.video.ownerId === this.me.id;
+    return this.type === 'card-settings' && this.video.ownerId === this.me?.id;
   }
 }

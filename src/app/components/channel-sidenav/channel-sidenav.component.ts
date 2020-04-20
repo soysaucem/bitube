@@ -39,4 +39,8 @@ export class ChannelSidenavComponent implements OnInit {
     this.visible = !this.visible;
     this.visibleState.emit(this.visible);
   }
+
+  get showFollowButton(): boolean {
+    return !this.me ? true : this.me.id !== this.user.id ? true : false;
+  }
 }

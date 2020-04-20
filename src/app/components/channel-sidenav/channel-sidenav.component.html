@@ -1,6 +1,6 @@
 <div
   class="channel-sidenav-container"
-  *ngIf="user && me"
+  *ngIf="user"
   [@openClose]="visible ? 'open' : 'close'"
 >
   <ng-container *ngIf="visible">
@@ -32,7 +32,7 @@
     <button
       mat-button
       class="follow-button accent-button"
-      *ngIf="me.id !== user.id"
+      *ngIf="showFollowButton"
     >
       <mat-icon fontSet="material-icons-outlined">add</mat-icon>
       Follow this channel
