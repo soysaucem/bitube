@@ -39,6 +39,14 @@ export class UserQuery extends QueryEntity<UserState> {
     return this.getEntity(id) as User;
   }
 
+  async isUserExisted(email: string) {
+    const refs = await this.collection.ref.where('email', '==', email).get();
+
+    return refs.docs[0]?.data()
+      ? fromJS(refs.docs[0].data() as UserJSON)
+      : null;
+  }
+
   selectMyAccount() {
     const googleAuthAccount = this.firebaseAuth.auth.currentUser;
 

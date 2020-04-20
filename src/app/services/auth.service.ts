@@ -1,25 +1,30 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
+import * as firebase from 'firebase/app';
 import { take } from 'rxjs/operators';
+import { UserQuery } from './user/state/user.query';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private firebaseAuth: AngularFireAuth) {}
+  constructor(
+    private firebaseAuth: AngularFireAuth,
+    private userQuery: UserQuery,
+    private router: Router
+  ) {}
 
-  async login(
+  login(
     email: string,
     password: string
   ): Promise<firebase.auth.UserCredential> {
-    return await this.firebaseAuth.auth.signInWithEmailAndPassword(
-      email,
-      password
-    );
+    return this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
   }
 
-  async logout(): Promise<void> {
-    return await this.firebaseAuth.auth.signOut();
+  async logout(): Promise<boolean> {
+    await this.firebaseAuth.auth.signOut();
+    return this.router.navigate(['login']);
   }
 
   async isAuthenticated(): Promise<boolean> {
@@ -28,7 +33,27 @@ export class AuthService {
     return state ? true : false;
   }
 
-  async resetPassword(email: string): Promise<void> {
-    return await this.firebaseAuth.auth.sendPasswordResetEmail(email);
+  async changePassword(
+    currentPassword: string,
+    newPassword: string
+  ): Promise<void> {
+    const currentUser = this.userQuery.getMyFirebaseAccount();
+    const credential = firebase.auth.EmailAuthProvider.credential(
+      currentUser.email,
+      currentPassword
+    );
+
+    try {
+      await currentUser.reauthenticateWithCredential(credential);
+      await currentUser.updatePassword(newPassword);
+      await this.logout();
+    } catch (err) {
+      console.error('Failed to change user password!');
+      console.error(err);
+    }
+  }
+
+  resetPassword(email: string): Promise<void> {
+    return this.firebaseAuth.auth.sendPasswordResetEmail(email);
   }
 }

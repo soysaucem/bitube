@@ -13,11 +13,7 @@ import { Observable } from 'rxjs';
 export class CurrentUserComponent implements OnInit {
   me$: Observable<User>;
 
-  constructor(
-    private auth: AuthService,
-    private router: Router,
-    private userQuery: UserQuery
-  ) {}
+  constructor(private auth: AuthService, private userQuery: UserQuery) {}
 
   ngOnInit(): void {
     this.me$ = this.userQuery.selectMyAccount();
@@ -25,6 +21,5 @@ export class CurrentUserComponent implements OnInit {
 
   async logout(): Promise<void> {
     await this.auth.logout();
-    this.router.navigate(['login']);
   }
 }

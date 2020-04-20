@@ -9,10 +9,5 @@ import { SignupService } from './services/signup.service';
 export class AppComponent {
   title = 'bibo-app';
 
-  constructor(private signupService: SignupService) {}
-
-  signup(event: any) {
-    console.log(event);
-    // this.signupService.createUser(event);
-  }
+  constructor() {}
 }

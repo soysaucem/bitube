@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['']);
     } catch (error) {
       this.snackbar.open(
-        'Unable to login. Please check your email and password',
+        'Unable to login. Please check your email and password!',
         'Dismiss',
         { duration: 3000, horizontalPosition: 'left' }
       );

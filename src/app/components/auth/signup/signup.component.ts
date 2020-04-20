@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SignupService } from '../../../services/signup.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserQuery } from '../../../services/user/state/user.query';
 
 @Component({
   selector: 'app-signup',
@@ -19,7 +21,12 @@ export class SignupComponent implements OnInit {
   private passwordConfirmValid = false;
   private nameValid = false;
 
-  constructor(private router: Router, private signupService: SignupService) {}
+  constructor(
+    private router: Router,
+    private signupService: SignupService,
+    private snackbar: MatSnackBar,
+    private userQuery: UserQuery
+  ) {}
 
   ngOnInit() {}
 
@@ -32,7 +39,6 @@ export class SignupComponent implements OnInit {
   }
 
   handleName(event: string) {
-    console.log(event);
     this.name = event;
   }
 
@@ -53,6 +59,17 @@ export class SignupComponent implements OnInit {
   }
 
   async sigup() {
+    const isEmailExisted = await this.userQuery.isUserExisted(this.email);
+
+    if (isEmailExisted) {
+      this.snackbar.open(
+        'Email is existed. Please choose another email!',
+        'Dismiss',
+        { duration: 3000, horizontalPosition: 'left' }
+      );
+      return;
+    }
+
     await this.signupService.signup(this.email, this.password, this.name);
     this.router.navigate(['']);
   }

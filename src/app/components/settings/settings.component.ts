@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UploadController } from '../../controller/upload/upload.controller';
+import { AuthService } from '../../services/auth.service';
 import { User } from '../../services/user/state/user.model';
 import { UserQuery } from '../../services/user/state/user.query';
 import { UserService } from '../../services/user/state/user.service';
@@ -28,7 +29,11 @@ export class SettingsComponent implements OnInit {
 
   private controller = new UploadController();
 
-  constructor(private userQuery: UserQuery, private userService: UserService) {}
+  constructor(
+    private userQuery: UserQuery,
+    private userService: UserService,
+    private authService: AuthService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.me = await this.userQuery.getMyAccount();
@@ -74,7 +79,12 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  updatePassword() {}
+  async updatePassword() {
+    await this.authService.changePassword(
+      this.currentPassword,
+      this.newPassword
+    );
+  }
 
   async updateProfileImage(event: any) {
     try {
