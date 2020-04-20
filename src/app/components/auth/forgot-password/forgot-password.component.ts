@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-forgot-password',
@@ -13,10 +14,13 @@ export class ForgotPasswordComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private titleService: Title
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.titleService.setTitle('Forgot password');
+  }
 
   handleEmail(event: any) {
     this.email = event;

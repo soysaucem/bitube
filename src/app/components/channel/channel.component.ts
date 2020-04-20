@@ -15,6 +15,7 @@ import {
   animate,
   state,
 } from '@angular/animations';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-channel',
@@ -39,7 +40,8 @@ export class ChannelComponent extends ComponentWithSubscription
   constructor(
     private videoQuery: VideoQuery,
     private route: ActivatedRoute,
-    private userQuery: UserQuery
+    private userQuery: UserQuery,
+    private titleService: Title
   ) {
     super();
   }
@@ -50,6 +52,7 @@ export class ChannelComponent extends ComponentWithSubscription
         tap(async ({ id }) => {
           this.user = await this.userQuery.getUser(id);
           this.me = await this.userQuery.getMyAccount();
+          this.titleService.setTitle(this.user.name);
         }),
         switchMap(({ id }) => this.videoQuery.selectVideosForUser(id))
       )

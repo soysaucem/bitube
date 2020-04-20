@@ -6,6 +6,7 @@ import { generateKeywords } from '../../util/generate-keywords';
 import { Observable } from 'rxjs';
 import { List } from 'immutable';
 import { Video } from '../../services/video/state/video.model';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-mainpage-videos',
@@ -17,10 +18,13 @@ export class MainPageVideosComponent implements OnInit {
 
   constructor(
     private videoQuery: VideoQuery,
-    private videoService: VideoService
+    private videoService: VideoService,
+    private titleService: Title
   ) {}
 
   ngOnInit(): void {
+    this.titleService.setTitle('BiboApp');
+
     this.featuredVideos$ = this.videoQuery.selectVideos().pipe(
       tap((videos) =>
         videos.forEach((video) =>

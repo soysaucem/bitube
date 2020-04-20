@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -15,10 +16,13 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private auth: AuthService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private titleService: Title
   ) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    this.titleService.setTitle('Login');
+  }
 
   handleEmail(event: string) {
     this.email = event;

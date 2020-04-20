@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
 import { List } from 'immutable';
 import { Observable } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 import { Video } from '../../services/video/state/video.model';
 import { VideoQuery } from '../../services/video/state/video.query';
 

@@ -9,6 +9,7 @@ import { List } from 'immutable';
 import { ComponentWithSubscription } from 'src/app/helper-components/component-with-subscription/component-with-subscription';
 import { FileQueueObject } from 'src/app/controller/upload/file-queue.model';
 import { UploadController } from 'src/app/controller/upload/upload.controller';
+import { Title } from '@angular/platform-browser';
 
 const BASE_MB = 1024 * 1024;
 
@@ -24,11 +25,13 @@ export class UploadComponent extends ComponentWithSubscription
   controller = new UploadController();
   queue: List<FileQueueObject>;
 
-  constructor() {
+  constructor(private titleService: Title) {
     super();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.titleService.setTitle('Upload');
+  }
 
   onDrop(event: DragEvent): void {
     this.cancelEventInvoke(event);

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { SignupService } from '../../../services/signup.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserQuery } from '../../../services/user/state/user.query';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-signup',
@@ -25,10 +26,13 @@ export class SignupComponent implements OnInit {
     private router: Router,
     private signupService: SignupService,
     private snackbar: MatSnackBar,
-    private userQuery: UserQuery
+    private userQuery: UserQuery,
+    private titleService: Title
   ) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    this.titleService.setTitle('Sign up');
+  }
 
   handleEmail(event: string) {
     this.email = event;

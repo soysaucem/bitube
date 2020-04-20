@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { SignupService } from './services/signup.service';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +6,5 @@ import { SignupService } from './services/signup.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'bibo-app';
-
   constructor() {}
 }

@@ -16,6 +16,7 @@ import { VideoService } from '../../services/video/state/video.service';
 import { VideoStore } from '../../services/video/state/video.store';
 import { downloadVideo } from '../../util/download';
 import { generateVideoUrl } from '../../util/video-url-generator';
+import { Title } from '@angular/platform-browser';
 
 type Opinion = 'like' | 'dislike';
 
@@ -44,7 +45,8 @@ export class WatchVideoComponent extends ComponentWithSubscription
     private videoStore: VideoStore,
     private auth: AuthService,
     private router: Router,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private titleService: Title
   ) {
     super();
   }
@@ -67,6 +69,9 @@ export class WatchVideoComponent extends ComponentWithSubscription
       try {
         this.video = fromJS(video);
         this.videoStore.setActive(this.video.id);
+
+        // Set browser title
+        this.titleService.setTitle(this.video.title);
 
         // Generate cloudfront link
         this.link = await generateVideoUrl(this.video.id);

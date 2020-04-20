@@ -8,6 +8,7 @@ import {
   generateImageUrlFromFile,
   generateImageUrlFromPath,
 } from '../../util/generate-image-url';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-settings',
@@ -32,10 +33,12 @@ export class SettingsComponent implements OnInit {
   constructor(
     private userQuery: UserQuery,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private titleService: Title
   ) {}
 
   async ngOnInit(): Promise<void> {
+    this.titleService.setTitle('Settings');
     this.me = await this.userQuery.getMyAccount();
     this.myAvatar = this.me.avatar;
   }
