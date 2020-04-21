@@ -1,14 +1,14 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import { switchMap } from 'rxjs/operators';
-import { ComponentWithSubscription } from '../../helper-components/component-with-subscription/component-with-subscription';
+import { switchMap, takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../services/user/state/user.model';
 import { UserQuery } from '../../services/user/state/user.query';
 import {
-  fromJS,
+  fromVideoJS,
   Video,
   VideoJSON,
 } from '../../services/video/state/video.model';
@@ -16,7 +16,10 @@ import { VideoService } from '../../services/video/state/video.service';
 import { VideoStore } from '../../services/video/state/video.store';
 import { downloadVideo } from '../../util/download';
 import { generateVideoUrl } from '../../util/video-url-generator';
-import { Title } from '@angular/platform-browser';
+import { ComponentWithFollowButton } from '../../abstract-components/component-with-follow-button';
+import { FollowService } from '../../services/follow.service';
+import { VideoQuery } from '../../services/video/state/video.query';
+import { Subject } from 'rxjs';
 
 type Opinion = 'like' | 'dislike';
 
@@ -26,29 +29,31 @@ type Opinion = 'like' | 'dislike';
   styleUrls: ['./watch-video.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class WatchVideoComponent extends ComponentWithSubscription
-  implements OnInit {
+export class WatchVideoComponent extends ComponentWithFollowButton
+  implements OnInit, OnDestroy {
   video: Video;
-  owner: User;
-  me: User;
   likeRatio: number;
   link: string;
   facebookUrl: string;
   twitterUrl: string;
 
-  private updated = false;
+  private updated: boolean = false;
+
+  watchVideoChanges$: Subject<any> = new Subject();
 
   constructor(
     private route: ActivatedRoute,
     private videoService: VideoService,
+    private videoQuery: VideoQuery,
     private userQuery: UserQuery,
     private videoStore: VideoStore,
     private auth: AuthService,
-    private router: Router,
     private snackbar: MatSnackBar,
-    private titleService: Title
+    private titleService: Title,
+    readonly followService: FollowService,
+    readonly router: Router
   ) {
-    super();
+    super(followService, router);
   }
 
   ngOnInit(): void {
@@ -57,17 +62,23 @@ export class WatchVideoComponent extends ComponentWithSubscription
     this.twitterUrl = `https://twitter.com/intent/tweet?url=${document.location.href}`;
   }
 
+  ngOnDestroy(): void {
+    super.ngOnDestroy();
+    this.watchVideoChanges$.next();
+    this.watchVideoChanges$.complete();
+  }
+
   /**
    * Setup video stream
    */
   setupVideoSubscriber(): void {
     this.autoUnsubscribe(
       this.route.params.pipe(
-        switchMap(({ id }) => this.videoService.syncDoc({ id }))
+        switchMap(({ id }) => this.videoQuery.selectVideo(id))
       )
-    ).subscribe(async (video: VideoJSON) => {
+    ).subscribe(async (video: Video) => {
       try {
-        this.video = fromJS(video);
+        this.video = video;
         this.videoStore.setActive(this.video.id);
 
         // Set browser title
@@ -76,9 +87,11 @@ export class WatchVideoComponent extends ComponentWithSubscription
         // Generate cloudfront link
         this.link = await generateVideoUrl(this.video.id);
 
+        //Close subscription for previous video
+        this.watchVideoChanges$.next();
+
         // Set video display information
-        this.owner = await this.userQuery.getUser(this.video.ownerId);
-        this.me = await this.userQuery.getMyAccount();
+        this.selectUsersAndSubscribe();
         this.likeRatio =
           this.video.likes.size /
           (this.video.likes.size + this.video.dislikes.size);
@@ -95,6 +108,18 @@ export class WatchVideoComponent extends ComponentWithSubscription
         console.error(err);
       }
     });
+  }
+
+  selectUsersAndSubscribe() {
+    this.userQuery
+      .selectUser(this.video.ownerRef)
+      .pipe(takeUntil(this.watchVideoChanges$))
+      .subscribe((owner) => (this.user = owner));
+
+    this.userQuery
+      .selectMyAccount()
+      .pipe(takeUntil(this.watchVideoChanges$))
+      .subscribe((me) => (this.me = me));
   }
 
   /**
@@ -197,5 +222,9 @@ export class WatchVideoComponent extends ComponentWithSubscription
 
     const url = await generateVideoUrl(this.video.id);
     downloadVideo(url, this.video.title);
+  }
+
+  get followButtonText(): string {
+    return this.isFollowed ? 'Unfollow' : 'Follow';
   }
 }

@@ -1,49 +1,60 @@
 import { Injectable } from '@angular/core';
-import { QueryEntity } from '@datorama/akita';
-import { VideoStore, VideoState } from './video.store';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { map, take, switchMap, tap } from 'rxjs/operators';
+import { QueryEntity } from '@datorama/akita';
 import { List } from 'immutable';
-import { fromJS, VideoJSON, Video } from './video.model';
 import { Observable } from 'rxjs';
-import { VideoService } from './video.service';
+import { map, tap, switchMap } from 'rxjs/operators';
 import { UserQuery } from '../../user/state/user.query';
+import { fromVideoJS, Video, VideoJSON } from './video.model';
+import { VideoState, VideoStore } from './video.store';
+import { VideoService } from './video.service';
 
 @Injectable({ providedIn: 'root' })
 export class VideoQuery extends QueryEntity<VideoState> {
   constructor(
     protected store: VideoStore,
     private firestore: AngularFirestore,
-    private videoService: VideoService,
-    private userQuery: UserQuery
+    private userQuery: UserQuery,
+    private videoService: VideoService
   ) {
     super(store);
   }
 
   selectVideos(): Observable<List<Video>> {
     return this.firestore
-      .collection('videos')
+      .collection<VideoJSON>('videos')
       .valueChanges()
       .pipe(
-        map((videos) => List(videos.map((video: VideoJSON) => fromJS(video)))),
-        tap((videos) => this.store.set([...videos]))
+        tap((videos) => this.store.set([...videos])),
+        map((videos) =>
+          List(videos.map((video: VideoJSON) => fromVideoJS(video)))
+        )
       );
   }
 
+  selectVideo(id: string): Observable<Video> {
+    return this.videoService
+      .syncDoc({ id })
+      .pipe(map((videoJSON) => fromVideoJS(videoJSON)));
+  }
+
   selectMyVideos(): Observable<List<Video>> {
-    const me = this.userQuery.getMyFirebaseAccount();
-    return this.selectVideosForUser(me.uid);
+    return this.userQuery
+      .selectMyFirebaseAccount()
+      .pipe(
+        switchMap((firebaseUser) => this.selectVideosForUser(firebaseUser.uid))
+      );
   }
 
   selectVideosForUser(id: string): Observable<List<Video>> {
     return this.firestore
-      .collection<VideoJSON>('videos', (ref) => ref.where('ownerId', '==', id))
+      .collection<VideoJSON>('videos', (ref) => ref.where('ownerRef', '==', id))
       .valueChanges()
       .pipe(
+        tap((videos) => this.store.set([...videos])),
         map((videos) =>
-          List(videos.map((video) => fromJS(video as VideoJSON)))
-        ),
-        tap((videos) => this.store.set([...videos]))
+          List(videos.map((video) => fromVideoJS(video as VideoJSON)))
+        )
       );
   }
 
@@ -53,16 +64,16 @@ export class VideoQuery extends QueryEntity<VideoState> {
       .ref.where('keywords', 'array-contains', title.toLowerCase())
       .get();
 
-    return List(docs.docs.map((doc) => fromJS(doc.data() as VideoJSON)));
+    return List(docs.docs.map((doc) => fromVideoJS(doc.data() as VideoJSON)));
   }
 
   async getVideo(id: string): Promise<Video> {
     if (!this.hasEntity(id)) {
       const doc = await this.firestore.collection('videos').doc(id).ref.get();
 
-      this.store.add(fromJS(doc.data() as VideoJSON));
+      this.store.add(doc.data() as VideoJSON);
     }
 
-    return this.getEntity(id) as Video;
+    return fromVideoJS(this.getEntity(id) as VideoJSON);
   }
 }

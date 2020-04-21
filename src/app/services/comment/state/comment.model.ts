@@ -1,20 +1,16 @@
 import { v4 as uuidv4 } from 'uuid';
-import {
-  AngularFirestoreDocument,
-  DocumentReference,
-} from '@angular/fire/firestore';
 import * as moment from 'moment';
 
 export interface Comment {
   id: string;
-  ownerRef: DocumentReference;
+  ownerRef: string;
   content: string;
   createdAt: string;
 }
 
 export interface CommentJSON {
   id: string;
-  ownerRef: DocumentReference;
+  ownerRef: string;
   content: string;
   createdAt: string;
 }
@@ -35,13 +31,13 @@ export function makeComment(props: Partial<Comment>): Comment {
   });
 }
 
-export function fromJS(input: CommentJSON): Comment {
+export function fromCommentJS(input: CommentJSON): Comment {
   return Object.freeze({
     ...input,
   });
 }
 
-export function toJS(input: Comment): CommentJSON {
+export function toCommentJS(input: Comment): CommentJSON {
   return Object.freeze({
     ...input,
   });

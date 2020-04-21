@@ -1,11 +1,15 @@
 <div
   class="channel-container"
-  *ngIf="{ videos: videos$ | async, user: user } as channel"
+  *ngIf="{
+    videos: videos$ | async,
+    user: user$ | async,
+    me: me$ | async
+  } as channel"
 >
   <div class="channel-side">
     <app-channel-sidenav
-      [user]="user"
-      [me]="me"
+      [user]="channel.user"
+      [me]="channel.me"
       (visibleState)="setVisible($event)"
     ></app-channel-sidenav>
   </div>
@@ -14,7 +18,7 @@
     <app-video-grid
       [type]="'card-settings'"
       [videos$]="videos$"
-      [me]="me"
+      [me]="channel.me"
     ></app-video-grid>
   </div>
 </div>

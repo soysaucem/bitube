@@ -40,17 +40,21 @@
             outline: none;
             cursor: pointer;
 
-            .owner-info {
-              @include column-left;
+            .owner-left {
+              @include row-left;
 
-              .name {
-                @include regular-desktop-size;
-                font-weight: 500;
-              }
+              .owner-info {
+                @include column-left;
 
-              .follow {
-                @include small-desktop-size;
-                color: $gray-600;
+                .name {
+                  @include regular-desktop-size;
+                  font-weight: 500;
+                }
+
+                .follow {
+                  @include small-desktop-size;
+                  color: $gray-600;
+                }
               }
             }
 

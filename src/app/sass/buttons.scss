@@ -34,3 +34,8 @@
     background-color: $background-hover;
   }
 }
+
+.followed-button {
+  background-color: $disabled-background;
+  color: $disabled;
+}

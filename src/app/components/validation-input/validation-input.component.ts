@@ -13,7 +13,7 @@ import {
   patternValidator,
 } from '../../util/password-validation';
 import { Subject } from 'rxjs';
-import { ComponentWithSubscription } from '../../helper-components/component-with-subscription/component-with-subscription';
+import { ComponentWithSubscription } from '../../abstract-components/component-with-subscription';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import {
   lowerCaseRegex,

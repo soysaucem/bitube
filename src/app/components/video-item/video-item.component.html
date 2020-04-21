@@ -1,4 +1,4 @@
-<div class="video-item-container" *ngIf="video">
+<div class="video-item-container" *ngIf="video && owner">
   <mat-card class="video-card-item" routerLink="/watch/{{ video.id }}">
     <img src="{{ video.thumbnail }}" />
 
@@ -13,8 +13,8 @@
         <span
           class="video-owner"
           *ngIf="type === 'card'"
-          routerLink="channel/{{ video.ownerId }}"
-          >By {{ video.ownerName }}
+          routerLink="channel/{{ owner.id }}"
+          >By {{ owner.name }}
         </span>
         <span class="video-views"
           >{{ video.views }} views • {{ createdDuration }}</span

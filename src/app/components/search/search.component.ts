@@ -1,17 +1,16 @@
 import {
   Component,
+  ElementRef,
   OnInit,
   ViewChild,
-  ElementRef,
   ViewEncapsulation,
 } from '@angular/core';
-import { Subject } from 'rxjs';
-import { VideoQuery } from '../../services/video/state/video.query';
-import { ComponentWithSubscription } from '../../helper-components/component-with-subscription/component-with-subscription';
 import { List } from 'immutable';
-import { Video } from '../../services/video/state/video.model';
-import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { ComponentWithSubscription } from '../../abstract-components/component-with-subscription';
 import { SearchService } from '../../services/search.service';
+import { Video } from '../../services/video/state/video.model';
 
 @Component({
   selector: 'app-search',
@@ -48,7 +47,7 @@ export class SearchComponent extends ComponentWithSubscription
   search() {
     this.autoUnsubscribe(this.searchText$)
       .pipe(distinctUntilChanged(), debounceTime(500))
-      .subscribe(async text => {
+      .subscribe(async (text) => {
         try {
           if (text) {
             this.results = await this.searchService.search(text.toLowerCase());

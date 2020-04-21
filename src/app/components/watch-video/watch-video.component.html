@@ -1,4 +1,4 @@
-<div class="watch-video-container" *ngIf="video && owner">
+<div class="watch-video-container" *ngIf="video && user">
   <div class="watch-video-wrapper">
     <div class="watch-video">
       <video class="video-player" controls autoplay controlslist="nodownload">
@@ -13,18 +13,27 @@
             matTooltipClass="tooltip-without-truncated"
             >{{ video.title }}</span
           >
-          <div class="owner" routerLink="channel/{{ owner.id }}">
-            <app-avatar
-              class="owner-avatar"
-              [avatarBase64]="owner.avatar"
-              [size]="48"
-            ></app-avatar>
-            <div class="owner-info">
-              <span class="name">{{ owner.name }}</span>
-              <span class="follow">{{ owner.followers.size }} followers</span>
+          <div class="owner">
+            <div class="owner-left" routerLink="/channel/{{ user.id }}">
+              <app-avatar
+                class="owner-avatar"
+                [avatarBase64]="user.avatar"
+                [size]="48"
+              ></app-avatar>
+              <div class="owner-info">
+                <span class="name">{{ user.name }}</span>
+                <span class="follow">{{ user.followers }} followers</span>
+              </div>
             </div>
-            <button mat-stroked-button class="follow-button">
-              Follow
+
+            <button
+              mat-stroked-button
+              class="follow-button accent-button"
+              [class.followed-button]="isFollowed"
+              *ngIf="showFollowButton"
+              (click)="toggleFollow()"
+            >
+              {{ followButtonText }}
             </button>
           </div>
         </div>

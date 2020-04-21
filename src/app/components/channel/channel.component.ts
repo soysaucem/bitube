@@ -1,21 +1,20 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Observable } from 'rxjs';
-import { List } from 'immutable';
-import { Video } from '../../services/video/state/video.model';
-import { VideoQuery } from '../../services/video/state/video.query';
-import { ComponentWithSubscription } from '../../helper-components/component-with-subscription/component-with-subscription';
-import { ActivatedRoute } from '@angular/router';
-import { switchMap, tap } from 'rxjs/operators';
-import { UserQuery } from '../../services/user/state/user.query';
-import { User } from '../../services/user/state/user.model';
 import {
-  trigger,
-  transition,
-  style,
   animate,
   state,
+  style,
+  transition,
+  trigger,
 } from '@angular/animations';
-import { Title } from '@angular/platform-browser';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { List } from 'immutable';
+import { Observable } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
+import { User } from '../../services/user/state/user.model';
+import { UserQuery } from '../../services/user/state/user.query';
+import { Video } from '../../services/video/state/video.model';
+import { VideoQuery } from '../../services/video/state/video.query';
+import { ComponentWithSubscription } from '../../abstract-components/component-with-subscription';
 
 @Component({
   selector: 'app-channel',
@@ -33,15 +32,14 @@ import { Title } from '@angular/platform-browser';
 export class ChannelComponent extends ComponentWithSubscription
   implements OnInit {
   videos$: Observable<List<Video>>;
-  user: User;
-  me: User;
+  user$: Observable<User>;
+  me$: Observable<User>;
   visible: boolean = true;
 
   constructor(
     private videoQuery: VideoQuery,
     private route: ActivatedRoute,
-    private userQuery: UserQuery,
-    private titleService: Title
+    private userQuery: UserQuery
   ) {
     super();
   }
@@ -49,10 +47,9 @@ export class ChannelComponent extends ComponentWithSubscription
   ngOnInit(): void {
     this.videos$ = this.autoUnsubscribe(
       this.route.params.pipe(
-        tap(async ({ id }) => {
-          this.user = await this.userQuery.getUser(id);
-          this.me = await this.userQuery.getMyAccount();
-          this.titleService.setTitle(this.user.name);
+        tap(({ id }) => {
+          this.user$ = this.userQuery.selectUser(id);
+          this.me$ = this.userQuery.selectMyAccount();
         }),
         switchMap(({ id }) => this.videoQuery.selectVideosForUser(id))
       )

@@ -2,10 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Comment } from '../../../services/comment/state/comment.model';
 import {
   User,
-  fromJS,
+  fromUserJS,
   UserJSON,
 } from '../../../services/user/state/user.model';
 import * as moment from 'moment';
+import { UserQuery } from '../../../services/user/state/user.query';
 
 @Component({
   selector: 'app-comment-item',
@@ -16,10 +17,10 @@ export class CommentItemComponent implements OnInit {
   @Input() comment: Comment;
   owner: User;
 
-  constructor() {}
+  constructor(private userQuery: UserQuery) {}
 
   async ngOnInit(): Promise<void> {
-    this.owner = fromJS((await this.comment.ownerRef.get()).data() as UserJSON);
+    this.owner = await this.userQuery.getUser(this.comment.ownerRef);
   }
 
   get createdDuration() {

@@ -1,7 +1,12 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Video } from '../../services/video/state/video.model';
 import * as moment from 'moment';
-import { User } from '../../services/user/state/user.model';
+import {
+  User,
+  fromUserJS,
+  UserJSON,
+} from '../../services/user/state/user.model';
+import { UserQuery } from '../../services/user/state/user.query';
 
 export type ItemType = 'card' | 'card-settings';
 
@@ -15,11 +20,15 @@ export class VideoItemComponent implements OnInit {
   @Input() video: Video;
   @Input() type: ItemType;
 
+  owner: User;
+
   hidden: boolean = true;
 
-  constructor() {}
+  constructor(private userQuery: UserQuery) {}
 
-  ngOnInit(): void {}
+  async ngOnInit(): Promise<void> {
+    this.owner = await this.userQuery.getUser(this.video.ownerRef);
+  }
 
   toggleMenu(event: any): void {
     event.preventDefault();
@@ -32,6 +41,6 @@ export class VideoItemComponent implements OnInit {
   }
 
   get showSettings(): boolean {
-    return this.type === 'card-settings' && this.video.ownerId === this.me?.id;
+    return this.type === 'card-settings' && this.owner.id === this.me?.id;
   }
 }

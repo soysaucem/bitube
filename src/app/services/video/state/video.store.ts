@@ -6,9 +6,10 @@ import {
   EntityStore,
   StoreConfig,
 } from '@datorama/akita';
+import { DocumentReference } from '@angular/fire/firestore';
 
 export interface VideoState
-  extends EntityState<Video | VideoJSON, string>,
+  extends EntityState<VideoJSON, string>,
     ActiveState<string> {}
 
 @Injectable({ providedIn: 'root' })
@@ -16,5 +17,15 @@ export interface VideoState
 export class VideoStore extends EntityStore<VideoState> {
   constructor() {
     super();
+  }
+
+  akitaPreAddEntity(video: VideoJSON) {
+    return {
+      ...video,
+      ownerRef:
+        typeof video.ownerRef === 'string'
+          ? video.ownerRef
+          : (<DocumentReference>video.ownerRef).id,
+    };
   }
 }

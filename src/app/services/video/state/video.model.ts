@@ -3,8 +3,7 @@ import * as moment from 'moment';
 
 export interface Video {
   id: string;
-  ownerId: string;
-  ownerName: string;
+  ownerRef: string;
   title: string;
   description: string;
   thumbnail: string;
@@ -18,8 +17,7 @@ export interface Video {
 
 export interface VideoJSON {
   id: string;
-  ownerId: string;
-  ownerName: string;
+  ownerRef: string;
   title: string;
   description: string;
   thumbnail: string;
@@ -33,8 +31,7 @@ export interface VideoJSON {
 
 export interface SearchVideoJSON {
   id: string;
-  ownerId: string;
-  ownerName: string;
+  ownerRef: string;
   title: string;
   description: string;
   thumbnail: string;
@@ -50,8 +47,7 @@ export interface SearchVideoJSON {
 export function createDefault(): Video {
   return Object.freeze({
     id: null,
-    ownerId: null,
-    ownerName: null,
+    ownerRef: null,
     title: null,
     description: null,
     thumbnail: null,
@@ -71,7 +67,7 @@ export function makeVideo(props: Partial<Video>): Video {
   });
 }
 
-export function fromJS(
+export function fromVideoJS(
   input: VideoJSON | Omit<SearchVideoJSON, 'objectID'>
 ): Video {
   return Object.freeze({
@@ -83,7 +79,7 @@ export function fromJS(
   });
 }
 
-export function toJS(input: Video): VideoJSON {
+export function toVideoJS(input: Video): VideoJSON {
   return Object.freeze({
     ...input,
     keywords: input.keywords.toArray(),

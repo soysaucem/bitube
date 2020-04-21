@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { List } from 'immutable';
-import { ComponentWithSubscription } from '../../helper-components/component-with-subscription/component-with-subscription';
 import { AuthService } from '../../services/auth.service';
 import {
   Comment,
@@ -9,6 +8,7 @@ import {
 } from '../../services/comment/state/comment.model';
 import { CommentQuery } from '../../services/comment/state/comment.query';
 import { CommentService } from '../../services/comment/state/comment.service';
+import { ComponentWithSubscription } from '../../abstract-components/component-with-subscription';
 
 @Component({
   selector: 'app-comment',
@@ -63,10 +63,5 @@ export class CommentComponent extends ComponentWithSubscription
 
   get disabled(): boolean {
     return this.content ? false : true;
-  }
-
-  async getOwner(comment: Comment) {
-    const owner = await comment.ownerRef.get();
-    return owner.data();
   }
 }

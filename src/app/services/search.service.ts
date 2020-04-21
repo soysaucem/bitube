@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { algoliaConfig } from '../../environments/environment';
 import algoliasearch from 'algoliasearch';
 import { List } from 'immutable';
-import { fromJS, VideoJSON, SearchVideoJSON } from './video/state/video.model';
+import { fromVideoJS, SearchVideoJSON } from './video/state/video.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +20,8 @@ export class SearchService {
     const res = await this.index.search(text);
 
     return List(
-      res.hits.map(hit =>
-        fromJS((hit as unknown) as Omit<SearchVideoJSON, 'objectID'>)
+      res.hits.map((hit) =>
+        fromVideoJS((hit as unknown) as Omit<SearchVideoJSON, 'objectID'>)
       )
     );
   }

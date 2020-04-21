@@ -2,7 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { List } from 'immutable';
 import { FileQueueObject } from 'src/app/controller/upload/file-queue.model';
 import { UploadController } from '../../../controller/upload/upload.controller';
-import { ComponentWithSubscription } from '../../../helper-components/component-with-subscription/component-with-subscription';
+import { ComponentWithSubscription } from '../../../abstract-components/component-with-subscription';
 
 @Component({
   selector: 'app-uploading',
@@ -21,7 +21,7 @@ export class UploadingComponent extends ComponentWithSubscription
   }
 
   ngOnInit(): void {
-    this.autoUnsubscribe(this.controller.selectQueue()).subscribe(objects => {
+    this.autoUnsubscribe(this.controller.selectQueue()).subscribe((objects) => {
       this.queueObjects = objects;
       this.queue.emit(objects);
     });

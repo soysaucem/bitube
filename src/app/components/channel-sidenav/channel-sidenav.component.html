@@ -8,7 +8,7 @@
       <app-avatar [avatarBase64]="user.avatar" [size]="48"></app-avatar>
       <div class="channel-info-text">
         <div class="channel-name">{{ user.name }}</div>
-        <div class="channel-followers">{{ user.followers.size }} followers</div>
+        <div class="channel-followers">{{ user.followers }} followers</div>
       </div>
     </div>
 
@@ -32,10 +32,17 @@
     <button
       mat-button
       class="follow-button accent-button"
+      [class.followed-button]="isFollowed"
       *ngIf="showFollowButton"
+      (click)="toggleFollow()"
     >
-      <mat-icon fontSet="material-icons-outlined">add</mat-icon>
-      Follow this channel
+      <mat-icon fontSet="material-icons-outlined" *ngIf="!isFollowed"
+        >add</mat-icon
+      >
+      <mat-icon fontSet="material-icons-outlined" *ngIf="isFollowed"
+        >check</mat-icon
+      >
+      {{ followButtonText }}
     </button>
   </ng-container>
 

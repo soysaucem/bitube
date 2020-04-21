@@ -6,10 +6,10 @@ import {
   ElementRef,
 } from '@angular/core';
 import { List } from 'immutable';
-import { ComponentWithSubscription } from 'src/app/helper-components/component-with-subscription/component-with-subscription';
 import { FileQueueObject } from 'src/app/controller/upload/file-queue.model';
 import { UploadController } from 'src/app/controller/upload/upload.controller';
 import { Title } from '@angular/platform-browser';
+import { ComponentWithSubscription } from '../../abstract-components/component-with-subscription';
 
 const BASE_MB = 1024 * 1024;
 

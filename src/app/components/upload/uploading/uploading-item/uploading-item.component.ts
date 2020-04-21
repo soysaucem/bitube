@@ -8,6 +8,8 @@ import { generateThumbnail } from '../../../../util/generate-thumbnail';
 import { makeVideo } from '../../../../services/video/state/video.model';
 import { VideoService } from '../../../../services/video/state/video.service';
 import { UserQuery } from '../../../../services/user/state/user.query';
+import { UserService } from '../../../../services/user/state/user.service';
+import { VideoQuery } from '../../../../services/video/state/video.query';
 
 type InputType = 'description' | 'title';
 const ENTER = 13;
@@ -38,7 +40,9 @@ export class UploadingItemComponent implements OnInit {
 
   constructor(
     private userQuery: UserQuery,
-    private videoService: VideoService
+    private userService: UserService,
+    private videoService: VideoService,
+    private videoQuery: VideoQuery
   ) {}
 
   ngOnInit() {}
@@ -141,15 +145,14 @@ export class UploadingItemComponent implements OnInit {
     );
 
     // Add video reference to firebase
-    const currentUser = await this.userQuery.getMyAccount();
+    const me = await this.userQuery.getMyAccount();
     const video = makeVideo({
       id: this.file.id,
       title: this.title ? this.title : this.file.file.name,
       description: this.description ? this.description : null,
       thumbnail: thumbnailData.Location,
       tags: this.tags,
-      ownerId: currentUser.id,
-      ownerName: currentUser.name,
+      ownerRef: me.id,
     });
 
     await this.videoService.addVideo(video);

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { User, UserJSON } from './user.model';
 import {
-  EntityState,
   ActiveState,
+  EntityState,
   EntityStore,
   StoreConfig,
 } from '@datorama/akita';
+import { UserJSON } from './user.model';
 
 export interface UserState
-  extends EntityState<User | UserJSON, string>,
+  extends EntityState<UserJSON, string>,
     ActiveState<string> {}
 
 @Injectable({ providedIn: 'root' })

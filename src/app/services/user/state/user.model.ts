@@ -5,7 +5,8 @@ export interface User {
   email: string;
   name: string;
   avatar: string;
-  followers: List<string>;
+  followers: number;
+  followings: List<string>;
   videos: List<string>;
 }
 
@@ -14,7 +15,8 @@ export interface UserJSON {
   email: string;
   name: string;
   avatar: string;
-  followers: string[];
+  followers: number;
+  followings: string[];
   videos: string[];
 }
 
@@ -24,7 +26,8 @@ export function createDefault(): User {
     email: null,
     name: null,
     avatar: null,
-    followers: List(),
+    followers: 0,
+    followings: List(),
     videos: List(),
   });
 }
@@ -36,18 +39,18 @@ export function makeUser(props: Partial<User>): User {
   });
 }
 
-export function fromJS(input: UserJSON): User {
+export function fromUserJS(input: UserJSON): User {
   return Object.freeze({
     ...input,
-    followers: List(input.followers),
+    followings: List(input.followings),
     videos: List(input.videos),
   });
 }
 
-export function toJS(input: User): UserJSON {
+export function toUserJS(input: User): UserJSON {
   return Object.freeze({
     ...input,
-    followers: input.followers.toArray(),
+    followings: input.followings.toArray(),
     videos: input.videos.toArray(),
   });
 }

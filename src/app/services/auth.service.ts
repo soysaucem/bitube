@@ -37,7 +37,7 @@ export class AuthService {
     currentPassword: string,
     newPassword: string
   ): Promise<void> {
-    const currentUser = this.userQuery.getMyFirebaseAccount();
+    const currentUser = await this.userQuery.getMyFirebaseAccount();
     const credential = firebase.auth.EmailAuthProvider.credential(
       currentUser.email,
       currentPassword

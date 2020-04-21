@@ -1,13 +1,24 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { User } from '../../services/user/state/user.model';
 import {
-  trigger,
-  transition,
-  style,
   animate,
   state,
+  style,
+  transition,
+  trigger,
 } from '@angular/animations';
-import { UserQuery } from '../../services/user/state/user.query';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges,
+  OnChanges,
+} from '@angular/core';
+import { Router } from '@angular/router';
+import { FollowService } from '../../services/follow.service';
+import { User } from '../../services/user/state/user.model';
+import { Title } from '@angular/platform-browser';
+import { ComponentWithFollowButton } from '../../abstract-components/component-with-follow-button';
 
 type ChannelSideNavActiveType = 'videos' | 'channels';
 
@@ -23,24 +34,35 @@ type ChannelSideNavActiveType = 'videos' | 'channels';
     ]),
   ],
 })
-export class ChannelSidenavComponent implements OnInit {
-  @Input() user: User;
-  @Input() me: User;
+export class ChannelSidenavComponent extends ComponentWithFollowButton
+  implements OnInit, OnChanges {
   @Output() visibleState: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   visible: boolean = true;
   active: ChannelSideNavActiveType = 'videos';
 
-  constructor() {}
+  constructor(
+    readonly followService: FollowService,
+    readonly router: Router,
+    private titleService: Title
+  ) {
+    super(followService, router);
+  }
 
   ngOnInit(): void {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.user && changes.user.currentValue) {
+      this.titleService.setTitle(changes.user.currentValue.name);
+    }
+  }
 
   toggleChannelSidenav(): void {
     this.visible = !this.visible;
     this.visibleState.emit(this.visible);
   }
 
-  get showFollowButton(): boolean {
-    return !this.me ? true : this.me.id !== this.user.id ? true : false;
+  get followButtonText(): string {
+    return this.isFollowed ? 'Unfollow this channel' : 'Follow this channel';
   }
 }
