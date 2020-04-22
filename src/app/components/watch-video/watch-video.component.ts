@@ -1,25 +1,20 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
+import { Subject } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
+import { ComponentWithFollowButton } from '../../abstract-components/component-with-follow-button';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../services/user/state/user.model';
+import { FollowService } from '../../services/follow.service';
 import { UserQuery } from '../../services/user/state/user.query';
-import {
-  fromVideoJS,
-  Video,
-  VideoJSON,
-} from '../../services/video/state/video.model';
+import { Video } from '../../services/video/state/video.model';
+import { VideoQuery } from '../../services/video/state/video.query';
 import { VideoService } from '../../services/video/state/video.service';
 import { VideoStore } from '../../services/video/state/video.store';
 import { downloadVideo } from '../../util/download';
 import { generateVideoUrl } from '../../util/video-url-generator';
-import { ComponentWithFollowButton } from '../../abstract-components/component-with-follow-button';
-import { FollowService } from '../../services/follow.service';
-import { VideoQuery } from '../../services/video/state/video.query';
-import { Subject } from 'rxjs';
 
 type Opinion = 'like' | 'dislike';
 
@@ -78,36 +73,40 @@ export class WatchVideoComponent extends ComponentWithFollowButton
       )
     ).subscribe(async (video: Video) => {
       try {
-        this.video = video;
-        this.videoStore.setActive(this.video.id);
-
-        // Set browser title
-        this.titleService.setTitle(this.video.title);
-
-        // Generate cloudfront link
-        this.link = await generateVideoUrl(this.video.id);
-
-        //Close subscription for previous video
-        this.watchVideoChanges$.next();
-
-        // Set video display information
-        this.selectUsersAndSubscribe();
-        this.likeRatio =
-          this.video.likes.size /
-          (this.video.likes.size + this.video.dislikes.size);
-
-        // Update view count for video
-        if (!this.updated) {
-          this.videoService.updateVideo(this.video.id, {
-            views: this.video.views + 1,
-          });
-          this.updated = true;
-        }
+        this.handleIncomingVideo(video);
       } catch (err) {
         console.error('Failed to retrieve video');
         console.error(err);
       }
     });
+  }
+
+  async handleIncomingVideo(video: Video): Promise<void> {
+    this.video = video;
+    this.videoStore.setActive(this.video.id);
+
+    // Set browser title
+    this.titleService.setTitle(this.video.title);
+
+    // Generate cloudfront link of video
+    this.link = await generateVideoUrl(this.video.id);
+
+    //Close subscription for previous video
+    this.watchVideoChanges$.next();
+
+    // Set video display information
+    this.selectUsersAndSubscribe();
+    this.likeRatio =
+      this.video.likes.size /
+      (this.video.likes.size + this.video.dislikes.size);
+
+    // Update view count for video
+    if (!this.updated) {
+      this.videoService.updateVideo(this.video.id, {
+        views: this.video.views + 1,
+      });
+      this.updated = true;
+    }
   }
 
   selectUsersAndSubscribe() {

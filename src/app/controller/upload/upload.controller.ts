@@ -11,7 +11,6 @@ export type ImageType = 'profile' | 'thumbnail';
 
 export class UploadController {
   private bucket = S3BucketSingleton.instance.bucket;
-
   private queueStream$ = new Subject<List<FileQueueObject>>();
   private queue = List<FileQueueObject>();
 

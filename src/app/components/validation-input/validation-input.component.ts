@@ -55,7 +55,7 @@ export class ValidationInputComponent extends ComponentWithSubscription
   @Output() valid = new EventEmitter();
 
   control: FormControl;
-  private debouncer = new Subject<string>();
+  private debouncer: Subject<string> = new Subject<string>();
 
   constructor() {
     super();
@@ -63,21 +63,27 @@ export class ValidationInputComponent extends ComponentWithSubscription
 
   ngOnInit(): void {
     this.createFormControl();
-
-    this.autoUnsubscribe(this.debouncer)
-      .pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe((value) => this.value.emit(value));
-
-    this.autoUnsubscribe(this.control.statusChanges).subscribe((status) => {
-      const valid: boolean = status === 'VALID' ? true : false;
-      this.valid.emit(valid);
-    });
+    this.subscribeAndEmitInputValue();
+    this.subscribeAndEmitValidStatus();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.password && this.type === 'password-confirm') {
       this.createFormControl();
     }
+  }
+
+  subscribeAndEmitValidStatus(): void {
+    this.autoUnsubscribe(this.control.statusChanges).subscribe((status) => {
+      const valid: boolean = status === 'VALID' ? true : false;
+      this.valid.emit(valid);
+    });
+  }
+
+  subscribeAndEmitInputValue(): void {
+    this.autoUnsubscribe(this.debouncer)
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((value) => this.value.emit(value));
   }
 
   createFormControl() {

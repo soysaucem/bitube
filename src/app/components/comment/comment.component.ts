@@ -19,7 +19,7 @@ export class CommentComponent extends ComponentWithSubscription
   implements OnInit {
   @ViewChild('commentInput') commentInput: ElementRef;
 
-  private content = '';
+  private content: string = '';
   comments: List<Comment>;
 
   constructor(
@@ -53,10 +53,10 @@ export class CommentComponent extends ComponentWithSubscription
       content: this.content,
     });
     await this.commentService.addComment(comment);
-    this.cancel();
+    this.clearComment();
   }
 
-  cancel(): void {
+  clearComment(): void {
     this.content = '';
     (this.commentInput.nativeElement as HTMLTextAreaElement).value = '';
   }

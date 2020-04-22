@@ -18,7 +18,6 @@ export class SignupService {
       password
     );
 
-    // Send verification link to user email
     res.user.sendEmailVerification();
 
     // Create user entity in database

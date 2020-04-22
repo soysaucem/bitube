@@ -18,15 +18,16 @@ import { Title } from '@angular/platform-browser';
 })
 export class SettingsComponent implements OnInit {
   me: User;
-  message = 'Email cannot be changed since it is your primary login method.';
+  message: string =
+    'Email cannot be changed since it is your primary login method.';
   myAvatar: string;
 
   newPassword: string;
 
   private currentPassword: string;
-  private currentPasswordValid = false;
-  private newPasswordValid = false;
-  private passwordConfirmValid = false;
+  private currentPasswordValid: boolean = false;
+  private newPasswordValid: boolean = false;
+  private passwordConfirmValid: boolean = false;
 
   private controller = new UploadController();
 

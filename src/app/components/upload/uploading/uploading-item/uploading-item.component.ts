@@ -1,15 +1,13 @@
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
-import { FileQueueObject } from 'src/app/controller/upload/file-queue.model';
-import { UploadController } from '../../../../controller/upload/upload.controller';
-import { FileQueueStatus } from '../../../../controller/upload/file-queue.model';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { List } from 'immutable';
-import { generateThumbnail } from '../../../../util/generate-thumbnail';
+import { FileQueueObject } from 'src/app/controller/upload/file-queue.model';
+import { FileQueueStatus } from '../../../../controller/upload/file-queue.model';
+import { UploadController } from '../../../../controller/upload/upload.controller';
+import { UserQuery } from '../../../../services/user/state/user.query';
 import { makeVideo } from '../../../../services/video/state/video.model';
 import { VideoService } from '../../../../services/video/state/video.service';
-import { UserQuery } from '../../../../services/user/state/user.query';
-import { UserService } from '../../../../services/user/state/user.service';
-import { VideoQuery } from '../../../../services/video/state/video.query';
+import { generateThumbnail } from '../../../../util/generate-thumbnail';
 
 type InputType = 'description' | 'title';
 const ENTER = 13;
@@ -25,24 +23,22 @@ export class UploadingItemComponent implements OnInit {
   @Input() file: FileQueueObject;
   @Input() controller: UploadController;
   progress: number;
-  status = FileQueueStatus.Pending;
+  status: FileQueueStatus = FileQueueStatus.Pending;
 
   title: string;
   description: string;
   tags = List<string>();
 
   // Configurations for mat chip
-  visible = true;
-  selectable = true;
-  removable = true;
-  addOnBlur = true;
+  visible: boolean = true;
+  selectable: boolean = true;
+  removable: boolean = true;
+  addOnBlur: boolean = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   constructor(
     private userQuery: UserQuery,
-    private userService: UserService,
-    private videoService: VideoService,
-    private videoQuery: VideoQuery
+    private videoService: VideoService
   ) {}
 
   ngOnInit() {}
@@ -53,18 +49,16 @@ export class UploadingItemComponent implements OnInit {
         this.status = FileQueueStatus.Progress;
         this.progress = event.loaded / event.total;
       })
-      .send(async (err, data) => {
+      .send(async (err: any, data: any) => {
         try {
           if (err) {
-            console.error('There was an error uploading your file: ', err);
-            this.status = FileQueueStatus.Error;
-            return err;
+            throw err;
           }
 
           await this.processSucceedUpload();
-
-          return data;
         } catch (error) {
+          this.status = FileQueueStatus.Error;
+          console.error('There was an error uploading your file: ', err);
           console.error(error);
         }
       });
@@ -89,6 +83,7 @@ export class UploadingItemComponent implements OnInit {
   async handleInput(event: any, type: InputType): Promise<void> {
     if (type === 'title') {
       this.title = event;
+
       if (this.status === FileQueueStatus.Success) {
         await this.videoService.updateVideo(this.file.id, {
           title: this.title,
@@ -96,6 +91,7 @@ export class UploadingItemComponent implements OnInit {
       }
     } else if (type === 'description') {
       this.description = event.target.value;
+
       if (this.status === FileQueueStatus.Success) {
         await this.videoService.updateVideo(this.file.id, {
           description: this.description,

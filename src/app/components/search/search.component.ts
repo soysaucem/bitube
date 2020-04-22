@@ -24,7 +24,7 @@ export class SearchComponent extends ComponentWithSubscription
 
   searchText$ = new Subject<string>();
   results: List<Video>;
-  loading = false;
+  loading: boolean = false;
 
   constructor(private searchService: SearchService) {
     super();
@@ -47,7 +47,7 @@ export class SearchComponent extends ComponentWithSubscription
   search() {
     this.autoUnsubscribe(this.searchText$)
       .pipe(distinctUntilChanged(), debounceTime(500))
-      .subscribe(async (text) => {
+      .subscribe(async (text: string) => {
         try {
           if (text) {
             this.results = await this.searchService.search(text.toLowerCase());

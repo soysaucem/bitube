@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { algoliaConfig } from '../../environments/environment';
 import algoliasearch from 'algoliasearch';
 import { List } from 'immutable';
-import { fromVideoJS, SearchVideoJSON } from './video/state/video.model';
+import { fromVideoJS, SearchVideoJSON, Video } from './video/state/video.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class SearchService {
 
   constructor() {}
 
-  async search(text: string) {
+  async search(text: string): Promise<List<Video>> {
     const res = await this.index.search(text);
 
     return List(

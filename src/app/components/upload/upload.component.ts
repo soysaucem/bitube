@@ -12,6 +12,7 @@ import { Title } from '@angular/platform-browser';
 import { ComponentWithSubscription } from '../../abstract-components/component-with-subscription';
 
 const BASE_MB = 1024 * 1024;
+const FILE_SIZE_LIMIT = 50 * BASE_MB;
 
 @Component({
   selector: 'app-upload',
@@ -42,14 +43,16 @@ export class UploadComponent extends ComponentWithSubscription
     let files =
       event.type === 'drop' ? event.dataTransfer.files : event.target.files;
 
+    // Filter not video files and files exceed limit
     files = Array.prototype.filter.call(
       files,
-      (file: File) => file.type.includes('video') && file.size <= 50 * BASE_MB
+      (file: File) =>
+        file.type.includes('video') && file.size <= FILE_SIZE_LIMIT
     );
 
     this.controller.add(files);
 
-    // Clear selected file after added
+    // Clear file input after added
     (this.uploadInput.nativeElement as HTMLInputElement).value = '';
   }
 
@@ -58,7 +61,7 @@ export class UploadComponent extends ComponentWithSubscription
     event.stopPropagation();
   }
 
-  setQueue(event: any): void {
+  setQueue(event: List<FileQueueObject>): void {
     this.queue = event;
   }
 

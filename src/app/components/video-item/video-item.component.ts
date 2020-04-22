@@ -48,7 +48,7 @@ export class VideoItemComponent implements OnInit {
     this.hidden = !this.hidden;
   }
 
-  openDialog(event: any): void {
+  openConfirmationDialog(event: any): void {
     this.toggleMenu(event);
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {

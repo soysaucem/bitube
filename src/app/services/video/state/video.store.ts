@@ -18,14 +18,4 @@ export class VideoStore extends EntityStore<VideoState> {
   constructor() {
     super();
   }
-
-  akitaPreAddEntity(video: VideoJSON) {
-    return {
-      ...video,
-      ownerRef:
-        typeof video.ownerRef === 'string'
-          ? video.ownerRef
-          : (<DocumentReference>video.ownerRef).id,
-    };
-  }
 }

@@ -14,16 +14,18 @@ export class UploadingComponent extends ComponentWithSubscription
   @Input() controller: UploadController;
   queueObjects: List<FileQueueObject>;
 
-  @Output() queue = new EventEmitter();
+  @Output() queue = new EventEmitter<List<FileQueueObject>>();
 
   constructor() {
     super();
   }
 
   ngOnInit(): void {
-    this.autoUnsubscribe(this.controller.selectQueue()).subscribe((objects) => {
-      this.queueObjects = objects;
-      this.queue.emit(objects);
-    });
+    this.autoUnsubscribe(this.controller.selectQueue()).subscribe(
+      (objects: List<FileQueueObject>) => {
+        this.queueObjects = objects;
+        this.queue.emit(objects);
+      }
+    );
   }
 }

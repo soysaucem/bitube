@@ -12,7 +12,7 @@ import { User } from '../../services/user/state/user.model';
   encapsulation: ViewEncapsulation.None,
 })
 export class VideoGridComponent implements OnInit {
-  @Input() title: string;
+  @Input() title?: string;
   @Input() videos$: Observable<List<Video>>;
   @Input() type: ItemType;
   @Input() me: User;
