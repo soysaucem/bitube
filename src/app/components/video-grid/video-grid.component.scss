@@ -6,11 +6,17 @@
     font-weight: 500;
   }
 
-  .video-wrapper {
-    display: grid;
+  .videos-render {
+    @include row-left;
     max-width: $video-grid-max-width;
-    grid-template-columns: repeat(auto-fit, minmax($video-item-min-width, 1fr));
-    column-gap: $video-grid-column-gap;
-    row-gap: 40px;
+    overflow-x: hidden;
+    flex-wrap: wrap;
+
+    app-video-item {
+      margin: calc(#{$video-grid-row-gap} / 2)
+        calc(#{$video-grid-column-gap} / 2);
+      width: $video-item-width;
+      min-width: 250px;
+    }
   }
 }

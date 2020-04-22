@@ -1,24 +1,29 @@
-$navbar-padding: 0 20px;
-$navbar-side-margin: 20px;
+// Common components variables
 $side-main-margin: 120px;
 $front-main-margin: 50px;
-$small-avatar: 48px;
 $form-width: 400px;
 $form-content-width: 90%;
-$avatar-space: 5px;
-$menu-side-padding: 16px;
-$sidenav-width: 100px;
-$navbar-height: 80px;
-$channel-sidenav-width: 250px;
-$search-form-width: 50%;
-$image-info-spacing: 10px;
-
 $main-content-width: 80%;
+$search-form-width: 50%;
+$menu-side-padding: 16px;
 
-$item-numbers-in-video-grid: 4;
+// Navigation components variables
+$navbar-padding: 0 20px;
+$navbar-side-margin: 20px;
+$navbar-height: 80px;
+$sidenav-width: 100px;
+$channel-sidenav-width: 250px;
 
+// Profile variables
+$image-info-spacing: 10px;
+$avatar-space: 5px;
+$small-avatar: 48px;
+
+// Video grid variables
+$video-grid-items-per-row: 4;
 $video-grid-max-width: 1280px;
 $video-grid-column-gap: 15px;
-$video-item-min-width: calc(
-  (#{$video-grid-max-width} - (#{$video-grid-column-gap} * 3)) / #{$item-numbers-in-video-grid}
+$video-grid-row-gap: 30px;
+$video-item-width: calc(
+  (100% / #{$video-grid-items-per-row} - #{$video-grid-column-gap})
 );
