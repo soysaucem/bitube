@@ -9,7 +9,6 @@
   .videos-render {
     @include row-left;
     max-width: $video-grid-max-width;
-    overflow-x: hidden;
     flex-wrap: wrap;
 
     app-video-item {
