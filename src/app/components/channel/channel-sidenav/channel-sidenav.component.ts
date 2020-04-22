@@ -15,10 +15,10 @@ import {
   OnChanges,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { FollowService } from '../../services/follow.service';
-import { User } from '../../services/user/state/user.model';
+import { FollowService } from '../../../services/follow.service';
+import { User } from '../../../services/user/state/user.model';
 import { Title } from '@angular/platform-browser';
-import { ComponentWithFollowButton } from '../../abstract-components/component-with-follow-button';
+import { ComponentWithFollowButton } from '../../../abstract-components/component-with-follow-button';
 
 type ChannelSideNavActiveType = 'videos' | 'channels';
 

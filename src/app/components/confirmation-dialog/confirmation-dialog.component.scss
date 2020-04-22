@@ -1,0 +1,12 @@
+@import 'base.scss';
+
+.confirmation-dialog-container {
+  .dialog-actions {
+    @include row-spread;
+    width: 100%;
+
+    button {
+      width: 45%;
+    }
+  }
+}

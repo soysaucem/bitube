@@ -6,8 +6,6 @@ import { UserService } from './user/state/user.service';
   providedIn: 'root',
 })
 export class SignupService {
-  path = '/users';
-
   constructor(
     private firebaseAuth: AngularFireAuth,
     private userService: UserService

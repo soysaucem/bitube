@@ -7,6 +7,10 @@ import {
   UserJSON,
 } from '../../services/user/state/user.model';
 import { UserQuery } from '../../services/user/state/user.query';
+import { VideoService } from '../../services/video/state/video.service';
+import { take } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 export type ItemType = 'card' | 'card-settings';
 
@@ -24,7 +28,15 @@ export class VideoItemComponent implements OnInit {
 
   hidden: boolean = true;
 
-  constructor(private userQuery: UserQuery) {}
+  private dialogTitle: string = 'Remove video';
+  private dialogMessage: string =
+    'Video will be removed <strong>permanently</strong>. Are you sure?';
+
+  constructor(
+    private userQuery: UserQuery,
+    private videoService: VideoService,
+    private dialog: MatDialog
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.owner = await this.userQuery.getUser(this.video.ownerRef);
@@ -34,6 +46,29 @@ export class VideoItemComponent implements OnInit {
     event.preventDefault();
     event.stopImmediatePropagation();
     this.hidden = !this.hidden;
+  }
+
+  openDialog(event: any): void {
+    this.toggleMenu(event);
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      height: '210px',
+      data: { title: this.dialogTitle, message: this.dialogMessage },
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe(async (result) => {
+        if (result === 'remove') {
+          await this.deleteVideo();
+        }
+      });
+  }
+
+  async deleteVideo(): Promise<void> {
+    await this.videoService.deleteVideo(this.video.id);
   }
 
   get createdDuration(): string {

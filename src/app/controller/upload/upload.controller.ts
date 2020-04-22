@@ -2,19 +2,15 @@ import * as S3 from 'aws-sdk/clients/s3';
 import { List } from 'immutable';
 import { Subject } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
-import { awsS3Config } from '../../../environments/environment';
 import { FileQueueObject, makeFileQueueObject } from './file-queue.model';
 import { BUCKET_NAME, PROFILE_BUCKET_NAME } from '../../util/variables';
 import { Buffer } from 'buffer';
+import { S3BucketSingleton } from '../../abstract-components/s3-bucket-singleton';
 
 export type ImageType = 'profile' | 'thumbnail';
 
 export class UploadController {
-  private bucket = new S3({
-    accessKeyId: awsS3Config.aws_access_key_id,
-    secretAccessKey: awsS3Config.aws_secret_access_key,
-    region: 'ap-southeast-2',
-  });
+  private bucket = S3BucketSingleton.instance.bucket;
 
   private queueStream$ = new Subject<List<FileQueueObject>>();
   private queue = List<FileQueueObject>();
@@ -36,7 +32,7 @@ export class UploadController {
   add(files: FileList): void {
     // Add files to queue
     const arr = Array.from(files);
-    arr.forEach(file => {
+    arr.forEach((file) => {
       const id = uuidv4();
       const object = makeFileQueueObject({
         id,
@@ -51,7 +47,7 @@ export class UploadController {
   }
 
   remove(file: FileQueueObject): void {
-    this.queue = this.queue.filter(object => object.id !== file.id);
+    this.queue = this.queue.filter((object) => object.id !== file.id);
     this.queueStream$.next(this.queue);
   }
 

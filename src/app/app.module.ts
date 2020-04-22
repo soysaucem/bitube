@@ -38,6 +38,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDialogModule } from '@angular/material/dialog';
 
 // Components
 import { AuthGuard } from './guards/auth.guard';
@@ -70,9 +71,10 @@ import { DataListComponent } from './components/data-list/data-list.component';
 import { MainPageVideosComponent } from './components/mainpage-videos/mainpage-videos.component';
 import { TrendingPageComponent } from './components/trending-page/trending-page.component';
 import { MenuWrapperComponent } from './components/menu-wrapper/menu-wrapper.component';
-import { ChannelHeaderComponent } from './components/channel-header/channel-header.component';
+import { ChannelHeaderComponent } from './components/channel/channel-header/channel-header.component';
 import { ChannelComponent } from './components/channel/channel.component';
-import { ChannelSidenavComponent } from './components/channel-sidenav/channel-sidenav.component';
+import { ChannelSidenavComponent } from './components/channel/channel-sidenav/channel-sidenav.component';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +110,7 @@ import { ChannelSidenavComponent } from './components/channel-sidenav/channel-si
     ChannelHeaderComponent,
     ChannelComponent,
     ChannelSidenavComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     environment.production ? [] : AkitaNgDevtools.forRoot(),
@@ -145,6 +148,7 @@ import { ChannelSidenavComponent } from './components/channel-sidenav/channel-si
     MatProgressSpinnerModule,
     NgbModule,
     MatExpansionModule,
+    MatDialogModule,
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],

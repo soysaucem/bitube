@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { User } from '../../services/user/state/user.model';
+import { User } from '../../../services/user/state/user.model';
 
 @Component({
   selector: 'app-channel-header',
