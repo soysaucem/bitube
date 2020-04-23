@@ -2,13 +2,12 @@
   "name": "bibo-app",
   "version": "0.0.0",
   "scripts": {
-    "ng-high-memory": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng",
-    "ng": "ng",
-    "start": "npm run ng-high-memory serve",
-    "build": "npm run ng-high-memory build --no-progress",
-    "test": "npm run ng-high-memory test",
-    "lint": "npm run ng-high-memory lint",
-    "e2e": "npm run ng-high-memory e2e"
+    "ng": "node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
