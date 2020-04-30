@@ -17,8 +17,14 @@ export class AuthService {
 
   login(
     email: string,
-    password: string
+    password: string,
+    rememberMe: boolean
   ): Promise<firebase.auth.UserCredential> {
+    if (!rememberMe) {
+      this.firebaseAuth.auth.setPersistence('none');
+    } else {
+      this.firebaseAuth.auth.setPersistence('local');
+    }
     return this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
   }
 

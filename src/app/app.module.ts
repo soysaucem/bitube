@@ -39,6 +39,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 // Components
 import { AuthGuard } from './guards/auth.guard';
@@ -149,6 +150,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     NgbModule,
     MatExpansionModule,
     MatDialogModule,
+    MatCheckboxModule,
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent],
