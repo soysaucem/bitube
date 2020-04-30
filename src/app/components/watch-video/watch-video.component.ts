@@ -15,6 +15,7 @@ import { VideoService } from '../../services/video/state/video.service';
 import { VideoStore } from '../../services/video/state/video.store';
 import { downloadVideo } from '../../util/download';
 import { generateVideoUrl } from '../../util/video-url-generator';
+import { List } from 'immutable';
 
 type Opinion = 'like' | 'dislike';
 
@@ -150,8 +151,10 @@ export class WatchVideoComponent extends ComponentWithFollowButton
       return;
     }
 
-    if (type === 'like' && !this.isLiked()) {
-      const likes = this.video.likes.push(this.me.id);
+    if (type === 'like') {
+      const likes = this.isLiked()
+        ? this.video.likes.filter((like) => like !== this.me.id)
+        : this.video.likes.push(this.me.id);
       let dislikes = this.video.dislikes;
 
       // Remove dislike on like
@@ -163,8 +166,10 @@ export class WatchVideoComponent extends ComponentWithFollowButton
         likes: likes.toArray(),
         dislikes: dislikes.toArray(),
       });
-    } else if (type === 'dislike' && !this.isDisliked()) {
-      const dislikes = this.video.dislikes.push(this.me.id);
+    } else if (type === 'dislike') {
+      const dislikes = this.isDisliked()
+        ? this.video.dislikes.filter((dislike) => dislike !== this.me.id)
+        : this.video.dislikes.push(this.me.id);
       let likes = this.video.likes;
 
       // Remove like on dislike
