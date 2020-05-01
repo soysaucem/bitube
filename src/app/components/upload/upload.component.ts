@@ -44,10 +44,8 @@ export class UploadComponent extends ComponentWithSubscription
       event.type === 'drop' ? event.dataTransfer.files : event.target.files;
 
     // Filter not video files and files exceed limit
-    files = Array.prototype.filter.call(
-      files,
-      (file: File) =>
-        file.type.includes('video') && file.size <= FILE_SIZE_LIMIT
+    files = Array.prototype.filter.call(files, (file: File) =>
+      file.type.includes('video')
     );
 
     this.controller.add(files);

@@ -78,6 +78,20 @@ $section-margin-top: 20px;
             }
           }
         }
+
+        .email-status {
+          @include row-left;
+          margin-bottom: 10px;
+          width: 300px;
+
+          span {
+            margin-right: 5px;
+          }
+
+          mat-icon {
+            cursor: default;
+          }
+        }
       }
 
       .password-settings {

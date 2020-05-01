@@ -16,10 +16,13 @@
 
     .video-item-footer {
       @include row-spread;
+      position: relative;
+      width: 100%;
 
       .video-info {
         @include column-left;
         padding: 5px 10px;
+        width: 80%;
 
         .video-title {
           @include large-desktop-size;
@@ -43,7 +46,8 @@
 
       .video-settings {
         padding: 0 5px;
-        position: relative;
+        position: absolute;
+        right: 0px;
       }
     }
   }

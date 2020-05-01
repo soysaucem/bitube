@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { Title } from '@angular/platform-browser';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 
 declare const recaptchaVerifier: any;
 

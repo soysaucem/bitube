@@ -18,6 +18,7 @@ import { Title } from '@angular/platform-browser';
 })
 export class SettingsComponent implements OnInit {
   me: User;
+  myFirebaseAccount: firebase.User;
   message: string =
     'Email cannot be changed since it is your primary login method.';
   myAvatar: string;
@@ -42,6 +43,7 @@ export class SettingsComponent implements OnInit {
     this.titleService.setTitle('Settings');
     this.me = await this.userQuery.getMyAccount();
     this.myAvatar = this.me.avatar;
+    this.myFirebaseAccount = await this.userQuery.getMyFirebaseAccount();
   }
 
   get disabled() {
@@ -106,5 +108,19 @@ export class SettingsComponent implements OnInit {
       console.error('Failed to change profile image');
       console.error(err);
     }
+  }
+
+  get verificationIcon(): string {
+    return this.myFirebaseAccount.emailVerified ? 'check_circle' : 'cancel';
+  }
+
+  get statusStyle(): string {
+    return this.myFirebaseAccount.emailVerified
+      ? 'text-success'
+      : 'text-danger';
+  }
+
+  get tooltipMessage(): string {
+    return this.myFirebaseAccount.emailVerified ? 'Verified' : 'Pending';
   }
 }

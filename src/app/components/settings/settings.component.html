@@ -44,6 +44,13 @@
             {{ message }}</span
           >
         </div>
+
+        <div class="email-status">
+          <span>Email verification: </span>
+          <mat-icon [ngClass]="statusStyle" [matTooltip]="tooltipMessage">
+            {{ verificationIcon }}
+          </mat-icon>
+        </div>
       </div>
 
       <div class="divider"></div>

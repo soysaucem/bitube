@@ -73,7 +73,7 @@ export class UploadingItemComponent implements OnInit {
   }
 
   get currentProgress(): number {
-    return this.progress * 100;
+    return Math.floor(this.progress * 100);
   }
 
   get fileName(): string {
