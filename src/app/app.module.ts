@@ -71,7 +71,6 @@ import { HistoryComponent } from './components/history/history.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { DataListComponent } from './components/data-list/data-list.component';
 import { MainPageVideosComponent } from './components/mainpage-videos/mainpage-videos.component';
-import { TrendingPageComponent } from './components/trending-page/trending-page.component';
 import { MenuWrapperComponent } from './components/menu-wrapper/menu-wrapper.component';
 import { ChannelHeaderComponent } from './components/channel/channel-header/channel-header.component';
 import { ChannelComponent } from './components/channel/channel.component';
@@ -108,7 +107,6 @@ import { FollowingChannelsItemComponent } from './components/following-channels-
     NotificationComponent,
     DataListComponent,
     MainPageVideosComponent,
-    TrendingPageComponent,
     MenuWrapperComponent,
     ChannelHeaderComponent,
     ChannelComponent,

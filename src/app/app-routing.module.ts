@@ -11,7 +11,6 @@ import { ForgotPasswordComponent } from './components/auth/forgot-password/forgo
 import { SettingsRoutingModule } from './components/settings/settings-routing.module';
 import { HistoryRoutingModule } from './components/history/history-routing.module';
 import { FollowingVideosRoutingModule } from './components/following-videos/following-videos-routing.module';
-import { TrendingPageRoutingModule } from './components/trending-page/trending-page-routing.module';
 import { ChannelComponent } from './components/channel/channel.component';
 
 const routes: Routes = [
@@ -42,7 +41,6 @@ const routes: Routes = [
       { path: 'settings', loadChildren: () => SettingsRoutingModule },
       { path: 'history', loadChildren: () => HistoryRoutingModule },
       { path: 'followings', loadChildren: () => FollowingVideosRoutingModule },
-      { path: 'trending', loadChildren: () => TrendingPageRoutingModule },
       { path: 'watch/:id', component: WatchVideoComponent },
       { path: 'channel/:id', component: ChannelComponent },
     ],
