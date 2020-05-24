@@ -16,11 +16,10 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { FollowService } from '../../../services/follow.service';
-import { User } from '../../../services/user/state/user.model';
 import { Title } from '@angular/platform-browser';
 import { ComponentWithFollowButton } from '../../../abstract-components/component-with-follow-button';
 
-type ChannelSideNavActiveType = 'videos' | 'channels';
+export type ChannelSideNavActiveType = 'videos' | 'channels';
 
 @Component({
   selector: 'app-channel-sidenav',
@@ -37,9 +36,12 @@ type ChannelSideNavActiveType = 'videos' | 'channels';
 export class ChannelSidenavComponent extends ComponentWithFollowButton
   implements OnInit, OnChanges {
   @Output() visibleState: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() activeState: EventEmitter<
+    ChannelSideNavActiveType
+  > = new EventEmitter<ChannelSideNavActiveType>();
 
   visible: boolean = true;
-  active: ChannelSideNavActiveType = 'videos';
+  active: ChannelSideNavActiveType;
 
   constructor(
     readonly followService: FollowService,
@@ -49,7 +51,10 @@ export class ChannelSidenavComponent extends ComponentWithFollowButton
     super(followService, router);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.setActiveState('videos');
+    this.visibleState.emit(this.visible);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.user && changes.user.currentValue) {
@@ -60,6 +65,11 @@ export class ChannelSidenavComponent extends ComponentWithFollowButton
   toggleChannelSidenav(): void {
     this.visible = !this.visible;
     this.visibleState.emit(this.visible);
+  }
+
+  setActiveState(state: ChannelSideNavActiveType): void {
+    this.active = state;
+    this.activeState.emit(this.active);
   }
 
   get followButtonText(): string {

@@ -27,3 +27,14 @@ $video-grid-row-gap: 30px;
 $video-item-width: calc(
   (100% / #{$video-grid-items-per-row} - #{$video-grid-column-gap})
 );
+
+// Following channels grid
+$following-channels-grid-items-per-row: 6;
+$following-channels-grid-max-width: 1280px;
+$following-channels-grid-column-gap: 15px;
+$following-channels-grid-row-gap: 30px;
+$following-channels-item-width: calc(
+  (
+    100% / #{$following-channels-grid-items-per-row} - #{$following-channels-grid-column-gap}
+  )
+);

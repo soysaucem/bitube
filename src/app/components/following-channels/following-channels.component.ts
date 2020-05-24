@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { Component, OnInit, Input } from '@angular/core';
+import { List } from 'immutable';
+import { User } from '../../services/user/state/user.model';
 
 @Component({
   selector: 'app-following-channels',
@@ -7,9 +8,10 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./following-channels.component.scss'],
 })
 export class FollowingChannelsComponent implements OnInit {
-  constructor(private titleService: Title) {}
+  @Input() followingChannels: List<string>;
+  @Input() me: User;
 
-  ngOnInit(): void {
-    this.titleService.setTitle('Following channels');
-  }
+  constructor() {}
+
+  ngOnInit(): void {}
 }

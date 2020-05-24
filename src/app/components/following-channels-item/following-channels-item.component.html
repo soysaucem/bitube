@@ -1,0 +1,22 @@
+<div class="following-channels-item-container" *ngIf="user && me">
+  <mat-card class="following-channels-item">
+    <app-avatar
+      [avatarBase64]="user.avatar"
+      [size]="96"
+      routerLink="/channel/{{ user.id }}"
+    ></app-avatar>
+    <button
+      mat-button
+      class="follow-button accent-button"
+      [class.followed-button]="isFollowed"
+      (click)="toggleFollow($event)"
+      [innerHTML]="followButtonText"
+    ></button>
+    <span
+      class="channel-name"
+      [innerHTML]="user.name"
+      routerLink="/channel/{{ user.id }}"
+    ></span>
+    <span class="followers" [innerHTML]="followersText"></span>
+  </mat-card>
+</div>

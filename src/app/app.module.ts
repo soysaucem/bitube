@@ -77,6 +77,7 @@ import { ChannelHeaderComponent } from './components/channel/channel-header/chan
 import { ChannelComponent } from './components/channel/channel.component';
 import { ChannelSidenavComponent } from './components/channel/channel-sidenav/channel-sidenav.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { FollowingChannelsItemComponent } from './components/following-channels-item/following-channels-item.component';
 
 @NgModule({
   declarations: [
@@ -113,6 +114,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     ChannelComponent,
     ChannelSidenavComponent,
     ConfirmationDialogComponent,
+    FollowingChannelsItemComponent,
   ],
   imports: [
     environment.production ? [] : AkitaNgDevtools.forRoot(),

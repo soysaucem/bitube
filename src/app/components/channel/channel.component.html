@@ -11,6 +11,7 @@
       [user]="channel.user"
       [me]="channel.me"
       (visibleState)="setVisible($event)"
+      (activeState)="setActiveState($event)"
     ></app-channel-sidenav>
   </div>
 
@@ -19,6 +20,13 @@
       [type]="'card-settings'"
       [videos$]="videos$"
       [me]="channel.me"
+      *ngIf="activeState === 'videos'"
     ></app-video-grid>
+    <app-following-channels
+      [followingChannels]="channel.user.followings"
+      [me]="channel.me"
+      *ngIf="activeState === 'channels'"
+    >
+    </app-following-channels>
   </div>
 </div>

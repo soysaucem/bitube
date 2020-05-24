@@ -19,8 +19,8 @@
             class="video-title"
             matTooltip="{{ video.title }}"
             matTooltipClass="tooltip-without-truncated"
-            >{{ video.title }}</span
-          >
+            [innerHTML]="video.title"
+          ></span>
           <div class="owner">
             <div class="owner-left" routerLink="/channel/{{ user.id }}">
               <app-avatar
@@ -29,8 +29,8 @@
                 [size]="48"
               ></app-avatar>
               <div class="owner-info">
-                <span class="name">{{ user.name }}</span>
-                <span class="follow">{{ user.followers }} followers</span>
+                <span class="name" [innerHTML]="user.name"></span>
+                <span class="follow" [innerHTML]="followersText"></span>
               </div>
             </div>
 
@@ -39,10 +39,9 @@
               class="follow-button accent-button"
               [class.followed-button]="isFollowed"
               *ngIf="showFollowButton"
-              (click)="toggleFollow()"
-            >
-              {{ followButtonText }}
-            </button>
+              (click)="toggleFollow($event)"
+              [innerHTML]="followButtonText"
+            ></button>
           </div>
         </div>
 
@@ -75,8 +74,11 @@
       <mat-tab-group class="tab-group">
         <mat-tab label="Description">
           <div class="video-description">
-            <p>{{ description }}</p>
-            <p *ngIf="video.tags.size"><strong>Tags:</strong> {{ tags }}</p>
+            <p [innerHTML]="description"></p>
+            <p
+              *ngIf="video.tags.size"
+              [innerHTML]="'<strong>Tags:</strong> ' + tags"
+            ></p>
           </div>
         </mat-tab>
 

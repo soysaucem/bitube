@@ -7,8 +7,8 @@
     <div class="channel-info">
       <app-avatar [avatarBase64]="user.avatar" [size]="48"></app-avatar>
       <div class="channel-info-text">
-        <div class="channel-name">{{ user.name }}</div>
-        <div class="channel-followers">{{ user.followers }} followers</div>
+        <div class="channel-name" [innerHTML]="user.name"></div>
+        <div class="channel-followers" [innerHTML]="followersText"></div>
       </div>
     </div>
 
@@ -16,6 +16,7 @@
       <span
         class="side-menu-item"
         [class.menu-item-active]="active === 'videos'"
+        (click)="setActiveState('videos')"
       >
         <mat-icon fontSet="material-icons-outlined">video_library</mat-icon>
         Videos
@@ -23,6 +24,7 @@
       <span
         class="side-menu-item"
         [class.menu-item-active]="active === 'channels'"
+        (click)="setActiveState('channels')"
       >
         <mat-icon fontSet="material-icons-outlined">group</mat-icon>
         Channels
@@ -34,16 +36,9 @@
       class="follow-button accent-button"
       [class.followed-button]="isFollowed"
       *ngIf="showFollowButton"
-      (click)="toggleFollow()"
-    >
-      <mat-icon fontSet="material-icons-outlined" *ngIf="!isFollowed"
-        >add</mat-icon
-      >
-      <mat-icon fontSet="material-icons-outlined" *ngIf="isFollowed"
-        >check</mat-icon
-      >
-      {{ followButtonText }}
-    </button>
+      (click)="toggleFollow($event)"
+      [innerHTML]="followButtonText"
+    ></button>
   </ng-container>
 
   <div class="toggle-button show-on-top" (click)="toggleChannelSidenav()">

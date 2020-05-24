@@ -4,11 +4,7 @@
   width: 100%;
 
   .video-card-item {
-    outline: none;
-    width: 100%;
-    cursor: pointer;
-    padding: 0;
-    border-radius: 0;
+    @include base-card-item;
 
     img {
       width: 100%;

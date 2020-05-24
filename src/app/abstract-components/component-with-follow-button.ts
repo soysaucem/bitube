@@ -13,7 +13,10 @@ export class ComponentWithFollowButton extends ComponentWithSubscription {
     super();
   }
 
-  toggleFollow(): void {
+  toggleFollow(event: any): void {
+    event.preventDefault();
+    event.stopPropagation();
+
     if (!this.me) {
       this.router.navigate(['login']);
       return;
@@ -28,5 +31,11 @@ export class ComponentWithFollowButton extends ComponentWithSubscription {
 
   get isFollowed(): boolean {
     return this.me ? this.followService.isFollowed(this.user, this.me) : false;
+  }
+
+  get followersText(): string {
+    return this.user.followers <= 1
+      ? this.user.followers + ' follower'
+      : this.user.followers + 'followers';
   }
 }

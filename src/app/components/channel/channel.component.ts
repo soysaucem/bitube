@@ -15,6 +15,7 @@ import { UserQuery } from '../../services/user/state/user.query';
 import { Video } from '../../services/video/state/video.model';
 import { VideoQuery } from '../../services/video/state/video.query';
 import { ComponentWithSubscription } from '../../abstract-components/component-with-subscription';
+import { ChannelSideNavActiveType } from './channel-sidenav/channel-sidenav.component';
 
 @Component({
   selector: 'app-channel',
@@ -34,7 +35,8 @@ export class ChannelComponent extends ComponentWithSubscription
   videos$: Observable<List<Video>>;
   user$: Observable<User>;
   me$: Observable<User>;
-  visible: boolean = true;
+  visible: boolean;
+  activeState: ChannelSideNavActiveType;
 
   constructor(
     private videoQuery: VideoQuery,
@@ -58,5 +60,9 @@ export class ChannelComponent extends ComponentWithSubscription
 
   setVisible(state: boolean): void {
     this.visible = state;
+  }
+
+  setActiveState(state: ChannelSideNavActiveType): void {
+    this.activeState = state;
   }
 }
