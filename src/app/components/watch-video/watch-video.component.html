@@ -1,7 +1,15 @@
 <div class="watch-video-container" *ngIf="video && user">
   <div class="watch-video-wrapper">
     <div class="watch-video">
-      <video class="video-player" controls autoplay controlslist="nodownload">
+      <video
+        #player
+        class="video-player"
+        controls
+        autoplay
+        controlslist="nodownload"
+        (volumechange)="handleVolume($event)"
+        (loadstart)="setupDefaultPlayerProps()"
+      >
         <source [src]="link" />
       </video>
 

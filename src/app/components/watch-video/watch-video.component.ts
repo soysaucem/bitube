@@ -1,4 +1,12 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,7 +23,6 @@ import { VideoService } from '../../services/video/state/video.service';
 import { VideoStore } from '../../services/video/state/video.store';
 import { downloadVideo } from '../../util/download';
 import { generateVideoUrl } from '../../util/video-url-generator';
-import { List } from 'immutable';
 
 type Opinion = 'like' | 'dislike';
 
@@ -27,6 +34,8 @@ type Opinion = 'like' | 'dislike';
 })
 export class WatchVideoComponent extends ComponentWithFollowButton
   implements OnInit, OnDestroy {
+  @ViewChild('player') player: ElementRef;
+
   video: Video;
   likeRatio: number;
   link: string;
@@ -45,6 +54,7 @@ export class WatchVideoComponent extends ComponentWithFollowButton
     private videoStore: VideoStore,
     private auth: AuthService,
     private snackbar: MatSnackBar,
+    private cookieService: CookieService,
     private titleService: Title,
     readonly followService: FollowService,
     readonly router: Router
@@ -82,6 +92,18 @@ export class WatchVideoComponent extends ComponentWithFollowButton
     });
   }
 
+  selectUsersAndSubscribe() {
+    this.userQuery
+      .selectUser(this.video.ownerRef)
+      .pipe(takeUntil(this.watchVideoChanges$))
+      .subscribe((owner) => (this.user = owner));
+
+    this.userQuery
+      .selectMyAccount()
+      .pipe(takeUntil(this.watchVideoChanges$))
+      .subscribe((me) => (this.me = me));
+  }
+
   async handleIncomingVideo(video: Video): Promise<void> {
     this.video = video;
     this.videoStore.setActive(this.video.id);
@@ -110,16 +132,22 @@ export class WatchVideoComponent extends ComponentWithFollowButton
     }
   }
 
-  selectUsersAndSubscribe() {
-    this.userQuery
-      .selectUser(this.video.ownerRef)
-      .pipe(takeUntil(this.watchVideoChanges$))
-      .subscribe((owner) => (this.user = owner));
+  setupDefaultPlayerProps() {
+    const playerEl = this.player.nativeElement as HTMLVideoElement;
 
-    this.userQuery
-      .selectMyAccount()
-      .pipe(takeUntil(this.watchVideoChanges$))
-      .subscribe((me) => (this.me = me));
+    if (this.cookieService.get('media-muted')) {
+      playerEl.muted =
+        this.cookieService.get('media-muted') === 'true' ? true : false;
+    }
+
+    if (this.cookieService.get('media-volume')) {
+      playerEl.volume = Number(this.cookieService.get('media-volume'));
+    }
+  }
+
+  handleVolume(event: any) {
+    this.cookieService.set('media-muted', event.target.muted);
+    this.cookieService.set('media-volume', event.target.volume);
   }
 
   /**

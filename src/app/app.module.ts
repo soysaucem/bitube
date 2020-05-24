@@ -13,6 +13,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 // Angular Material Modules
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -152,7 +153,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     MatDialogModule,
     MatCheckboxModule,
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard, CookieService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
