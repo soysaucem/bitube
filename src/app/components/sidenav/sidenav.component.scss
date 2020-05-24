@@ -26,6 +26,7 @@ $sidenav-top-bot-padding: 10px;
 
     .list-start,
     .list-end {
+      form .list-button,
       .list-button {
         @include small-desktop-size;
         @include full-width-height;
@@ -39,6 +40,15 @@ $sidenav-top-bot-padding: 10px;
 
         &:hover {
           color: $pure-blue;
+        }
+      }
+
+      form .list-button {
+        background-color: $clean-white;
+        border: none;
+
+        &:hover {
+          background-color: $menu-item-hover;
         }
       }
 

@@ -84,8 +84,23 @@
         <mat-icon fontSet="material-icons-outlined">settings</mat-icon>
         <span>Settings</span>
       </a>
+      <form
+        ngNoForm
+        action="https://www.paypal.com/cgi-bin/webscr"
+        method="post"
+        target="_blank"
+      >
+        <input type="hidden" name="cmd" value="_donations" />
+        <input type="hidden" name="business" value="EQHA2YAJAW5FY" />
+        <input type="hidden" name="currency_code" value="AUD" />
+        <button mat-list-item type="submit" value="Submit" class="list-button">
+          <mat-icon fontSet="material-icons-outlined">monetization_on</mat-icon>
+          <span>Donate web master</span>
+        </button>
+      </form>
     </mat-nav-list>
   </mat-sidenav>
+
   <mat-sidenav-content class="sidenav-content">
     <app-navbar>
       <button
