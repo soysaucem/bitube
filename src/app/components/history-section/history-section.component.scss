@@ -1,0 +1,12 @@
+@import 'base.scss';
+
+.history-section-container {
+  .section-title {
+    @include large-desktop-size;
+    font-weight: 400;
+  }
+
+  .section-content {
+    margin: 20px 0;
+  }
+}

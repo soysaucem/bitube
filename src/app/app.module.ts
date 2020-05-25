@@ -77,6 +77,8 @@ import { ChannelComponent } from './components/channel/channel.component';
 import { ChannelSidenavComponent } from './components/channel/channel-sidenav/channel-sidenav.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { FollowingChannelsItemComponent } from './components/following-channels-item/following-channels-item.component';
+import { HistoryItemComponent } from './components/history-item/history-item.component';
+import { HistorySectionComponent } from './components/history-section/history-section.component';
 
 @NgModule({
   declarations: [
@@ -113,6 +115,8 @@ import { FollowingChannelsItemComponent } from './components/following-channels-
     ChannelSidenavComponent,
     ConfirmationDialogComponent,
     FollowingChannelsItemComponent,
+    HistoryItemComponent,
+    HistorySectionComponent,
   ],
   imports: [
     environment.production ? [] : AkitaNgDevtools.forRoot(),

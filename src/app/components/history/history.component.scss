@@ -1,0 +1,15 @@
+@import 'base.scss';
+
+.history-container {
+  margin: $front-main-margin $side-main-margin;
+
+  .title {
+    @include x-large-desktop-size;
+    font-weight: 500;
+  }
+
+  .content {
+    width: 50%;
+    margin-top: 20px;
+  }
+}

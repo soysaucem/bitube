@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import { Subject } from 'rxjs';
+import { Subject, combineLatest } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { ComponentWithFollowButton } from '../../abstract-components/component-with-follow-button';
 import { AuthService } from '../../services/auth.service';
@@ -23,6 +23,8 @@ import { VideoService } from '../../services/video/state/video.service';
 import { VideoStore } from '../../services/video/state/video.store';
 import { downloadVideo } from '../../util/download';
 import { generateVideoUrl } from '../../util/video-url-generator';
+import { VideoHistoryService } from '../../services/video-history/state/video-history.service';
+import { makeVideoHistory } from '../../services/video-history/state/video-history.model';
 
 type Opinion = 'like' | 'dislike';
 
@@ -56,6 +58,7 @@ export class WatchVideoComponent extends ComponentWithFollowButton
     private snackbar: MatSnackBar,
     private cookieService: CookieService,
     private titleService: Title,
+    private videoHistoryService: VideoHistoryService,
     readonly followService: FollowService,
     readonly router: Router
   ) {
@@ -92,18 +95,6 @@ export class WatchVideoComponent extends ComponentWithFollowButton
     });
   }
 
-  selectUsersAndSubscribe() {
-    this.userQuery
-      .selectUser(this.video.ownerRef)
-      .pipe(takeUntil(this.watchVideoChanges$))
-      .subscribe((owner) => (this.user = owner));
-
-    this.userQuery
-      .selectMyAccount()
-      .pipe(takeUntil(this.watchVideoChanges$))
-      .subscribe((me) => (this.me = me));
-  }
-
   async handleIncomingVideo(video: Video): Promise<void> {
     this.video = video;
     this.videoStore.setActive(this.video.id);
@@ -117,13 +108,36 @@ export class WatchVideoComponent extends ComponentWithFollowButton
     //Close subscription for previous video
     this.watchVideoChanges$.next();
 
-    // Set video display information
+    this.setupDisplayInfoForVideo();
+    this.updateViewCount();
+  }
+
+  setupDisplayInfoForVideo(): void {
     this.selectUsersAndSubscribe();
     this.likeRatio =
       this.video.likes.size /
       (this.video.likes.size + this.video.dislikes.size);
+  }
 
-    // Update view count for video
+  selectUsersAndSubscribe(): void {
+    combineLatest([
+      this.userQuery.selectUser(this.video.ownerRef),
+      this.userQuery.selectMyAccount(),
+    ])
+      .pipe(takeUntil(this.watchVideoChanges$))
+      .subscribe(async ([owner, me]) => {
+        try {
+          this.user = owner;
+          this.me = me;
+          await this.updateVideoHistoriesForCurrentUser();
+        } catch (err) {
+          console.error('Failed to setup before watching a video!');
+          console.error(err);
+        }
+      });
+  }
+
+  updateViewCount(): void {
     if (!this.updated) {
       this.videoService.updateVideo(this.video.id, {
         views: this.video.views + 1,
@@ -132,7 +146,17 @@ export class WatchVideoComponent extends ComponentWithFollowButton
     }
   }
 
-  setupDefaultPlayerProps() {
+  async updateVideoHistoriesForCurrentUser(): Promise<void> {
+    if (this.me) {
+      const videoHistory = makeVideoHistory({
+        ownerRef: this.me.id,
+        videoRef: this.video.id,
+      });
+      await this.videoHistoryService.addVideoHistory(videoHistory);
+    }
+  }
+
+  setupDefaultPlayerProps(): void {
     const playerEl = this.player.nativeElement as HTMLVideoElement;
 
     if (this.cookieService.get('media-muted')) {
@@ -145,7 +169,7 @@ export class WatchVideoComponent extends ComponentWithFollowButton
     }
   }
 
-  handleVolume(event: any) {
+  handleVolume(event: any): void {
     this.cookieService.set('media-muted', event.target.muted);
     this.cookieService.set('media-volume', event.target.volume);
   }
@@ -153,7 +177,7 @@ export class WatchVideoComponent extends ComponentWithFollowButton
   /**
    * Copy video link to clipboard
    */
-  copy() {
+  copy(): void {
     const el = document.createElement('textarea');
     el.value = document.location.href;
     el.setAttribute('readonly', '');
@@ -168,6 +192,19 @@ export class WatchVideoComponent extends ComponentWithFollowButton
       duration: 3000,
       horizontalPosition: 'left',
     });
+  }
+
+  /**
+   * Generate download link and invoke it to download
+   */
+  async download(): Promise<void> {
+    if (!(await this.auth.isAuthenticated())) {
+      this.router.navigate(['login']);
+      return;
+    }
+
+    const url = await generateVideoUrl(this.video.id);
+    downloadVideo(url, this.video.title);
   }
 
   /**
@@ -241,19 +278,6 @@ export class WatchVideoComponent extends ComponentWithFollowButton
       }
     });
     return tagString;
-  }
-
-  /**
-   * Generate download link and invoke it to download
-   */
-  async download(): Promise<void> {
-    if (!(await this.auth.isAuthenticated())) {
-      this.router.navigate(['login']);
-      return;
-    }
-
-    const url = await generateVideoUrl(this.video.id);
-    downloadVideo(url, this.video.title);
   }
 
   get followButtonText(): string {

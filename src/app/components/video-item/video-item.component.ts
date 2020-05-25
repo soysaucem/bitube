@@ -1,15 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Video } from '../../services/video/state/video.model';
-import * as moment from 'moment';
-import {
-  User,
-  fromUserJS,
-  UserJSON,
-} from '../../services/user/state/user.model';
-import { UserQuery } from '../../services/user/state/user.query';
-import { VideoService } from '../../services/video/state/video.service';
-import { take } from 'rxjs/operators';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import * as moment from 'moment';
+import { take } from 'rxjs/operators';
+import { User } from '../../services/user/state/user.model';
+import { UserQuery } from '../../services/user/state/user.query';
+import { Video } from '../../services/video/state/video.model';
+import { VideoService } from '../../services/video/state/video.service';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 export type ItemType = 'card' | 'card-settings';

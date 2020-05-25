@@ -1,1 +1,8 @@
-<p>history works!</p>
+<div class="history-container" *ngIf="sortedVideoHistories">
+  <span class="title" [innerHTML]="'Watch history'"></span>
+  <div class="content">
+    <ng-container *ngFor="let section of sortedVideoHistories">
+      <app-history-section [section]="section"></app-history-section>
+    </ng-container>
+  </div>
+</div>

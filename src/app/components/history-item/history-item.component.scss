@@ -1,0 +1,62 @@
+@import 'base.scss';
+
+.history-item-container {
+  cursor: pointer;
+  @include row-left;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  width: 100%;
+
+  img {
+    width: 246px;
+    margin-right: 16px;
+  }
+
+  .video-info {
+    width: 100%;
+    @include column-left;
+
+    .video-title-wrapper {
+      @include row-spread;
+      width: 100%;
+      height: 40px;
+
+      .video-title {
+        @include large-desktop-size;
+        font-weight: 500;
+      }
+
+      .remove-button {
+        display: none;
+        color: $gray-600;
+      }
+    }
+
+    .other-info {
+      @include small-desktop-size;
+
+      .owner-name {
+        cursor: pointer;
+
+        &:hover {
+          color: $pure-blue;
+        }
+      }
+    }
+
+    .video-description {
+      @include small-desktop-size;
+      margin-top: 15px;
+    }
+  }
+
+  &:hover {
+    .video-info {
+      .video-title-wrapper {
+        .remove-button {
+          display: block;
+        }
+      }
+    }
+  }
+}
