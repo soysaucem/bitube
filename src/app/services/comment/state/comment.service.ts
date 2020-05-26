@@ -1,3 +1,5 @@
+import { UserQuery } from './../../user/state/user.query';
+import { IpServiceService } from './../../ip-service.service';
 import { Injectable } from '@angular/core';
 import { CommentStore, CommentState } from './comment.store';
 import {
@@ -15,15 +17,19 @@ export class CommentService extends SubcollectionService<CommentState> {
   constructor(
     store: CommentStore,
     private videoQuery: VideoQuery,
-    private fireAuth: AngularFireAuth
+    private ipService: IpServiceService,
+    private userQuery: UserQuery
   ) {
     super(store);
   }
 
-  addComment(comment: Comment): Promise<any> {
+  async addComment(comment: Comment): Promise<any> {
+    const owner = await this.userQuery.getMyAccount();
+    const ip = await this.ipService.getIpAdress();
     const commentJS = toCommentJS({
       ...comment,
-      ownerRef: this.fireAuth.auth.currentUser.uid,
+      ownerRef: owner ? owner.id : null,
+      ip: ip.ip,
     });
     return this.add(commentJS);
   }

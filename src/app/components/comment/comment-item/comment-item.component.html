@@ -9,10 +9,10 @@
 
       <div class="content">
         <div class="owner-info">
-          <span class="name">{{ owner.name }}</span>
-          <span class="time">{{ createdDuration }}</span>
+          <span class="name" [innerHTML]="owner.name"></span>
+          <span class="time" [innerHTML]="createdDuration"></span>
         </div>
-        <span class="comment-content">{{ comment.content }}</span>
+        <span class="comment-content" [innerHTML]="comment.content"></span>
       </div>
     </div>
   </div>

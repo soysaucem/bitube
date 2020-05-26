@@ -6,7 +6,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
 import { fromUserJS, UserJSON, User } from './user.model';
 import { UserService } from './user.service';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UserQuery extends QueryEntity<UserState> {
@@ -54,7 +54,11 @@ export class UserQuery extends QueryEntity<UserState> {
 
   selectMyAccount(): Observable<User> {
     return this.selectMyFirebaseAccount().pipe(
-      switchMap((firebaseUser) => this.selectUser(firebaseUser.uid))
+      switchMap((firebaseUser) =>
+        firebaseUser
+          ? this.selectUser(firebaseUser.uid)
+          : (of(null) as Observable<User>)
+      )
     );
   }
 

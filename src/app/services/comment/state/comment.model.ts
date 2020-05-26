@@ -5,6 +5,7 @@ export interface Comment {
   id: string;
   ownerRef: string;
   content: string;
+  ip: string;
   createdAt: string;
 }
 
@@ -12,6 +13,7 @@ export interface CommentJSON {
   id: string;
   ownerRef: string;
   content: string;
+  ip: string;
   createdAt: string;
 }
 
@@ -20,6 +22,7 @@ export function createDefault(): Comment {
     id: uuidv4(),
     ownerRef: null,
     content: null,
+    ip: null,
     createdAt: moment().toISOString(),
   });
 }

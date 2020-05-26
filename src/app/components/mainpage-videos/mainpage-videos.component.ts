@@ -49,7 +49,7 @@ export class MainPageVideosComponent implements OnInit {
   }
 
   async createDefaultPlaylist(): Promise<void> {
-    if (this.me.defaultPlaylist) {
+    if (!this.me || this.me.defaultPlaylist) {
       return;
     }
 

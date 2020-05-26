@@ -1,3 +1,4 @@
+import { IpServiceService } from './../../services/ip-service.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { List } from 'immutable';
@@ -23,10 +24,8 @@ export class CommentComponent extends ComponentWithSubscription
   comments: List<Comment>;
 
   constructor(
-    private auth: AuthService,
     private commentService: CommentService,
-    private commentQuery: CommentQuery,
-    private router: Router
+    private commentQuery: CommentQuery
   ) {
     super();
   }
@@ -39,13 +38,6 @@ export class CommentComponent extends ComponentWithSubscription
 
   handleInput(event: any): void {
     this.content = event.target.value;
-  }
-
-  async redirect(): Promise<void> {
-    if (!(await this.auth.isAuthenticated())) {
-      this.router.navigate(['login']);
-      return;
-    }
   }
 
   async post(): Promise<void> {
