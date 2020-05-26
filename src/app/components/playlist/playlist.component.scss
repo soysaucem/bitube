@@ -1,0 +1,10 @@
+@import 'base.scss';
+
+.playlist-container {
+  margin: $front-main-margin $side-main-margin;
+
+  .playlist-content {
+    width: 50%;
+    margin-top: 20px;
+  }
+}

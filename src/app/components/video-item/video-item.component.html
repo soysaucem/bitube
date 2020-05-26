@@ -1,6 +1,30 @@
-<div class="video-item-container" *ngIf="video && owner">
+<div
+  class="video-item-container"
+  *ngIf="video && owner && isAdded !== undefined"
+>
   <mat-card class="video-card-item" routerLink="/watch/{{ video.id }}">
-    <img src="{{ video.thumbnail }}" />
+    <div class="thumbnail-wrapper">
+      <img src="{{ video.thumbnail }}" />
+      <div class="thumbnail-overlay">
+        <div
+          [matTooltip]="getTooltipMessage()"
+          matTooltipPosition="left"
+          class="watch-later-button"
+          (click)="toggleAddingToWatchLater($event)"
+        >
+          <mat-icon
+            *ngIf="!isAdded"
+            style="background-color: black; color: white;"
+            >watch_later</mat-icon
+          >
+          <mat-icon
+            *ngIf="isAdded"
+            style="background-color: black; color: white;"
+            >check</mat-icon
+          >
+        </div>
+      </div>
+    </div>
 
     <div class="video-item-footer">
       <div class="video-info">

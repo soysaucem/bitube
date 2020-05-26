@@ -6,8 +6,38 @@
   .video-card-item {
     @include base-card-item;
 
-    img {
+    .thumbnail-wrapper {
       width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      position: relative;
+
+      img,
+      .thumbnail-overlay {
+        width: 100%;
+      }
+
+      .thumbnail-overlay {
+        @include column-right;
+        justify-content: flex-start;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+
+        .watch-later-button {
+          display: none;
+          margin-top: 5px;
+          margin-right: 5px;
+
+          mat-icon {
+            @include column-center;
+            width: 30px;
+            height: 30px;
+            border-radius: 2px;
+          }
+        }
+      }
     }
 
     .video-item-footer {
@@ -44,6 +74,18 @@
         padding: 0 5px;
         position: absolute;
         right: 0px;
+      }
+    }
+  }
+
+  &:hover {
+    .video-card-item {
+      .thumbnail-wrapper {
+        .thumbnail-overlay {
+          .watch-later-button {
+            display: block;
+          }
+        }
       }
     }
   }

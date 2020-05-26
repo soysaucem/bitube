@@ -38,13 +38,8 @@ export class VideoHistoryQuery extends QueryEntity<VideoHistoryState> {
       );
   }
 
-  async getVideoHistoriesForUser(id: string): Promise<List<VideoHistory>> {
-    const histories = await this.selectVideoHistoriesForUser(id)
-      .pipe(take(1))
-      .toPromise();
-    return histories.map((history) =>
-      fromVideoHistoryJS(history as VideoHistoryJSON)
-    );
+  getVideoHistoriesForUser(id: string): Promise<List<VideoHistory>> {
+    return this.selectVideoHistoriesForUser(id).pipe(take(1)).toPromise();
   }
 
   async getVideoHistoriesForVideo(

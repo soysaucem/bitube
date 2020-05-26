@@ -7,7 +7,7 @@ export interface User {
   avatar: string;
   followers: number;
   followings: List<string>;
-  videos: List<string>;
+  defaultPlaylist: string;
 }
 
 export interface UserJSON {
@@ -17,7 +17,7 @@ export interface UserJSON {
   avatar: string;
   followers: number;
   followings: string[];
-  videos: string[];
+  defaultPlaylist: string;
 }
 
 export function createDefault(): User {
@@ -28,7 +28,7 @@ export function createDefault(): User {
     avatar: null,
     followers: 0,
     followings: List(),
-    videos: List(),
+    defaultPlaylist: null,
   });
 }
 
@@ -43,7 +43,6 @@ export function fromUserJS(input: UserJSON): User {
   return Object.freeze({
     ...input,
     followings: List(input.followings),
-    videos: List(input.videos),
   });
 }
 
@@ -51,6 +50,5 @@ export function toUserJS(input: User): UserJSON {
   return Object.freeze({
     ...input,
     followings: input.followings.toArray(),
-    videos: input.videos.toArray(),
   });
 }

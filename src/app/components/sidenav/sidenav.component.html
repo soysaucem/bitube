@@ -1,4 +1,4 @@
-<mat-sidenav-container class="sidenav-container">
+<mat-sidenav-container class="sidenav-container" *ngIf="watchLaterURL">
   <mat-sidenav
     #drawer
     class="sidenav"
@@ -44,7 +44,7 @@
       <a
         mat-list-item
         class="list-button"
-        routerLink="/following-channels"
+        [routerLink]="watchLaterURL"
         [routerLinkActive]="'menu-item-active'"
         [routerLinkActiveOptions]="{ exact: true }"
       >

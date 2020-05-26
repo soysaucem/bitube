@@ -1,0 +1,10 @@
+<div class="playlist-container" *ngIf="playlistVideos">
+  <div class="playlist-content" cdkDropList (cdkDropListDropped)="drop($event)">
+    <div class="playlist-item" *ngFor="let video of playlistVideos" cdkDrag>
+      <app-video-list-item
+        [playlistId]="playlist.id"
+        [videoListItemId]="video.id"
+      ></app-video-list-item>
+    </div>
+  </div>
+</div>

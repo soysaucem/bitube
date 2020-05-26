@@ -1,0 +1,32 @@
+<div
+  class="video-list-item-container"
+  *ngIf="video && owner"
+  routerLink="/watch/{{ video.id }}"
+>
+  <img src="{{ video.thumbnail }}" />
+  <div class="video-info">
+    <div class="video-title-wrapper">
+      <span class="video-title" [innerHTML]="video.title"></span>
+      <button
+        matTooltip="Remove from playlist"
+        class="remove-button"
+        mat-icon-button
+        (click)="removeVideoListItem($event)"
+      >
+        <mat-icon fontSet="material-icons-outlined">delete</mat-icon>
+      </button>
+    </div>
+    <div class="other-info">
+      <span
+        class="owner-name"
+        [innerHTML]="'By ' + owner.name"
+        (click)="navigateToOwnerChannel($event)"
+      ></span>
+      <span
+        class="video-views"
+        [innerHTML]="' • ' + video.views + ' views'"
+      ></span>
+    </div>
+    <span class="video-description" [innerHTML]="video.description"> </span>
+  </div>
+</div>

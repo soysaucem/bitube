@@ -1,3 +1,5 @@
+import { PlaylistRoutingModule } from './components/playlist/playlist-routing.module';
+import { PlaylistComponent } from './components/playlist/playlist.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainPageComponent } from './components/mainpage/mainpage.component';
@@ -43,6 +45,7 @@ const routes: Routes = [
       { path: 'followings', loadChildren: () => FollowingVideosRoutingModule },
       { path: 'watch/:id', component: WatchVideoComponent },
       { path: 'channel/:id', component: ChannelComponent },
+      { path: 'playlist/:id', loadChildren: () => PlaylistRoutingModule },
     ],
   },
 ];

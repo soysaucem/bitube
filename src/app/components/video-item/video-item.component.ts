@@ -1,3 +1,4 @@
+import { PlaylistService } from './../../services/playlist/state/playlist.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
@@ -7,6 +8,7 @@ import { UserQuery } from '../../services/user/state/user.query';
 import { Video } from '../../services/video/state/video.model';
 import { VideoService } from '../../services/video/state/video.service';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { PlaylistQuery } from '../../services/playlist/state/playlist.query';
 
 export type ItemType = 'card' | 'card-settings';
 
@@ -23,6 +25,7 @@ export class VideoItemComponent implements OnInit {
   owner: User;
 
   hidden: boolean = true;
+  isAdded: boolean;
 
   private dialogTitle: string = 'Remove video';
   private dialogMessage: string =
@@ -31,11 +34,17 @@ export class VideoItemComponent implements OnInit {
   constructor(
     private userQuery: UserQuery,
     private videoService: VideoService,
+    private playlistService: PlaylistService,
+    private playlistQuery: PlaylistQuery,
     private dialog: MatDialog
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.owner = await this.userQuery.getUser(this.video.ownerRef);
+
+    this.isAdded = this.me
+      ? await this.playlistQuery.isAddedToWatchLater(this.video.id, this.me.id)
+      : false;
   }
 
   toggleMenu(event: any): void {
@@ -67,11 +76,38 @@ export class VideoItemComponent implements OnInit {
     await this.videoService.deleteVideo(this.video.id);
   }
 
+  async toggleAddingToWatchLater(event: any): Promise<void> {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    if (!this.me) {
+      return;
+    }
+
+    if (this.isAdded) {
+      this.isAdded = false;
+      await this.playlistService.removeVideoFromWatchLater(
+        this.video.id,
+        this.me.id
+      );
+    } else {
+      this.isAdded = true;
+      await this.playlistService.addVideoToWatchLater(
+        this.video.id,
+        this.me.id
+      );
+    }
+  }
+
   get createdDuration(): string {
     return moment(this.video.createdAt).fromNow();
   }
 
   get showSettings(): boolean {
     return this.type === 'card-settings' && this.owner.id === this.me?.id;
+  }
+
+  getTooltipMessage(): string {
+    return this.isAdded ? 'ADDED' : 'WATCH LATER';
   }
 }

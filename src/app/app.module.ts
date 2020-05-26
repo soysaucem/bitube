@@ -41,6 +41,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 // Components
 import { AuthGuard } from './guards/auth.guard';
@@ -79,6 +80,8 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
 import { FollowingChannelsItemComponent } from './components/following-channels-item/following-channels-item.component';
 import { HistoryItemComponent } from './components/history-item/history-item.component';
 import { HistorySectionComponent } from './components/history-section/history-section.component';
+import { PlaylistComponent } from './components/playlist/playlist.component';
+import { VideoListItemComponent } from './components/video-list-item/video-list-item.component';
 
 @NgModule({
   declarations: [
@@ -117,6 +120,8 @@ import { HistorySectionComponent } from './components/history-section/history-se
     FollowingChannelsItemComponent,
     HistoryItemComponent,
     HistorySectionComponent,
+    PlaylistComponent,
+    VideoListItemComponent,
   ],
   imports: [
     environment.production ? [] : AkitaNgDevtools.forRoot(),
@@ -156,6 +161,7 @@ import { HistorySectionComponent } from './components/history-section/history-se
     MatExpansionModule,
     MatDialogModule,
     MatCheckboxModule,
+    DragDropModule,
   ],
   providers: [AuthGuard, CookieService],
   bootstrap: [AppComponent],

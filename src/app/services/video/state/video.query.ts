@@ -58,6 +58,17 @@ export class VideoQuery extends QueryEntity<VideoState> {
       );
   }
 
+  async getVideosForPlaylist(ids: List<string>): Promise<List<Video>> {
+    if (!ids || ids.size === 0) {
+      return List();
+    }
+
+    const videoPromises = ids.map((id) => this.getVideo(id));
+    const videos = await Promise.all(videoPromises);
+
+    return List(videos);
+  }
+
   async getVideosWith(title: string): Promise<List<Video>> {
     const docs = await this.firestore
       .collection('videos')

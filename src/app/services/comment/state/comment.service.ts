@@ -29,6 +29,7 @@ export class CommentService extends SubcollectionService<CommentState> {
   }
 
   updateComment(id: string, props: Partial<CommentJSON>): any {
+    this.store.update(id, props);
     return this.update({ ...props, id: id });
   }
 

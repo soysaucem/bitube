@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CollectionConfig, CollectionService } from 'akita-ng-fire';
+import * as moment from 'moment';
 import {
   toVideoHistoryJS,
   VideoHistory,
   VideoHistoryJSON,
 } from './video-history.model';
-import { VideoHistoryState, VideoHistoryStore } from './video-history.store';
 import { VideoHistoryQuery } from './video-history.query';
-import * as moment from 'moment';
+import { VideoHistoryState, VideoHistoryStore } from './video-history.store';
 
 @Injectable({ providedIn: 'root' })
 @CollectionConfig({ path: 'videohistories', idKey: 'id' })
@@ -47,10 +47,12 @@ export class VideoHistoryService extends CollectionService<VideoHistoryState> {
   }
 
   updateVideoHistory(id: string, props: Partial<VideoHistoryJSON>): any {
+    this.store.update(id, props);
     return this.update({ ...props, id: id });
   }
 
   removeVideoHistory(id: string): Promise<any> {
+    this.store.remove(id);
     return this.remove(id);
   }
 }
