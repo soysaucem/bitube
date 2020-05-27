@@ -58,6 +58,26 @@ export class VideoQuery extends QueryEntity<VideoState> {
       );
   }
 
+  selectVideosForUserWithLimit(
+    id: string,
+    limit: number
+  ): Observable<List<Video>> {
+    return this.firestore
+      .collection<VideoJSON>('videos', (ref) =>
+        ref
+          .where('ownerRef', '==', id)
+          .limit(limit)
+          .orderBy('createdAt', 'desc')
+      )
+      .valueChanges()
+      .pipe(
+        tap((videos) => this.store.set([...videos])),
+        map((videos) =>
+          List(videos.map((video) => fromVideoJS(video as VideoJSON)))
+        )
+      );
+  }
+
   async getVideosForPlaylist(ids: List<string>): Promise<List<Video>> {
     if (!ids || ids.size === 0) {
       return List();

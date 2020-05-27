@@ -1,0 +1,37 @@
+@import 'base.scss';
+
+$number-of-row-items: 6;
+$video-item-margin-right: 10px;
+
+.following-videos-section-container {
+  margin: $front-main-margin $side-main-margin;
+
+  .section-title-wrapper {
+    @include row-spread;
+    width: 100%;
+
+    .section-title {
+      @include section-title;
+      cursor: default;
+    }
+  }
+
+  .section-content {
+    @include row-left;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 10px;
+
+    app-video-item {
+      max-width: calc(
+        (100% - (#{$video-item-margin-right} * (#{$number-of-row-items} - 1))) /
+          #{$number-of-row-items}
+      );
+      min-width: 200px;
+
+      &:not(:last-child) {
+        margin-right: $video-item-margin-right;
+      }
+    }
+  }
+}

@@ -2,8 +2,7 @@
 
 .history-section-container {
   .section-title {
-    @include large-desktop-size;
-    font-weight: 400;
+    @include section-title;
   }
 
   .section-content {

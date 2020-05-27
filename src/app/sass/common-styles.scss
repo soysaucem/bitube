@@ -165,6 +165,11 @@
   color: $pure-blue;
 }
 
+@mixin section-title {
+  @include large-desktop-size;
+  font-weight: 400;
+}
+
 .popover-item {
   @include popover-item-common;
   color: $light-grey;
