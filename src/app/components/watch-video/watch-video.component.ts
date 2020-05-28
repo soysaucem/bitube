@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Title } from '@angular/platform-browser';
+import { Title, Meta } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Subject, combineLatest } from 'rxjs';
@@ -58,6 +58,7 @@ export class WatchVideoComponent extends ComponentWithFollowButton
     private snackbar: MatSnackBar,
     private cookieService: CookieService,
     private titleService: Title,
+    private meta: Meta,
     private videoHistoryService: VideoHistoryService,
     readonly followService: FollowService,
     readonly router: Router
@@ -67,7 +68,7 @@ export class WatchVideoComponent extends ComponentWithFollowButton
 
   ngOnInit(): void {
     this.setupVideoSubscriber();
-    this.facebookUrl = `https://www.facebook.com/sharer/sharer.php?display=page&u=${document.location.href}&src=sdkpreparse`;
+    this.facebookUrl = `https://www.facebook.com/sharer/sharer.php?display=popup&u=${document.location.href}&src=sdkpreparse`;
     this.twitterUrl = `https://twitter.com/intent/tweet?url=${document.location.href}`;
   }
 
@@ -75,6 +76,13 @@ export class WatchVideoComponent extends ComponentWithFollowButton
     super.ngOnDestroy();
     this.watchVideoChanges$.next();
     this.watchVideoChanges$.complete();
+  }
+
+  setupMedataData(): void {
+    this.meta.addTags([
+      { name: 'og:title', content: `${this.video.title}` },
+      { name: 'og:image', content: `${this.video.thumbnail}` },
+    ]);
   }
 
   /**
@@ -101,6 +109,9 @@ export class WatchVideoComponent extends ComponentWithFollowButton
 
     // Set browser title
     this.titleService.setTitle(this.video.title);
+
+    // Set metadata
+    this.setupMedataData();
 
     // Generate cloudfront link of video
     this.link = await generateVideoUrl(this.video.id);
