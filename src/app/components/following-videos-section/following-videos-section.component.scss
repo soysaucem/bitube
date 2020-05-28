@@ -28,6 +28,7 @@ $video-item-margin-right: 10px;
           #{$number-of-row-items}
       );
       min-width: 200px;
+      margin-bottom: 10px;
 
       &:not(:last-child) {
         margin-right: $video-item-margin-right;

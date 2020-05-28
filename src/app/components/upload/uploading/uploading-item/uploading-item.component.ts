@@ -8,10 +8,9 @@ import { UserQuery } from '../../../../services/user/state/user.query';
 import { makeVideo } from '../../../../services/video/state/video.model';
 import { VideoService } from '../../../../services/video/state/video.service';
 import { generateThumbnail } from '../../../../util/generate-thumbnail';
+import { ENTER, COMMA } from '../../../../util/variables';
 
 type InputType = 'description' | 'title';
-const ENTER = 13;
-const COMMA = 188;
 
 @Component({
   selector: 'app-uploading-item',

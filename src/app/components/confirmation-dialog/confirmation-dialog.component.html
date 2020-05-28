@@ -1,5 +1,5 @@
 <div class="confirmation-dialog-container">
-  <h1 mat-dialog-title>{{ data.title }}</h1>
+  <h1 mat-dialog-title [innerHTML]="data.title"></h1>
   <div mat-dialog-content>
     <p [innerHTML]="data.message"></p>
   </div>

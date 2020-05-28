@@ -4,3 +4,7 @@ export const PROFILE_BUCKET_NAME = 'bibo-profile';
 export const CLOUD_FUNTIONS = {
   getVideo: 'https://us-central1-bibo-app.cloudfunctions.net/getVideo',
 };
+
+// Key code
+export const ENTER = 13;
+export const COMMA = 188;

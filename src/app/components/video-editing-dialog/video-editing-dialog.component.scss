@@ -1,0 +1,25 @@
+@import 'base.scss';
+
+.video-editing-dialog-container {
+  .dialog-content {
+    @include column-left;
+    width: 100%;
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+
+  .dialog-actions {
+    @include row-spread;
+    width: 100%;
+
+    button {
+      width: 45%;
+    }
+
+    .edit-button {
+      color: $pure-blue;
+    }
+  }
+}

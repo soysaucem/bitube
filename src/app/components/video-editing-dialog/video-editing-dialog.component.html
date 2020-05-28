@@ -1,0 +1,49 @@
+<div class="video-editing-dialog-container">
+  <h1 mat-dialog-title [innerHTML]="data.dialogTitle"></h1>
+  <div mat-dialog-content class="dialog-content">
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput [(ngModel)]="data.title" />
+    </mat-form-field>
+
+    <mat-form-field class="chip-field">
+      <mat-chip-list #chipList aria-label="Tags">
+        <mat-chip
+          *ngFor="let tag of data.tags"
+          [selectable]="selectable"
+          [removable]="removable"
+          (removed)="removeTag(tag)"
+        >
+          {{ tag }}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="Tags"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="addTag($event)"
+        />
+      </mat-chip-list>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <textarea matInput [(ngModel)]="data.description"></textarea>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="onCancelClick()">Cancel</button>
+    <button
+      mat-flat-button
+      class="primary-button"
+      [mat-dialog-close]="{
+        title: data.title,
+        description: data.description,
+        tags: data.tags
+      }"
+    >
+      Edit
+    </button>
+  </div>
+</div>

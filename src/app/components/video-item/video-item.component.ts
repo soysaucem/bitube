@@ -9,6 +9,8 @@ import { Video } from '../../services/video/state/video.model';
 import { VideoService } from '../../services/video/state/video.service';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { PlaylistQuery } from '../../services/playlist/state/playlist.query';
+import { VideoEditingDialogComponent } from '../video-editing-dialog/video-editing-dialog.component';
+import { List } from 'immutable';
 
 export type ItemType = 'card' | 'card-settings';
 
@@ -27,9 +29,15 @@ export class VideoItemComponent implements OnInit {
   hidden: boolean = true;
   isAdded: boolean;
 
+  title: string;
+  description: string;
+  tags: List<string>;
+
   private dialogTitle: string = 'Remove video';
   private dialogMessage: string =
     'Video will be removed <strong>permanently</strong>. Are you sure?';
+
+  private editingDialogTitle: string = 'Edit video';
 
   constructor(
     private userQuery: UserQuery,
@@ -40,11 +48,18 @@ export class VideoItemComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    this.initVideoEditingData();
     this.owner = await this.userQuery.getUser(this.video.ownerRef);
 
     this.isAdded = this.me
       ? await this.playlistQuery.isAddedToWatchLater(this.video.id, this.me.id)
       : false;
+  }
+
+  initVideoEditingData(): void {
+    this.title = this.video.title;
+    this.description = this.video.description;
+    this.tags = this.video.tags;
   }
 
   toggleMenu(event: any): void {
@@ -59,7 +74,10 @@ export class VideoItemComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '350px',
       height: '210px',
-      data: { title: this.dialogTitle, message: this.dialogMessage },
+      data: {
+        title: this.dialogTitle,
+        message: this.dialogMessage,
+      },
     });
 
     dialogRef
@@ -72,8 +90,37 @@ export class VideoItemComponent implements OnInit {
       });
   }
 
+  openEditingVideoDialog(event: any): void {
+    this.toggleMenu(event);
+
+    const dialogRef = this.dialog.open(VideoEditingDialogComponent, {
+      width: '500px',
+      height: '370px',
+      data: {
+        dialogTitle: this.editingDialogTitle,
+        title: this.title,
+        description: this.description,
+        tags: this.tags,
+      },
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.updateVideo(result);
+      });
+  }
+
   async deleteVideo(): Promise<void> {
     await this.videoService.deleteVideo(this.video.id);
+  }
+
+  updateVideo(result: any): void {
+    this.videoService.updateVideo(this.video.id, {
+      ...result,
+      tags: result.tags.toArray(),
+    });
   }
 
   async toggleAddingToWatchLater(event: any): Promise<void> {

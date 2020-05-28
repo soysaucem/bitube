@@ -55,7 +55,7 @@
         </button>
 
         <app-menu-wrapper [hidden]="hidden">
-          <span class="popover-item">
+          <span class="popover-item" (click)="openEditingVideoDialog($event)">
             <mat-icon fontSet="material-icons-outlined">create</mat-icon>
             Edit
           </span>

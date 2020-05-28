@@ -83,6 +83,7 @@ import { HistorySectionComponent } from './components/history-section/history-se
 import { PlaylistComponent } from './components/playlist/playlist.component';
 import { VideoListItemComponent } from './components/video-list-item/video-list-item.component';
 import { FollowingVideosSectionComponent } from './components/following-videos-section/following-videos-section.component';
+import { VideoEditingDialogComponent } from './components/video-editing-dialog/video-editing-dialog.component';
 
 @NgModule({
   declarations: [
@@ -124,6 +125,7 @@ import { FollowingVideosSectionComponent } from './components/following-videos-s
     PlaylistComponent,
     VideoListItemComponent,
     FollowingVideosSectionComponent,
+    VideoEditingDialogComponent,
   ],
   imports: [
     environment.production ? [] : AkitaNgDevtools.forRoot(),
