@@ -17,11 +17,13 @@ export class UploadController {
   constructor() {}
 
   private makeUploadRequest(id: string, file: File): S3.ManagedUpload {
+    const videoType = file.name.split('.')[file.name.split('.').length - 1];
     const params = {
       Bucket: BUCKET_NAME,
       Key: id,
       Body: file,
       ACL: 'private',
+      ContentDisposition: `inline; filename=${id}.${videoType};`,
       ContentType: 'application/octet-stream',
     };
 
