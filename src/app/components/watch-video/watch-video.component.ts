@@ -304,7 +304,7 @@ export class WatchVideoComponent extends ComponentWithFollowButton
       {
         display: 'popup',
         method: 'share',
-        href: `${document.location.href}`,
+        href: `${window.location.href}`,
       },
       function (response) {}
     );
