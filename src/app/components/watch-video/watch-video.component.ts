@@ -27,6 +27,7 @@ import { VideoHistoryService } from '../../services/video-history/state/video-hi
 import { makeVideoHistory } from '../../services/video-history/state/video-history.model';
 
 type Opinion = 'like' | 'dislike';
+declare const FB: any;
 
 @Component({
   selector: 'app-watch-video',
@@ -64,11 +65,17 @@ export class WatchVideoComponent extends ComponentWithFollowButton
     readonly router: Router
   ) {
     super(followService, router);
+    FB.init({
+      appId: '2658133077766202',
+      cookie: false, // enable cookies to allow the server to access
+      // the session
+      xfbml: true, // parse social plugins on this page
+      version: 'v3.0',
+    });
   }
 
   ngOnInit(): void {
     this.setupVideoSubscriber();
-    this.facebookUrl = `https://www.facebook.com/sharer/sharer.php?display=popup&u=${document.location.href}&src=sdkpreparse`;
     this.twitterUrl = `https://twitter.com/intent/tweet?url=${document.location.href}`;
   }
 
@@ -293,5 +300,16 @@ export class WatchVideoComponent extends ComponentWithFollowButton
 
   get followButtonText(): string {
     return this.isFollowed ? 'Unfollow' : 'Follow';
+  }
+
+  shareFacebook() {
+    return FB.ui(
+      {
+        display: 'popup',
+        method: 'share',
+        href: `${document.location.href}`,
+      },
+      function (response) {}
+    );
   }
 }
