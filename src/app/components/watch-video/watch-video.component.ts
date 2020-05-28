@@ -1,3 +1,4 @@
+import { MetaTagService } from './../../services/meta-tag.service';
 import { CookieService } from 'ngx-cookie-service';
 import {
   Component,
@@ -8,7 +9,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Title, Meta } from '@angular/platform-browser';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Subject, combineLatest } from 'rxjs';
@@ -59,8 +60,8 @@ export class WatchVideoComponent extends ComponentWithFollowButton
     private snackbar: MatSnackBar,
     private cookieService: CookieService,
     private titleService: Title,
-    private meta: Meta,
     private videoHistoryService: VideoHistoryService,
+    private metaTagService: MetaTagService,
     readonly followService: FollowService,
     readonly router: Router
   ) {
@@ -83,13 +84,6 @@ export class WatchVideoComponent extends ComponentWithFollowButton
     super.ngOnDestroy();
     this.watchVideoChanges$.next();
     this.watchVideoChanges$.complete();
-  }
-
-  setupMedataData(): void {
-    this.meta.addTags([
-      { name: 'og:title', content: `${this.video.title}` },
-      { name: 'og:image', content: `${this.video.thumbnail}` },
-    ]);
   }
 
   /**
@@ -118,7 +112,10 @@ export class WatchVideoComponent extends ComponentWithFollowButton
     this.titleService.setTitle(this.video.title);
 
     // Set metadata
-    this.setupMedataData();
+    this.metaTagService.setSocialMediaTags(
+      this.video.title,
+      this.video.thumbnail
+    );
 
     // Generate cloudfront link of video
     this.link = await generateVideoUrl(this.video.id);
