@@ -14,6 +14,7 @@ import { SettingsRoutingModule } from './components/settings/settings-routing.mo
 import { HistoryRoutingModule } from './components/history/history-routing.module';
 import { FollowingVideosRoutingModule } from './components/following-videos/following-videos-routing.module';
 import { ChannelComponent } from './components/channel/channel.component';
+import { MetaGuard } from 'ng2-meta';
 
 const routes: Routes = [
   {
@@ -43,7 +44,11 @@ const routes: Routes = [
       { path: 'settings', loadChildren: () => SettingsRoutingModule },
       { path: 'history', loadChildren: () => HistoryRoutingModule },
       { path: 'followings', loadChildren: () => FollowingVideosRoutingModule },
-      { path: 'watch/:id', component: WatchVideoComponent },
+      {
+        path: 'watch/:id',
+        component: WatchVideoComponent,
+        canActivate: [MetaGuard],
+      },
       { path: 'channel/:id', component: ChannelComponent },
       { path: 'playlist/:id', loadChildren: () => PlaylistRoutingModule },
     ],

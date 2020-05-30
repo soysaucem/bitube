@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
+import { MetaModule } from 'ng2-meta';
 
 // Angular Material Modules
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -166,6 +167,7 @@ import { VideoEditingDialogComponent } from './components/video-editing-dialog/v
     MatDialogModule,
     MatCheckboxModule,
     DragDropModule,
+    MetaModule.forRoot(),
   ],
   providers: [AuthGuard, CookieService],
   bootstrap: [AppComponent],
