@@ -10,7 +10,7 @@ export class IpServiceService {
 
   getIpAdress(): Promise<any> {
     return this.http
-      .get('http://api.ipify.org/?format=json')
+      .get('https://api.ipify.org/?format=json')
       .pipe(take(1))
       .toPromise();
   }
