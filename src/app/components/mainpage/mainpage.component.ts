@@ -1,9 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { List } from 'immutable';
-import { Observable } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
-import { Video } from '../../services/video/state/video.model';
-import { VideoQuery } from '../../services/video/state/video.query';
 
 @Component({
   selector: 'app-mainpage',
@@ -11,11 +6,7 @@ import { VideoQuery } from '../../services/video/state/video.query';
   styleUrls: ['./mainpage.component.scss'],
 })
 export class MainPageComponent implements OnInit {
-  videos$: Observable<List<Video>>;
+  constructor() {}
 
-  constructor(readonly auth: AuthService, private videoQuery: VideoQuery) {}
-
-  ngOnInit(): void {
-    this.videos$ = this.videoQuery.selectVideos();
-  }
+  ngOnInit(): void {}
 }

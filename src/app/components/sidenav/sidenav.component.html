@@ -1,105 +1,49 @@
 <mat-sidenav-container class="sidenav-container" *ngIf="watchLaterURL">
-  <mat-sidenav
-    #drawer
-    class="sidenav"
-    fixedInViewport
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="(isHandset$ | async) === false"
-    [disableClose]="true"
-  >
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false" [disableClose]="true">
     <div class="logo" routerLink="/">Bibo</div>
     <mat-nav-list class="list-start">
-      <a
-        mat-list-item
-        class="list-button"
-        routerLink="/"
-        [routerLinkActive]="'menu-item-active'"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
+      <a mat-list-item class="list-button" routerLink="/" [routerLinkActive]="'menu-item-active'"
+        [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon fontSet="material-icons-outlined">home</mat-icon>
         <span>Home</span>
       </a>
-      <a
-        mat-list-item
-        class="list-button"
-        routerLink="/followings"
-        [routerLinkActive]="'menu-item-active'"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
+      <a mat-list-item class="list-button" routerLink="/followings" [routerLinkActive]="'menu-item-active'"
+        [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon fontSet="material-icons-outlined">subscriptions</mat-icon>
         <span>Following</span>
       </a>
-      <a
-        mat-list-item
-        class="list-button"
-        routerLink="/upload"
-        [routerLinkActive]="'menu-item-active'"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
+      <a mat-list-item class="list-button" routerLink="/upload" [routerLinkActive]="'menu-item-active'"
+        [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon fontSet="material-icons-outlined">cloud_upload</mat-icon>
         <span>Upload</span>
       </a>
       <div class="divider"></div>
-      <a
-        mat-list-item
-        class="list-button"
-        [routerLink]="watchLaterURL"
-        [routerLinkActive]="'menu-item-active'"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
+      <a mat-list-item class="list-button" [routerLink]="watchLaterURL" [routerLinkActive]="'menu-item-active'"
+        [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon fontSet="material-icons-outlined">schedule</mat-icon>
         <span>Watch later</span>
       </a>
-      <a
-        mat-list-item
-        class="list-button"
-        routerLink="/history"
-        [routerLinkActive]="'menu-item-active'"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
+      <a mat-list-item class="list-button" routerLink="/history" [routerLinkActive]="'menu-item-active'"
+        [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon fontSet="material-icons-outlined">history</mat-icon>
         <span>History</span>
       </a>
     </mat-nav-list>
 
     <mat-nav-list class="list-end">
-      <a
-        mat-list-item
-        class="list-button"
-        routerLink="/settings"
-        [routerLinkActive]="'menu-item-active'"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
+      <a mat-list-item class="list-button" routerLink="/settings" [routerLinkActive]="'menu-item-active'"
+        [routerLinkActiveOptions]="{ exact: true }">
         <mat-icon fontSet="material-icons-outlined">settings</mat-icon>
         <span>Settings</span>
       </a>
-      <form
-        ngNoForm
-        action="https://www.paypal.com/cgi-bin/webscr"
-        method="post"
-        target="_blank"
-      >
-        <input type="hidden" name="cmd" value="_donations" />
-        <input type="hidden" name="business" value="EQHA2YAJAW5FY" />
-        <input type="hidden" name="currency_code" value="AUD" />
-        <button mat-list-item type="submit" value="Submit" class="list-button">
-          <mat-icon fontSet="material-icons-outlined">monetization_on</mat-icon>
-          <span>Donate web master</span>
-        </button>
-      </form>
     </mat-nav-list>
   </mat-sidenav>
 
   <mat-sidenav-content class="sidenav-content">
     <app-navbar>
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async"
-      >
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
     </app-navbar>

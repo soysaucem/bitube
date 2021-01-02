@@ -1,5 +1,5 @@
-import { v4 as uuidv4 } from 'uuid';
-import * as S3 from 'aws-sdk/clients/s3';
+import { v4 } from 'uuid';
+import * as firebase from 'firebase';
 
 export enum FileQueueStatus {
   Pending = 'Pending',
@@ -14,12 +14,12 @@ export interface FileQueueObject {
   title: string;
   description: string;
   file: File;
-  request: S3.ManagedUpload;
+  request: firebase.storage.UploadTask;
 }
 
 export function createDefault(): FileQueueObject {
   return Object.freeze({
-    id: uuidv4(),
+    id: v4(),
     title: null,
     description: null,
     file: null,
@@ -27,7 +27,7 @@ export function createDefault(): FileQueueObject {
   });
 }
 
-export function makeFileQueueObject(props: Partial<FileQueueObject>) {
+export function createFileQueueObject(props: Partial<FileQueueObject>) {
   return Object.freeze({
     ...createDefault(),
     ...props,

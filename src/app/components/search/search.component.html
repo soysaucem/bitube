@@ -5,23 +5,14 @@
         <mat-icon>search</mat-icon>
       </div>
 
-      <input
-        #searchInput
-        class="search-input"
-        type="text"
-        placeholder="Search for..."
-        (input)="handleSearchInput($event)"
-      />
+      <input #searchInput class="search-input" type="text" placeholder="Search for..."
+        (input)="handleSearchInput($event)" />
 
       <ng-container *ngIf="searchInput.value as text">
         <div class="suffix-icon" [hidden]="!text">
           <ng-container *ngIf="loading">
             <div class="loading">
-              <mat-progress-spinner
-                color="primary"
-                mode="indeterminate"
-                diameter="24"
-              >
+              <mat-progress-spinner color="primary" mode="indeterminate" diameter="24">
               </mat-progress-spinner>
             </div>
           </ng-container>
@@ -37,12 +28,9 @@
             Results for keyword: <span>{{ searchInput.value }}</span>
           </div>
           <div class="divider"></div>
-          <mat-list *ngIf="results.size > 0">
+          <mat-list *ngIf="results.length > 0">
             <div class="result-item" *ngFor="let result of results">
-              <mat-list-item
-                (click)="clearSearch()"
-                routerLink="/watch/{{ result.id }}"
-              >
+              <mat-list-item (click)="clearSearch()" routerLink="/watch/{{ result.id }}">
                 <img src="{{ result.thumbnail }}" />
                 {{ result.title }}
               </mat-list-item>

@@ -13,19 +13,19 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { Subject, combineLatest } from 'rxjs';
-import { switchMap, takeUntil } from 'rxjs/operators';
+import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { ComponentWithFollowButton } from '../../abstract-components/component-with-follow-button';
 import { AuthService } from '../../services/auth.service';
 import { FollowService } from '../../services/follow.service';
-import { UserQuery } from '../../services/user/state/user.query';
-import { Video } from '../../services/video/state/video.model';
-import { VideoQuery } from '../../services/video/state/video.query';
-import { VideoService } from '../../services/video/state/video.service';
-import { VideoStore } from '../../services/video/state/video.store';
+import { UserQuery } from '../../state/user/user.query';
+import { VideoQuery } from '../../state/video/video.query';
+import { VideoService } from '../../state/video/video.service';
+import { VideoStore } from '../../state/video/video.store';
 import { downloadVideo } from '../../util/download';
-import { generateVideoUrl } from '../../util/video-url-generator';
-import { VideoHistoryService } from '../../services/video-history/state/video-history.service';
-import { makeVideoHistory } from '../../services/video-history/state/video-history.model';
+import { VideoHistoryService } from '../../state/video-history/video-history.service';
+import { Video } from '../../models';
+import { List } from 'immutable';
+import { noUndefined } from '@angular/compiler/src/util';
 
 type Opinion = 'like' | 'dislike';
 declare const FB: any;
@@ -36,7 +36,8 @@ declare const FB: any;
   styleUrls: ['./watch-video.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class WatchVideoComponent extends ComponentWithFollowButton
+export class WatchVideoComponent
+  extends ComponentWithFollowButton
   implements OnInit, OnDestroy {
   @ViewChild('player') player: ElementRef;
 
@@ -92,7 +93,14 @@ export class WatchVideoComponent extends ComponentWithFollowButton
   setupVideoSubscriber(): void {
     this.autoUnsubscribe(
       this.route.params.pipe(
-        switchMap(({ id }) => this.videoQuery.selectVideo(id))
+        switchMap(({ id }) => this.videoService.syncDoc({ id }))
+      )
+    ).subscribe();
+
+    this.autoUnsubscribe(
+      this.route.params.pipe(
+        switchMap(({ id }) => this.videoQuery.selectEntity(id)),
+        filter((video) => video !== undefined)
       )
     ).subscribe(async (video: Video) => {
       try {
@@ -118,7 +126,7 @@ export class WatchVideoComponent extends ComponentWithFollowButton
     );
 
     // Generate cloudfront link of video
-    this.link = await generateVideoUrl(this.video.id);
+    this.link = video.location;
 
     //Close subscription for previous video
     this.watchVideoChanges$.next();
@@ -130,8 +138,8 @@ export class WatchVideoComponent extends ComponentWithFollowButton
   setupDisplayInfoForVideo(): void {
     this.selectUsersAndSubscribe();
     this.likeRatio =
-      this.video.likes.size /
-      (this.video.likes.size + this.video.dislikes.size);
+      this.video.likes.length /
+      (this.video.likes.length + this.video.dislikes.length);
   }
 
   selectUsersAndSubscribe(): void {
@@ -163,11 +171,10 @@ export class WatchVideoComponent extends ComponentWithFollowButton
 
   async updateVideoHistoriesForCurrentUser(): Promise<void> {
     if (this.me) {
-      const videoHistory = makeVideoHistory({
+      await this.videoHistoryService.addVideoHistory({
         ownerRef: this.me.id,
         videoRef: this.video.id,
       });
-      await this.videoHistoryService.addVideoHistory(videoHistory);
     }
   }
 
@@ -218,8 +225,7 @@ export class WatchVideoComponent extends ComponentWithFollowButton
       return;
     }
 
-    const url = await generateVideoUrl(this.video.id);
-    downloadVideo(url, this.video.title);
+    downloadVideo(this.link, this.video.title);
   }
 
   /**
@@ -233,9 +239,9 @@ export class WatchVideoComponent extends ComponentWithFollowButton
 
     if (type === 'like') {
       const likes = this.isLiked()
-        ? this.video.likes.filter((like) => like !== this.me.id)
-        : this.video.likes.push(this.me.id);
-      let dislikes = this.video.dislikes;
+        ? List(this.video.likes).filter((like) => like !== this.me.id)
+        : List(this.video.likes).push(this.me.id);
+      let dislikes = List(this.video.dislikes);
 
       // Remove dislike on like
       if (dislikes.includes(this.me.id)) {
@@ -248,9 +254,9 @@ export class WatchVideoComponent extends ComponentWithFollowButton
       });
     } else if (type === 'dislike') {
       const dislikes = this.isDisliked()
-        ? this.video.dislikes.filter((dislike) => dislike !== this.me.id)
-        : this.video.dislikes.push(this.me.id);
-      let likes = this.video.likes;
+        ? List(this.video.dislikes).filter((dislike) => dislike !== this.me.id)
+        : List(this.video.dislikes).push(this.me.id);
+      let likes = List(this.video.likes);
 
       // Remove like on dislike
       if (likes.includes(this.me.id)) {
@@ -286,7 +292,7 @@ export class WatchVideoComponent extends ComponentWithFollowButton
   get tags(): string {
     let tagString = '';
     this.video.tags.forEach((tag, index) => {
-      if (index === this.video.tags.size - 1) {
+      if (index === this.video.tags.length - 1) {
         tagString += `#${tag}.`;
       } else {
         tagString += `#${tag}, `;

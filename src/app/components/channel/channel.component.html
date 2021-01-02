@@ -1,32 +1,18 @@
-<div
-  class="channel-container"
-  *ngIf="{
+<div class="channel-container" *ngIf="{
     videos: videos$ | async,
     user: user$ | async,
     me: me$ | async
-  } as channel"
->
+  } as channel">
   <div class="channel-side">
-    <app-channel-sidenav
-      [user]="channel.user"
-      [me]="channel.me"
-      (visibleState)="setVisible($event)"
-      (activeState)="setActiveState($event)"
-    ></app-channel-sidenav>
+    <app-channel-sidenav [user]="channel.user" [me]="channel.me" (visibleState)="setVisible($event)"
+      (activeState)="setActiveState($event)"></app-channel-sidenav>
   </div>
 
   <div class="channel-body" [@padLeft]="visible ? 'pad' : 'unpad'">
-    <app-video-grid
-      [type]="'card-settings'"
-      [videos$]="videos$"
-      [me]="channel.me"
-      *ngIf="activeState === 'videos'"
-    ></app-video-grid>
-    <app-following-channels
-      [followingChannels]="channel.user.followings"
-      [me]="channel.me"
-      *ngIf="activeState === 'channels'"
-    >
+    <app-video-grid [type]="'card-settings'" [videos$]="videos$" [me]="channel.me" *ngIf="activeState === 'videos'">
+    </app-video-grid>
+    <app-following-channels [followingChannels]="channel.user.followings" [me]="channel.me"
+      *ngIf="activeState === 'channels'">
     </app-following-channels>
   </div>
 </div>

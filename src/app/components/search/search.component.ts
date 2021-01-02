@@ -9,8 +9,8 @@ import { List } from 'immutable';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ComponentWithSubscription } from '../../abstract-components/component-with-subscription';
+import { Video } from '../../models';
 import { SearchService } from '../../services/search.service';
-import { Video } from '../../services/video/state/video.model';
 
 @Component({
   selector: 'app-search',
@@ -18,12 +18,13 @@ import { Video } from '../../services/video/state/video.model';
   styleUrls: ['./search.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SearchComponent extends ComponentWithSubscription
+export class SearchComponent
+  extends ComponentWithSubscription
   implements OnInit {
   @ViewChild('searchInput') searchInput: ElementRef;
 
   searchText$ = new Subject<string>();
-  results: List<Video>;
+  results: Array<Video>;
   loading: boolean = false;
 
   constructor(private searchService: SearchService) {
@@ -52,7 +53,7 @@ export class SearchComponent extends ComponentWithSubscription
           if (text) {
             this.results = await this.searchService.search(text.toLowerCase());
           } else {
-            this.results = List();
+            this.results = [];
           }
         } catch (err) {
           console.error('Failed to search videos!');

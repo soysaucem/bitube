@@ -70,7 +70,6 @@ import { ValidationInputComponent } from './components/validation-input/validati
 import { VideoItemComponent } from './components/video-item/video-item.component';
 import { HistoryComponent } from './components/history/history.component';
 import { NotificationComponent } from './components/notification/notification.component';
-import { DataListComponent } from './components/data-list/data-list.component';
 import { MainPageVideosComponent } from './components/mainpage-videos/mainpage-videos.component';
 import { MenuWrapperComponent } from './components/menu-wrapper/menu-wrapper.component';
 import { ChannelHeaderComponent } from './components/channel/channel-header/channel-header.component';
@@ -112,7 +111,6 @@ import { VideoEditingDialogComponent } from './components/video-editing-dialog/v
     VideoItemComponent,
     HistoryComponent,
     NotificationComponent,
-    DataListComponent,
     MainPageVideosComponent,
     MenuWrapperComponent,
     ChannelHeaderComponent,

@@ -1,27 +1,21 @@
-import { IpServiceService } from './../../services/ip-service.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { List } from 'immutable';
-import { AuthService } from '../../services/auth.service';
-import {
-  Comment,
-  makeComment,
-} from '../../services/comment/state/comment.model';
-import { CommentQuery } from '../../services/comment/state/comment.query';
-import { CommentService } from '../../services/comment/state/comment.service';
 import { ComponentWithSubscription } from '../../abstract-components/component-with-subscription';
+import { Comment } from '../../models';
+import { CommentQuery } from '../../state/comment/comment.query';
+import { CommentService } from '../../state/comment/comment.service';
 
 @Component({
   selector: 'app-comment',
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss'],
 })
-export class CommentComponent extends ComponentWithSubscription
+export class CommentComponent
+  extends ComponentWithSubscription
   implements OnInit {
   @ViewChild('commentInput') commentInput: ElementRef;
 
   private content: string = '';
-  comments: List<Comment>;
+  comments: Comment[];
 
   constructor(
     private commentService: CommentService,
@@ -31,7 +25,8 @@ export class CommentComponent extends ComponentWithSubscription
   }
 
   ngOnInit(): void {
-    this.autoUnsubscribe(this.commentQuery.selectComments()).subscribe(
+    this.autoUnsubscribe(this.commentService.syncCollection()).subscribe();
+    this.autoUnsubscribe(this.commentQuery.selectAll()).subscribe(
       (data) => (this.comments = data)
     );
   }
@@ -41,10 +36,7 @@ export class CommentComponent extends ComponentWithSubscription
   }
 
   async post(): Promise<void> {
-    const comment = makeComment({
-      content: this.content,
-    });
-    await this.commentService.addComment(comment);
+    await this.commentService.addComment(this.content);
     this.clearComment();
   }
 

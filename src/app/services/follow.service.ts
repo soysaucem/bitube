@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { User } from './user/state/user.model';
-import { UserService } from './user/state/user.service';
+import { User } from '../models';
+import { UserService } from '../state/user/user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +15,9 @@ export class FollowService {
       });
 
       this.userService.updateUser(follower.id, {
-        followings: follower.followings
-          .filter((ref) => ref !== followedUser.id)
-          .toArray(),
+        followings: follower.followings.filter(
+          (ref) => ref !== followedUser.id
+        ),
       });
     } else {
       this.userService.updateUser(followedUser.id, {
@@ -25,7 +25,7 @@ export class FollowService {
       });
 
       this.userService.updateUser(follower.id, {
-        followings: follower.followings.push(followedUser.id).toArray(),
+        followings: [...follower.followings, followedUser.id],
       });
     }
   }

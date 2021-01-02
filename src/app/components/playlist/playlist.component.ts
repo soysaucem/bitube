@@ -1,21 +1,19 @@
-import { PlaylistService } from './../../services/playlist/state/playlist.service';
-import { Playlist } from './../../services/playlist/state/playlist.model';
-import { PlaylistQuery } from './../../services/playlist/state/playlist.query';
+import { PlaylistService } from '../../state/playlist/playlist.service';
 import { ComponentWithSubscription } from './../../abstract-components/component-with-subscription';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { List } from 'immutable';
-import { Video } from '../../services/video/state/video.model';
-import { VideoQuery } from '../../services/video/state/video.query';
+import { VideoQuery } from '../../state/video/video.query';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Playlist, Video } from '../../models';
 
 @Component({
   selector: 'app-playlist',
   templateUrl: './playlist.component.html',
   styleUrls: ['./playlist.component.scss'],
 })
-export class PlaylistComponent extends ComponentWithSubscription
+export class PlaylistComponent
+  extends ComponentWithSubscription
   implements OnInit {
   playlistVideos: Video[];
   playlist: Playlist;
@@ -36,10 +34,9 @@ export class PlaylistComponent extends ComponentWithSubscription
     ).subscribe(async (playlist) => {
       try {
         this.playlist = playlist;
-        this.playlistVideos = (
-          await this.videoQuery.getVideosForPlaylist(playlist.videoRefs)
-        ).toArray();
-        console.log(this.playlistVideos);
+        this.playlistVideos = await this.videoQuery.getVideosForPlaylist(
+          playlist.videoRefs
+        );
       } catch (err) {
         console.error('Failed to get videos for playlist!');
         console.error(err);

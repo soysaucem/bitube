@@ -1,11 +1,9 @@
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserQuery } from './../../services/user/state/user.query';
-import { Video } from './../../services/video/state/video.model';
-import { VideoQuery } from './../../services/video/state/video.query';
-import { Component, OnInit, Input } from '@angular/core';
-import { VideoHistory } from '../../services/video-history/state/video-history.model';
-import { User } from '../../services/user/state/user.model';
-import { VideoHistoryService } from '../../services/video-history/state/video-history.service';
+import { User, Video, VideoHistory } from '../../models';
+import { UserQuery } from '../../state/user/user.query';
+import { VideoHistoryService } from '../../state/video-history/video-history.service';
+import { VideoQuery } from '../../state/video/video.query';
 
 @Component({
   selector: 'app-history-item',

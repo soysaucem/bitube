@@ -1,16 +1,10 @@
-<div class="settings-container" *ngIf="me">
+<div class="settings-container" *ngIf="me && myFirebaseAccount">
   <mat-card class="settings-wrapper">
     <div class="avatar-column">
       <app-avatar [avatarBase64]="myAvatar" [size]="150"></app-avatar>
 
-      <input
-        #uploadInput
-        id="upload-input"
-        type="file"
-        accept="image/*"
-        style="display: none;"
-        (change)="updateProfileImage($event)"
-      />
+      <input #uploadInput id="upload-input" type="file" accept="image/*" style="display: none;"
+        (change)="updateProfileImage($event)" />
       <label for="upload-input">
         <span mat-button>CHANGE</span>
       </label>
@@ -20,29 +14,17 @@
       <div class="personal-settings">
         <span class="personal-settings-title">Personal Settings</span>
 
-        <app-validation-input
-          [label]="'Full name'"
-          [placeholder]="'The Witcher'"
-          [type]="'text-required'"
-          [appearance]="'outline'"
-          [errorMessage]="'You must enter your name'"
-          [initialValue]="me.name"
-          (value)="updateName($event)"
-        ></app-validation-input>
+        <app-validation-input [label]="'Full name'" [placeholder]="'The Witcher'" [type]="'text-required'"
+          [appearance]="'outline'" [errorMessage]="'You must enter your name'" [initialValue]="me.name"
+          (value)="updateName($event)"></app-validation-input>
 
         <div class="email-settings">
-          <app-validation-input
-            [label]="'Email'"
-            [placeholder]="'pat@example.com'"
-            [type]="'email'"
-            [appearance]="'outline'"
-            [initialValue]="me.email"
-            [disabled]="'true'"
-          ></app-validation-input>
+          <app-validation-input [label]="'Email'" [placeholder]="'pat@example.com'" [type]="'email'"
+            [appearance]="'outline'" [initialValue]="me.email" [disabled]="'true'"></app-validation-input>
           <span class="message">
             <div class="vertical-divider"></div>
-            {{ message }}</span
-          >
+            {{ message }}
+          </span>
         </div>
 
         <div class="email-status">
@@ -58,42 +40,19 @@
       <div class="password-settings">
         <span class="password-settings-title">Password Settings</span>
 
-        <app-validation-input
-          [label]="'Current password'"
-          [type]="'password'"
-          [appearance]="'outline'"
-          [errorMessage]="'You must enter a password'"
-          [hide]="true"
-          (value)="handleCurrentPassword($event)"
-          (valid)="handleCurrentPasswordValid($event)"
-        ></app-validation-input>
+        <app-validation-input [label]="'Current password'" [type]="'password'" [appearance]="'outline'"
+          [errorMessage]="'You must enter a password'" [hide]="true" (value)="handleCurrentPassword($event)"
+          (valid)="handleCurrentPasswordValid($event)"></app-validation-input>
 
-        <app-validation-input
-          [label]="'New password'"
-          [type]="'password'"
-          [appearance]="'outline'"
-          [errorMessage]="'You must enter a password'"
-          [hide]="true"
-          (value)="handleNewPassword($event)"
-          (valid)="handleNewPasswordValid($event)"
-        ></app-validation-input>
+        <app-validation-input [label]="'New password'" [type]="'password'" [appearance]="'outline'"
+          [errorMessage]="'You must enter a password'" [hide]="true" (value)="handleNewPassword($event)"
+          (valid)="handleNewPasswordValid($event)"></app-validation-input>
 
-        <app-validation-input
-          [label]="'Confirm new password'"
-          [type]="'password-confirm'"
-          [appearance]="'outline'"
-          [errorMessage]="'Password does not match'"
-          [hide]="true"
-          [password]="newPassword"
-          (valid)="handlePasswordConfirmValid($event)"
-        ></app-validation-input>
+        <app-validation-input [label]="'Confirm new password'" [type]="'password-confirm'" [appearance]="'outline'"
+          [errorMessage]="'Password does not match'" [hide]="true" [password]="newPassword"
+          (valid)="handlePasswordConfirmValid($event)"></app-validation-input>
 
-        <button
-          mat-flat-button
-          class="primary-button save-changes"
-          [disabled]="disabled"
-          (click)="updatePassword()"
-        >
+        <button mat-flat-button class="primary-button save-changes" [disabled]="disabled" (click)="updatePassword()">
           Update password
         </button>
       </div>

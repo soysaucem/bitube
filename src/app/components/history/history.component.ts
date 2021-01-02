@@ -1,26 +1,32 @@
+import { ComponentWithSubscription } from './../../abstract-components/component-with-subscription';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { List, Map } from 'immutable';
 import * as moment from 'moment';
-import { User } from '../../services/user/state/user.model';
-import { VideoHistory } from '../../services/video-history/state/video-history.model';
-import { UserQuery } from './../../services/user/state/user.query';
-import { VideoHistoryQuery } from './../../services/video-history/state/video-history.query';
+import { UserQuery } from '../../state/user/user.query';
+import { VideoHistoryQuery } from '../../state/video-history/video-history.query';
+import { VideoHistoryService } from '../../state/video-history/video-history.service';
+import { User, VideoHistory } from '../../models';
 
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.scss'],
 })
-export class HistoryComponent implements OnInit {
-  sortedVideoHistories: List<any>;
+export class HistoryComponent
+  extends ComponentWithSubscription
+  implements OnInit {
+  sortedSections: Array<[string, VideoHistory[]]>;
   me: User;
 
   constructor(
     private titleService: Title,
     private videoHistoryQuery: VideoHistoryQuery,
+    private videoHistoryService: VideoHistoryService,
     private userQuery: UserQuery
-  ) {}
+  ) {
+    super();
+  }
 
   async ngOnInit(): Promise<void> {
     this.titleService.setTitle('History');
@@ -29,32 +35,34 @@ export class HistoryComponent implements OnInit {
   }
 
   setupVideoHistories(): void {
-    this.videoHistoryQuery
-      .selectVideoHistoriesForUser(this.me.id)
-      .subscribe((videoHistories) => {
-        let videoHistoriesMap: Map<string, List<VideoHistory>> = Map();
+    this.autoUnsubscribe(
+      this.videoHistoryService.syncCollection((ref) =>
+        ref.where('ownerRef', '==', this.me.id)
+      )
+    ).subscribe();
 
-        videoHistories.forEach((history) => {
+    this.autoUnsubscribe(this.videoHistoryQuery.selectAll()).subscribe(
+      (histories) => {
+        let historySectionMap: Map<string, VideoHistory[]> = Map();
+
+        histories.forEach((history) => {
           const historyDate = moment(history.watchedAt).format('YYYY-MM-DD');
 
-          if (!videoHistoriesMap.has(historyDate)) {
-            videoHistoriesMap = videoHistoriesMap.set(
-              historyDate,
-              List([history])
-            );
+          if (!historySectionMap.has(historyDate)) {
+            historySectionMap = historySectionMap.set(historyDate, [history]);
           } else {
-            videoHistoriesMap = videoHistoriesMap.update(historyDate, (value) =>
-              value.push(history)
+            historySectionMap = historySectionMap.update(
+              historyDate,
+              (value) => [...value, history]
             );
           }
         });
 
-        this.sortedVideoHistories = List(
-          videoHistoriesMap
-            .sortBy((value, key) => key)
-            .reverse()
-            .toArray()
-        );
-      });
+        this.sortedSections = historySectionMap
+          .sortBy((_, key) => key)
+          .reverse()
+          .toArray();
+      }
+    );
   }
 }

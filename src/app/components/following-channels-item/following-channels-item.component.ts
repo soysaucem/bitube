@@ -1,16 +1,16 @@
 import { Router } from '@angular/router';
 import { FollowService } from './../../services/follow.service';
 import { ComponentWithFollowButton } from './../../abstract-components/component-with-follow-button';
-import { UserQuery } from './../../services/user/state/user.query';
+import { UserQuery } from '../../state/user/user.query';
 import { Component, OnInit, Input } from '@angular/core';
-import { User } from '../../services/user/state/user.model';
 
 @Component({
   selector: 'app-following-channels-item',
   templateUrl: './following-channels-item.component.html',
   styleUrls: ['./following-channels-item.component.scss'],
 })
-export class FollowingChannelsItemComponent extends ComponentWithFollowButton
+export class FollowingChannelsItemComponent
+  extends ComponentWithFollowButton
   implements OnInit {
   @Input() channelId: string;
 

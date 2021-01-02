@@ -1,3 +1,6 @@
+import { VideoService } from './../../state/video/video.service';
+import { FollowService } from './../../services/follow.service';
+import { ComponentWithFollowButton } from './../../abstract-components/component-with-follow-button';
 import {
   animate,
   state,
@@ -6,16 +9,14 @@ import {
   trigger,
 } from '@angular/animations';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { List } from 'immutable';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
-import { User } from '../../services/user/state/user.model';
-import { UserQuery } from '../../services/user/state/user.query';
-import { Video } from '../../services/video/state/video.model';
-import { VideoQuery } from '../../services/video/state/video.query';
-import { ComponentWithSubscription } from '../../abstract-components/component-with-subscription';
+import { UserQuery } from '../../state/user/user.query';
+import { VideoQuery } from '../../state/video/video.query';
 import { ChannelSideNavActiveType } from './channel-sidenav/channel-sidenav.component';
+import { User, Video } from '../../models';
+import { resetStore } from 'akita-ng-fire';
 
 @Component({
   selector: 'app-channel',
@@ -30,9 +31,10 @@ import { ChannelSideNavActiveType } from './channel-sidenav/channel-sidenav.comp
     ]),
   ],
 })
-export class ChannelComponent extends ComponentWithSubscription
+export class ChannelComponent
+  extends ComponentWithFollowButton
   implements OnInit {
-  videos$: Observable<List<Video>>;
+  videos$: Observable<Video[]>;
   user$: Observable<User>;
   me$: Observable<User>;
   visible: boolean;
@@ -40,22 +42,33 @@ export class ChannelComponent extends ComponentWithSubscription
 
   constructor(
     private videoQuery: VideoQuery,
+    private videoService: VideoService,
     private route: ActivatedRoute,
-    private userQuery: UserQuery
+    private userQuery: UserQuery,
+    public followService: FollowService,
+    public router: Router
   ) {
-    super();
+    super(followService, router);
   }
 
   ngOnInit(): void {
-    this.videos$ = this.autoUnsubscribe(
+    resetStore('video');
+
+    this.autoUnsubscribe(
       this.route.params.pipe(
         tap(({ id }) => {
           this.user$ = this.userQuery.selectUser(id);
           this.me$ = this.userQuery.selectMyAccount();
         }),
-        switchMap(({ id }) => this.videoQuery.selectVideosForUser(id))
+        switchMap(({ id }) =>
+          this.videoService.syncCollection((ref) =>
+            ref.where('ownerRef', '==', id)
+          )
+        )
       )
-    );
+    ).subscribe();
+
+    this.videos$ = this.videoQuery.selectAll();
   }
 
   setVisible(state: boolean): void {

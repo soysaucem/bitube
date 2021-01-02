@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import { take } from 'rxjs/operators';
-import { UserQuery } from './user/state/user.query';
+import { UserQuery } from '../state/user/user.query';
 
 @Injectable({
   providedIn: 'root',
@@ -21,15 +21,15 @@ export class AuthService {
     rememberMe: boolean
   ): Promise<firebase.auth.UserCredential> {
     if (!rememberMe) {
-      this.firebaseAuth.auth.setPersistence('none');
+      firebase.auth().setPersistence('none');
     } else {
-      this.firebaseAuth.auth.setPersistence('local');
+      firebase.auth().setPersistence('local');
     }
-    return this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
+    return firebase.auth().signInWithEmailAndPassword(email, password);
   }
 
   async logout(): Promise<boolean> {
-    await this.firebaseAuth.auth.signOut();
+    await firebase.auth().signOut();
     return this.router.navigate(['login']);
   }
 
@@ -60,6 +60,6 @@ export class AuthService {
   }
 
   resetPassword(email: string): Promise<void> {
-    return this.firebaseAuth.auth.sendPasswordResetEmail(email);
+    return firebase.auth().sendPasswordResetEmail(email);
   }
 }

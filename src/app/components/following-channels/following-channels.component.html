@@ -1,10 +1,7 @@
 <div class="following-channels-grid-container">
   <div class="following-channels-render">
     <ng-container *ngFor="let channel of followingChannels">
-      <app-following-channels-item
-        [channelId]="channel"
-        [me]="me"
-      ></app-following-channels-item>
+      <app-following-channels-item [channelId]="channel" [me]="me"></app-following-channels-item>
     </ng-container>
   </div>
 </div>

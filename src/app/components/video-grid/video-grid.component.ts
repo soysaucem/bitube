@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { Observable } from 'rxjs';
-import { List } from 'immutable';
-import { Video } from '../../services/video/state/video.model';
 import { ItemType } from '../video-item/video-item.component';
-import { User } from '../../services/user/state/user.model';
+import { User, Video } from '../../models';
 
 @Component({
   selector: 'app-video-grid',
@@ -13,7 +11,7 @@ import { User } from '../../services/user/state/user.model';
 })
 export class VideoGridComponent implements OnInit {
   @Input() title?: string;
-  @Input() videos$: Observable<List<Video>>;
+  @Input() videos$: Observable<Video[]>;
   @Input() type: ItemType;
   @Input() me: User;
 

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
-import { User } from '../../services/user/state/user.model';
-import { UserQuery } from '../../services/user/state/user.query';
+import { UserQuery } from '../../state/user/user.query';
 import { Observable } from 'rxjs';
+import { User } from '../../models';
 
 @Component({
   selector: 'app-current-user',

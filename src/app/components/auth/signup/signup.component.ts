@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SignupService } from '../../../services/signup.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UserQuery } from '../../../services/user/state/user.query';
+import { UserQuery } from '../../../state/user/user.query';
 import { Title } from '@angular/platform-browser';
 
 @Component({

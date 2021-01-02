@@ -4,11 +4,12 @@ import { List } from 'immutable';
 import { FileQueueObject } from 'src/app/controller/upload/file-queue.model';
 import { FileQueueStatus } from '../../../../controller/upload/file-queue.model';
 import { UploadController } from '../../../../controller/upload/upload.controller';
-import { UserQuery } from '../../../../services/user/state/user.query';
-import { makeVideo } from '../../../../services/video/state/video.model';
-import { VideoService } from '../../../../services/video/state/video.service';
+import { createVideo } from '../../../../models';
+import { UserQuery } from '../../../../state/user/user.query';
+import { VideoService } from '../../../../state/video/video.service';
 import { generateThumbnail } from '../../../../util/generate-thumbnail';
 import { ENTER, COMMA } from '../../../../util/variables';
+import * as firebase from 'firebase';
 
 type InputType = 'description' | 'title';
 
@@ -26,7 +27,7 @@ export class UploadingItemComponent implements OnInit {
 
   title: string;
   description: string;
-  tags = List<string>();
+  tags: Array<string> = [];
 
   // Configurations for mat chip
   visible: boolean = true;
@@ -43,29 +44,35 @@ export class UploadingItemComponent implements OnInit {
   ngOnInit() {}
 
   upload(): void {
-    this.file.request
-      .on('httpUploadProgress', (event) => {
+    this.file.request.on(
+      'state_changed',
+      (snapshot) => {
         this.status = FileQueueStatus.Progress;
-        this.progress = event.loaded / event.total;
-      })
-      .send(async (err: any, data: any) => {
-        try {
-          if (err) {
-            throw err;
-          }
+        this.progress = snapshot.bytesTransferred / snapshot.totalBytes;
 
-          await this.processSucceedUpload();
-        } catch (error) {
-          this.status = FileQueueStatus.Error;
-          console.error('There was an error uploading your file: ', err);
-          console.error(error);
+        switch (snapshot.state) {
+          case firebase.storage.TaskState.PAUSED: // or 'paused'
+            console.log('Upload is paused');
+            break;
+          case firebase.storage.TaskState.RUNNING: // or 'running'
+            console.log('Upload is running');
+            break;
         }
-      });
+      },
+      (err) => {
+        this.status = FileQueueStatus.Error;
+        console.error('There was an error uploading your file: ', err);
+        console.error(err);
+      },
+      async () => {
+        await this.processSucceedUpload();
+      }
+    );
   }
 
   cancel(): void {
     if (this.status === FileQueueStatus.Progress) {
-      this.file.request.abort();
+      this.file.request.cancel();
     }
     this.status = FileQueueStatus.Cancel;
     this.controller.remove(this.file);
@@ -105,7 +112,7 @@ export class UploadingItemComponent implements OnInit {
 
     // Add tag
     if ((value || '').trim()) {
-      this.tags = this.tags.push(value.trim());
+      this.tags.push(value.trim());
     }
 
     // Reset the input value
@@ -115,7 +122,7 @@ export class UploadingItemComponent implements OnInit {
 
     if (this.status === FileQueueStatus.Success) {
       await this.videoService.updateVideo(this.file.id, {
-        tags: this.tags.toArray(),
+        tags: this.tags,
       });
     }
   }
@@ -135,19 +142,21 @@ export class UploadingItemComponent implements OnInit {
     const thumbnail = await generateThumbnail(this.file.file);
     const thumbnailData = await this.controller.uploadImage(
       this.file.id,
-      thumbnail,
-      'thumbnail'
+      thumbnail
     );
+    const thumbnailLocation = await thumbnailData.ref.getDownloadURL();
+    const videoLocation = await this.file.request.snapshot.ref.getDownloadURL();
 
     // Add video reference to firebase
     const me = await this.userQuery.getMyAccount();
-    const video = makeVideo({
+    const video = createVideo({
       id: this.file.id,
       title: this.title ? this.title : this.file.file.name,
       description: this.description ? this.description : null,
-      thumbnail: thumbnailData.Location,
+      thumbnail: thumbnailLocation,
       tags: this.tags,
       ownerRef: me.id,
+      location: videoLocation,
     });
 
     await this.videoService.addVideo(video);

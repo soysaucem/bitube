@@ -1,16 +1,15 @@
-import { PlaylistService } from './../../services/playlist/state/playlist.service';
+import { PlaylistService } from '../../state/playlist/playlist.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { take } from 'rxjs/operators';
-import { User } from '../../services/user/state/user.model';
-import { UserQuery } from '../../services/user/state/user.query';
-import { Video } from '../../services/video/state/video.model';
-import { VideoService } from '../../services/video/state/video.service';
+import { UserQuery } from '../../state/user/user.query';
+import { VideoService } from '../../state/video/video.service';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
-import { PlaylistQuery } from '../../services/playlist/state/playlist.query';
+import { PlaylistQuery } from '../../state/playlist/playlist.query';
 import { VideoEditingDialogComponent } from '../video-editing-dialog/video-editing-dialog.component';
 import { List } from 'immutable';
+import { User, Video } from '../../models';
 
 export type ItemType = 'card' | 'card-settings';
 
@@ -31,7 +30,7 @@ export class VideoItemComponent implements OnInit {
 
   title: string;
   description: string;
-  tags: List<string>;
+  tags: Array<string>;
 
   private dialogTitle: string = 'Remove video';
   private dialogMessage: string =
@@ -119,7 +118,7 @@ export class VideoItemComponent implements OnInit {
   updateVideo(result: any): void {
     this.videoService.updateVideo(this.video.id, {
       ...result,
-      tags: result.tags.toArray(),
+      tags: result.tags,
     });
   }
 

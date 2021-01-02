@@ -1,10 +1,9 @@
-import { PlaylistService } from './../../services/playlist/state/playlist.service';
+import { PlaylistService } from '../../state/playlist/playlist.service';
 import { Router } from '@angular/router';
-import { UserQuery } from '../../services/user/state/user.query';
-import { Video } from '../../services/video/state/video.model';
-import { VideoQuery } from '../../services/video/state/video.query';
+import { UserQuery } from '../../state/user/user.query';
+import { VideoQuery } from '../../state/video/video.query';
 import { Component, OnInit, Input } from '@angular/core';
-import { User } from '../../services/user/state/user.model';
+import { User, Video } from '../../models';
 
 @Component({
   selector: 'app-video-list-item',

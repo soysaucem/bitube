@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UploadController } from '../../controller/upload/upload.controller';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../services/user/state/user.model';
-import { UserQuery } from '../../services/user/state/user.query';
-import { UserService } from '../../services/user/state/user.service';
+import { UserQuery } from '../../state/user/user.query';
+import { UserService } from '../../state/user/user.service';
 import {
   generateImageUrlFromFile,
   generateImageUrlFromPath,
 } from '../../util/generate-image-url';
 import { Title } from '@angular/platform-browser';
+import { User } from '../../models';
 
 @Component({
   selector: 'app-settings',
@@ -96,13 +96,11 @@ export class SettingsComponent implements OnInit {
     try {
       const dataUrl = await generateImageUrlFromFile(event.target.files[0]);
       const webpDataUrl = await generateImageUrlFromPath(dataUrl);
-      const res = await this.controller.uploadImage(
-        this.me.id,
-        webpDataUrl,
-        'profile'
-      );
-
-      this.userService.updateUser(this.me.id, { avatar: res.Location });
+      const res = await this.controller.uploadImage(this.me.id, webpDataUrl);
+      const avatarLocation = await res.ref.getDownloadURL();
+      this.userService.updateUser(this.me.id, {
+        avatar: avatarLocation,
+      });
       this.myAvatar = webpDataUrl;
     } catch (err) {
       console.error('Failed to change profile image');

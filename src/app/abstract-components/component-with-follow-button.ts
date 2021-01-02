@@ -1,10 +1,12 @@
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { FollowService } from '../services/follow.service';
-import { User } from '../services/user/state/user.model';
 import { ComponentWithSubscription } from './component-with-subscription';
-import { Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { User } from '../models';
 
+@Component({
+  template: '',
+})
 export class ComponentWithFollowButton extends ComponentWithSubscription {
   @Input() user: User;
   @Input() me: User;

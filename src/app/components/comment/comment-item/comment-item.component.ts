@@ -1,13 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Comment } from '../../../services/comment/state/comment.model';
-import {
-  User,
-  fromUserJS,
-  UserJSON,
-  makeUser,
-} from '../../../services/user/state/user.model';
 import * as moment from 'moment';
-import { UserQuery } from '../../../services/user/state/user.query';
+import { User, Comment, createUser } from '../../../models';
+import { UserQuery } from '../../../state/user/user.query';
 import { generateImageUrlFromPath } from '../../../util/generate-image-url';
 
 @Component({
@@ -28,7 +22,8 @@ export class CommentItemComponent implements OnInit {
       const defaultAvatar = await generateImageUrlFromPath(
         'assets/account.png'
       );
-      this.owner = makeUser({
+
+      this.owner = createUser({
         name: this.comment.ip,
         avatar: defaultAvatar as string,
       });

@@ -1,65 +1,41 @@
 <div class="watch-video-container" *ngIf="video && user">
   <div class="watch-video-wrapper">
     <div class="watch-video">
-      <video
-        #player
-        class="video-player"
-        controls
-        autoplay
-        controlslist="nodownload"
-        (volumechange)="handleVolume($event)"
-        (loadstart)="setupDefaultPlayerProps()"
-      >
+      <video #player class="video-player" controls autoplay controlslist="nodownload"
+        (volumechange)="handleVolume($event)" (loadstart)="setupDefaultPlayerProps()">
         <source [src]="link" />
       </video>
 
       <div class="player-footer">
         <div class="video-info">
-          <span
-            class="video-title"
-            matTooltip="{{ video.title }}"
-            matTooltipClass="tooltip-without-truncated"
-            [innerHTML]="video.title"
-          ></span>
+          <span class="video-title" matTooltip="{{ video.title }}" matTooltipClass="tooltip-without-truncated"
+            [innerHTML]="video.title"></span>
           <div class="owner">
             <div class="owner-left" routerLink="/channel/{{ user.id }}">
-              <app-avatar
-                class="owner-avatar"
-                [avatarBase64]="user.avatar"
-                [size]="48"
-              ></app-avatar>
+              <app-avatar class="owner-avatar" [avatarBase64]="user.avatar" [size]="48"></app-avatar>
               <div class="owner-info">
                 <span class="name" [innerHTML]="user.name"></span>
                 <span class="follow" [innerHTML]="followersText"></span>
               </div>
             </div>
 
-            <button
-              mat-stroked-button
-              class="follow-button accent-button"
-              [class.followed-button]="isFollowed"
-              *ngIf="showFollowButton"
-              (click)="toggleFollow($event)"
-              [innerHTML]="followButtonText"
-            ></button>
+            <button mat-stroked-button class="follow-button accent-button" [class.followed-button]="isFollowed"
+              *ngIf="showFollowButton" (click)="toggleFollow($event)" [innerHTML]="followButtonText"></button>
           </div>
         </div>
 
         <div class="video-opinions">
           <div class="ratio-view-display">
-            <span class="like" [class.active]="isLiked()"
-              ><mat-icon>thumb_up</mat-icon>{{ video.likes.size }}</span
-            >
+            <span class="like" [class.active]="isLiked()">
+              <mat-icon>thumb_up</mat-icon>{{ video.likes.length }}
+            </span>
             <span class="views" matTooltip="Views">{{ video.views }}</span>
-            <span class="dislike" [class.active]="isDisliked()"
-              ><mat-icon>thumb_down</mat-icon>{{ video.dislikes.size }}</span
-            >
+            <span class="dislike" [class.active]="isDisliked()">
+              <mat-icon>thumb_down</mat-icon>{{ video.dislikes.length }}
+            </span>
           </div>
 
-          <mat-progress-bar
-            mode="determinate"
-            [value]="likeRatio"
-          ></mat-progress-bar>
+          <mat-progress-bar mode="determinate" [value]="likeRatio"></mat-progress-bar>
           <div class="opinion-buttons">
             <button mat-stroked-button (click)="updateOpinion('like')">
               <mat-icon>thumb_up</mat-icon>
@@ -75,10 +51,7 @@
         <mat-tab label="Description">
           <div class="video-description">
             <p [innerHTML]="description"></p>
-            <p
-              *ngIf="video.tags.size"
-              [innerHTML]="'<strong>Tags:</strong> ' + tags"
-            ></p>
+            <p *ngIf="video.tags.length" [innerHTML]="'<strong>Tags:</strong> ' + tags"></p>
           </div>
         </mat-tab>
 

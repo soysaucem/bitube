@@ -1,10 +1,9 @@
-import { UserQuery } from './../../services/user/state/user.query';
-import { PlaylistQuery } from './../../services/playlist/state/playlist.query';
+import { UserQuery } from '../../state/user/user.query';
+import { PlaylistQuery } from '../../state/playlist/playlist.query';
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { User } from 'firebase';
 
 @Component({
   selector: 'app-sidenav',

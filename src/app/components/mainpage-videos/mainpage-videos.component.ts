@@ -1,25 +1,23 @@
-import { PlaylistService } from './../../services/playlist/state/playlist.service';
-import { UserService } from './../../services/user/state/user.service';
-import { UserQuery } from './../../services/user/state/user.query';
 import { Component, OnInit } from '@angular/core';
-import { VideoQuery } from '../../services/video/state/video.query';
-import { VideoService } from '../../services/video/state/video.service';
-import { tap } from 'rxjs/operators';
-import { generateKeywords } from '../../util/generate-keywords';
-import { Observable } from 'rxjs';
-import { List } from 'immutable';
-import { Video } from '../../services/video/state/video.model';
 import { Title } from '@angular/platform-browser';
-import { User, toUserJS, makeUser } from '../../services/user/state/user.model';
-import { makePlaylist } from '../../services/playlist/state/playlist.model';
+import { Observable } from 'rxjs';
+import { createPlaylist, User, Video } from '../../models';
+import { PlaylistService } from '../../state/playlist/playlist.service';
+import { UserQuery } from '../../state/user/user.query';
+import { UserService } from '../../state/user/user.service';
+import { VideoQuery } from '../../state/video/video.query';
+import { VideoService } from '../../state/video/video.service';
+import { ComponentWithSubscription } from './../../abstract-components/component-with-subscription';
 
 @Component({
   selector: 'app-mainpage-videos',
   templateUrl: './mainpage-videos.component.html',
   styleUrls: ['./mainpage-videos.component.scss'],
 })
-export class MainPageVideosComponent implements OnInit {
-  featuredVideos$: Observable<List<Video>>;
+export class MainPageVideosComponent
+  extends ComponentWithSubscription
+  implements OnInit {
+  featuredVideos$: Observable<Video[]>;
   me: User;
 
   constructor(
@@ -29,23 +27,19 @@ export class MainPageVideosComponent implements OnInit {
     private videoService: VideoService,
     private playlistService: PlaylistService,
     private titleService: Title
-  ) {}
+  ) {
+    super();
+  }
 
   async ngOnInit(): Promise<void> {
     this.titleService.setTitle('BiboApp');
-
-    this.featuredVideos$ = this.videoQuery.selectVideos().pipe(
-      tap((videos) =>
-        videos.forEach((video) =>
-          this.videoService.updateVideo(video.id, {
-            keywords: generateKeywords(video.title),
-          })
-        )
-      )
-    );
-
     this.me = await this.userQuery.getMyAccount();
-    await this.createDefaultPlaylist();
+    this.observeVideoCollection();
+  }
+
+  observeVideoCollection(): void {
+    this.autoUnsubscribe(this.videoService.syncCollection()).subscribe();
+    this.featuredVideos$ = this.videoQuery.selectAll();
   }
 
   async createDefaultPlaylist(): Promise<void> {
@@ -54,14 +48,14 @@ export class MainPageVideosComponent implements OnInit {
     }
 
     const defaultPlaylist = await this.playlistService.addPlaylist(
-      makePlaylist({
+      createPlaylist({
         ownerRef: this.me.id,
         name: 'Watch later',
       })
     );
 
     await this.userService.updateUser(this.me.id, {
-      defaultPlaylist: defaultPlaylist.id,
+      defaultPlaylist: defaultPlaylist,
     });
   }
 }

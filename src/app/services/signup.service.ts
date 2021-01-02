@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { UserService } from './user/state/user.service';
-
+import { UserService } from '../state/user/user.service';
+import * as firebase from 'firebase';
 @Injectable({
   providedIn: 'root',
 })
@@ -13,10 +13,9 @@ export class SignupService {
 
   async signup(email: string, password: string, name: string): Promise<any> {
     // Create user in user pool
-    const res = await this.firebaseAuth.auth.createUserWithEmailAndPassword(
-      email,
-      password
-    );
+    const res = await firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password);
 
     res.user.sendEmailVerification();
 

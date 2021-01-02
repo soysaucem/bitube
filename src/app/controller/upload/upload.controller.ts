@@ -1,44 +1,43 @@
-import * as S3 from 'aws-sdk/clients/s3';
+import * as firebase from 'firebase';
 import { List } from 'immutable';
 import { Subject } from 'rxjs';
-import { v4 as uuidv4 } from 'uuid';
-import { FileQueueObject, makeFileQueueObject } from './file-queue.model';
-import { BUCKET_NAME, PROFILE_BUCKET_NAME } from '../../util/variables';
+import { v4 } from 'uuid';
+import { FileQueueObject, createFileQueueObject } from './file-queue.model';
 import { Buffer } from 'buffer';
-import { S3BucketSingleton } from '../../abstract-components/s3-bucket-singleton';
 
 export type ImageType = 'profile' | 'thumbnail';
 
 export class UploadController {
-  private bucket = S3BucketSingleton.instance.bucket;
+  private storage = firebase.storage().ref();
   private queueStream$ = new Subject<List<FileQueueObject>>();
   private queue = List<FileQueueObject>();
 
   constructor() {}
 
-  private makeUploadRequest(id: string, file: File): S3.ManagedUpload {
+  private createUploadRequest(
+    id: string,
+    file: File
+  ): firebase.storage.UploadTask {
     const videoType = file.name.split('.')[file.name.split('.').length - 1];
-    const params = {
-      Bucket: BUCKET_NAME,
-      Key: id,
-      Body: file,
-      ACL: 'private',
-      ContentDisposition: `inline; filename=${id}.${videoType};`,
-      ContentType: 'application/octet-stream',
+
+    const metadata: firebase.storage.UploadMetadata = {
+      contentType: 'application/octet-stream',
+      contentDisposition: `inline; filename=${id}.${videoType};`,
     };
 
-    return this.bucket.upload(params);
+    return this.storage.child(id).put(file, metadata);
   }
 
   add(files: FileList): void {
     // Add files to queue
     const arr = Array.from(files);
+
     arr.forEach((file) => {
-      const id = uuidv4();
-      const object = makeFileQueueObject({
+      const id = v4();
+      const object = createFileQueueObject({
         id,
         file,
-        request: this.makeUploadRequest(id, file),
+        request: this.createUploadRequest(id, file),
       });
       this.queue = this.queue.push(object);
     });
@@ -56,29 +55,28 @@ export class UploadController {
     return this.queueStream$;
   }
 
-  uploadImage(id: string, base64Data: string, type: ImageType): Promise<any> {
+  uploadImage(
+    id: string,
+    base64Data: string
+  ): Promise<firebase.storage.UploadTaskSnapshot> {
     return new Promise((resolve, reject) => {
       const bufferData = new Buffer(
         base64Data.replace(/^data:image\/\w+;base64,/, ''),
         'base64'
       );
 
-      const params = {
-        Bucket: PROFILE_BUCKET_NAME,
-        Key: id + '-' + type,
-        Body: bufferData,
-        ACL: 'public-read',
-        ContentEncoding: 'base64',
-        ContentType: 'image/webp',
+      const metadata: firebase.storage.UploadMetadata = {
+        contentEncoding: 'base64',
+        contentType: 'image/webp',
       };
 
-      this.bucket.upload(params).send((err, data) => {
-        if (err) {
-          reject(err);
-        }
-
-        resolve(data);
-      });
+      return this.storage
+        .child(`${id}-image`)
+        .put(bufferData, metadata)
+        .then(
+          (snapshot) => resolve(snapshot),
+          (err) => reject(err)
+        );
     });
   }
 }

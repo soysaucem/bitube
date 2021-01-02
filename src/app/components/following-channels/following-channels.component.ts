@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { List } from 'immutable';
-import { User } from '../../services/user/state/user.model';
+import { User } from '../../models';
 
 @Component({
   selector: 'app-following-channels',
@@ -8,7 +8,7 @@ import { User } from '../../services/user/state/user.model';
   styleUrls: ['./following-channels.component.scss'],
 })
 export class FollowingChannelsComponent implements OnInit {
-  @Input() followingChannels: List<string>;
+  @Input() followingChannels: Array<string>;
   @Input() me: User;
 
   constructor() {}
