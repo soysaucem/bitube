@@ -1,31 +1,31 @@
 import { Injectable } from '@angular/core';
 import { CollectionConfig, CollectionService } from 'akita-ng-fire';
 import * as moment from 'moment';
+import { take } from 'rxjs/operators';
 import {
   createVideoHistory,
   VideoHistory,
   VideoHistoryInput,
 } from '../../models';
-import { VideoHistoryQuery } from './video-history.query';
 import { VideoHistoryState, VideoHistoryStore } from './video-history.store';
 
 @Injectable({ providedIn: 'root' })
 @CollectionConfig({ path: 'videohistories', idKey: 'id' })
 export class VideoHistoryService extends CollectionService<VideoHistoryState> {
-  constructor(
-    protected store: VideoHistoryStore,
-    private videoHistoryQuery: VideoHistoryQuery
-  ) {
+  constructor(protected store: VideoHistoryStore) {
     super(store);
   }
 
   async addVideoHistory(input: VideoHistoryInput): Promise<string | void> {
-    const existed = this.videoHistoryQuery
-      .getAll()
-      .filter(
-        (video) =>
-          video.ownerRef === input.ownerRef && video.videoRef === input.videoRef
-      )[0];
+    const existed = (
+      await this.syncCollection((ref) =>
+        ref
+          .where('ownerRef', '==', input.ownerRef)
+          .where('videoRef', '==', input.videoRef)
+      )
+        .pipe(take(1))
+        .toPromise()
+    )[0]?.payload?.doc?.data();
 
     if (existed) {
       return this.updateVideoHistory(existed.id, {

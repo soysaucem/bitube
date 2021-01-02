@@ -8,7 +8,7 @@ import {
   pathWithParams,
 } from 'akita-ng-fire';
 import { VideoQuery } from '../video/video.query';
-import { createComment, Comment } from '../../models';
+import { createComment, Comment, CommentInput } from '../../models';
 
 @Injectable({ providedIn: 'root' })
 @CollectionConfig({ path: 'videos/:id/comments', idKey: 'id' })
@@ -27,12 +27,11 @@ export class CommentService extends CollectionService<CommentState> {
     return `videos/${parentId}/comments`;
   }
 
-  async addComment(content: string): Promise<string> {
-    const owner = await this.userQuery.getMyAccount();
+  async addComment(input: CommentInput): Promise<string> {
     const ip = await this.ipService.getIpAdress();
     const comment = createComment({
-      content,
-      ownerRef: owner ? owner.id : null,
+      content: input.content,
+      ownerRef: input.ownerRef ? input.ownerRef : null,
       ip: ip.ip,
     });
     return this.add(comment);

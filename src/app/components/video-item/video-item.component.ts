@@ -1,3 +1,4 @@
+import { ComponentWithSubscription } from './../../abstract-components/component-with-subscription';
 import { PlaylistService } from '../../state/playlist/playlist.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,6 +11,7 @@ import { PlaylistQuery } from '../../state/playlist/playlist.query';
 import { VideoEditingDialogComponent } from '../video-editing-dialog/video-editing-dialog.component';
 import { List } from 'immutable';
 import { User, Video } from '../../models';
+import { UserService } from '../../state/user/user.service';
 
 export type ItemType = 'card' | 'card-settings';
 
@@ -18,7 +20,9 @@ export type ItemType = 'card' | 'card-settings';
   templateUrl: './video-item.component.html',
   styleUrls: ['./video-item.component.scss'],
 })
-export class VideoItemComponent implements OnInit {
+export class VideoItemComponent
+  extends ComponentWithSubscription
+  implements OnInit {
   @Input() me: User;
   @Input() video: Video;
   @Input() type: ItemType;
@@ -40,15 +44,18 @@ export class VideoItemComponent implements OnInit {
 
   constructor(
     private userQuery: UserQuery,
+    private userService: UserService,
     private videoService: VideoService,
     private playlistService: PlaylistService,
     private playlistQuery: PlaylistQuery,
     private dialog: MatDialog
-  ) {}
+  ) {
+    super();
+  }
 
   async ngOnInit(): Promise<void> {
+    this.observeUser();
     this.initVideoEditingData();
-    this.owner = await this.userQuery.getUser(this.video.ownerRef);
 
     this.isAdded = this.me
       ? await this.playlistQuery.isAddedToWatchLater(this.video.id, this.me.id)
@@ -59,6 +66,16 @@ export class VideoItemComponent implements OnInit {
     this.title = this.video.title;
     this.description = this.video.description;
     this.tags = this.video.tags;
+  }
+
+  observeUser(): void {
+    this.autoUnsubscribe(
+      this.userService.syncUser(this.video.ownerRef)
+    ).subscribe();
+
+    this.autoUnsubscribe(
+      this.userQuery.selectEntity(this.video.ownerRef)
+    ).subscribe((user) => (this.owner = user));
   }
 
   toggleMenu(event: any): void {
@@ -112,7 +129,7 @@ export class VideoItemComponent implements OnInit {
   }
 
   async deleteVideo(): Promise<void> {
-    await this.videoService.deleteVideo(this.video.id);
+    await this.videoService.deleteVideo(this.video);
   }
 
   updateVideo(result: any): void {

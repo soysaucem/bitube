@@ -1,3 +1,4 @@
+import { tap, switchMap } from 'rxjs/operators';
 import { ComponentWithSubscription } from './../../abstract-components/component-with-subscription';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
@@ -28,16 +29,21 @@ export class HistoryComponent
     super();
   }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     this.titleService.setTitle('History');
-    this.me = await this.userQuery.getMyAccount();
+
     this.setupVideoHistories();
   }
 
   setupVideoHistories(): void {
     this.autoUnsubscribe(
-      this.videoHistoryService.syncCollection((ref) =>
-        ref.where('ownerRef', '==', this.me.id)
+      this.userQuery.selectMyAccount().pipe(
+        tap((me) => (this.me = me)),
+        switchMap((me) =>
+          this.videoHistoryService.syncCollection((ref) =>
+            ref.where('ownerRef', '==', me.id)
+          )
+        )
       )
     ).subscribe();
 

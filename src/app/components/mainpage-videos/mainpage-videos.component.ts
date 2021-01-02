@@ -31,9 +31,13 @@ export class MainPageVideosComponent
     super();
   }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     this.titleService.setTitle('BiboApp');
-    this.me = await this.userQuery.getMyAccount();
+
+    this.autoUnsubscribe(this.userQuery.selectMyAccount()).subscribe((me) => {
+      this.me = me;
+    });
+
     this.observeVideoCollection();
   }
 

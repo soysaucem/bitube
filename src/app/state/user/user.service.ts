@@ -34,4 +34,8 @@ export class UserService extends CollectionService<UserState> {
   updateUser(id: string, props: Partial<User>): Promise<void> {
     return this.update(id, { ...props });
   }
+
+  syncUser(id: string) {
+    return this.syncDoc({ id });
+  }
 }

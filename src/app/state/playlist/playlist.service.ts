@@ -52,7 +52,7 @@ export class PlaylistService extends CollectionService<PlaylistState> {
     });
   }
 
-  selectPlaylist(id: string): Observable<Playlist> {
+  syncPlaylist(id: string): Observable<Playlist> {
     return this.syncDoc({ id });
   }
 }

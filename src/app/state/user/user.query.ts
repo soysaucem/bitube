@@ -29,21 +29,6 @@ export class UserQuery extends QueryEntity<UserState> {
     return this.firebaseAuth.authState;
   }
 
-  async getMyAccount(): Promise<User> {
-    const firebaseUser = await this.getMyFirebaseAccount();
-    return firebaseUser ? this.getUser(firebaseUser.uid) : null;
-  }
-
-  async getUser(id: string): Promise<User> {
-    if (!this.hasEntity(id)) {
-      const doc = await this.collection.doc(id).ref.get();
-
-      this.store.add(doc.data() as User);
-    }
-
-    return this.getEntity(id);
-  }
-
   async isUserExisted(email: string): Promise<boolean> {
     const refs = await this.collection.ref.where('email', '==', email).get();
 
@@ -54,15 +39,9 @@ export class UserQuery extends QueryEntity<UserState> {
     return this.selectMyFirebaseAccount().pipe(
       switchMap((firebaseUser) =>
         firebaseUser
-          ? this.selectUser(firebaseUser.uid)
+          ? this.userService.syncUser(firebaseUser.uid)
           : (of(null) as Observable<User>)
       )
     );
-  }
-
-  selectUser(id: string): Observable<User> {
-    return this.userService
-      .syncDoc({ id })
-      .pipe(filter((user) => user !== null && user !== undefined));
   }
 }

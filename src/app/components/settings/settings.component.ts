@@ -1,3 +1,4 @@
+import { ComponentWithSubscription } from './../../abstract-components/component-with-subscription';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UploadController } from '../../controller/upload/upload.controller';
 import { AuthService } from '../../services/auth.service';
@@ -16,7 +17,9 @@ import { User } from '../../models';
   styleUrls: ['./settings.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent
+  extends ComponentWithSubscription
+  implements OnInit {
   me: User;
   myFirebaseAccount: firebase.User;
   message: string =
@@ -37,13 +40,21 @@ export class SettingsComponent implements OnInit {
     private userService: UserService,
     private authService: AuthService,
     private titleService: Title
-  ) {}
+  ) {
+    super();
+  }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     this.titleService.setTitle('Settings');
-    this.me = await this.userQuery.getMyAccount();
-    this.myAvatar = this.me.avatar;
-    this.myFirebaseAccount = await this.userQuery.getMyFirebaseAccount();
+
+    this.autoUnsubscribe(this.userQuery.selectMyAccount()).subscribe((me) => {
+      this.me = me;
+      this.myAvatar = this.me.avatar;
+    });
+
+    this.autoUnsubscribe(this.userQuery.selectMyFirebaseAccount()).subscribe(
+      (myFirebaseAccount) => (this.myFirebaseAccount = myFirebaseAccount)
+    );
   }
 
   get disabled() {

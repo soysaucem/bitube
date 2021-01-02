@@ -1,6 +1,10 @@
 import { v4 } from 'uuid';
 import * as moment from 'moment';
 
+export interface CommentInput {
+  ownerRef: string;
+  content: string;
+}
 export interface Comment {
   id: string;
   ownerRef: string;

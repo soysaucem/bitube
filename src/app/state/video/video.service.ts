@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
-import { CollectionConfig, CollectionService } from 'akita-ng-fire';
+import { DocumentChangeAction } from '@angular/fire/firestore';
+import { CollectionConfig, CollectionService, resetStore } from 'akita-ng-fire';
+import * as firebase from 'firebase';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Video } from '../../models';
 import { generateKeywords } from '../../util/generate-keywords';
-import { VideoHistoryQuery } from '../video-history/video-history.query';
 import { VideoHistoryService } from '../video-history/video-history.service';
 import { VideoState, VideoStore } from './video.store';
-
 @Injectable({ providedIn: 'root' })
 @CollectionConfig({ path: 'videos', idKey: 'id' })
 export class VideoService extends CollectionService<VideoState> {
+  private storage = firebase.storage().ref();
+
   constructor(
     protected store: VideoStore,
-    private videoHistoryQuery: VideoHistoryQuery,
     private videoHistoryService: VideoHistoryService
   ) {
     super(store);
@@ -25,17 +28,58 @@ export class VideoService extends CollectionService<VideoState> {
     return this.update(id, { ...props });
   }
 
-  async deleteVideo(id: string): Promise<any> {
-    // const video = this.videoQuery.getEntity(id);
-    // const histories = this.videoHistoryQuery.getValue().entities.toArray()
-    // await Promise.all([deletePromises, this.remove(id)]);
-    // return new Promise((resolve, reject) => {
-    //   this.bucket.deleteObject(params, (err, data) => {
-    //     if (err) {
-    //       reject(err);
-    //     }
-    //     resolve(data);
-    //   });
-    // });
+  async deleteVideo(video: Video): Promise<void> {
+    const histories = await this.videoHistoryService
+      .syncCollection((ref) => ref.where('videoRef', '==', video.id))
+      .pipe(take(1))
+      .toPromise();
+
+    const deletePromises = histories.map((history) =>
+      this.videoHistoryService.remove(history.payload.doc.id)
+    );
+
+    return new Promise((resolve, reject) => {
+      const videoDesertRef = this.storage.child(video.id);
+      const thumbDesertRef = this.storage.child(`${video.id}-image`);
+
+      videoDesertRef
+        .delete()
+        .then(() =>
+          thumbDesertRef
+            .delete()
+            .then(() =>
+              Promise.all([deletePromises, this.remove(video.id)]).then(() =>
+                resolve()
+              )
+            )
+            .catch((err) => reject(err))
+        )
+        .catch((err) => reject(err));
+    });
+  }
+
+  syncVideo(id: string) {
+    return this.syncDoc({ id });
+  }
+
+  syncVideosForUserWithLimit(
+    id: string,
+    limit: number
+  ): Observable<DocumentChangeAction<Video>[]> {
+    return this.syncCollection((ref) =>
+      ref.where('ownerRef', '==', id).limit(limit).orderBy('createdAt', 'desc')
+    );
+  }
+
+  syncVideosForPlaylist(ids: Array<string>) {
+    resetStore(this.store.storeName);
+
+    return this.syncManyDocs(ids);
+  }
+
+  syncVideosForChanel(id: string) {
+    resetStore(this.store.storeName);
+
+    return this.syncCollection((ref) => ref.where('ownerRef', '==', id));
   }
 }

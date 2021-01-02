@@ -17,6 +17,7 @@ import { VideoQuery } from '../../state/video/video.query';
 import { ChannelSideNavActiveType } from './channel-sidenav/channel-sidenav.component';
 import { User, Video } from '../../models';
 import { resetStore } from 'akita-ng-fire';
+import { UserService } from '../../state/user/user.service';
 
 @Component({
   selector: 'app-channel',
@@ -45,6 +46,7 @@ export class ChannelComponent
     private videoService: VideoService,
     private route: ActivatedRoute,
     private userQuery: UserQuery,
+    private userService: UserService,
     public followService: FollowService,
     public router: Router
   ) {
@@ -52,21 +54,24 @@ export class ChannelComponent
   }
 
   ngOnInit(): void {
-    resetStore('video');
+    this.autoUnsubscribe(
+      this.route.params.pipe(
+        switchMap(({ id }) => this.userService.syncUser(id))
+      )
+    ).subscribe;
 
     this.autoUnsubscribe(
       this.route.params.pipe(
         tap(({ id }) => {
-          this.user$ = this.userQuery.selectUser(id);
           this.me$ = this.userQuery.selectMyAccount();
         }),
-        switchMap(({ id }) =>
-          this.videoService.syncCollection((ref) =>
-            ref.where('ownerRef', '==', id)
-          )
-        )
+        switchMap(({ id }) => this.videoService.syncVideosForChanel(id))
       )
     ).subscribe();
+
+    this.user$ = this.route.params.pipe(
+      switchMap(({ id }) => this.userQuery.selectEntity(id))
+    );
 
     this.videos$ = this.videoQuery.selectAll();
   }

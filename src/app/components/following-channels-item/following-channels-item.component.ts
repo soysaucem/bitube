@@ -3,6 +3,7 @@ import { FollowService } from './../../services/follow.service';
 import { ComponentWithFollowButton } from './../../abstract-components/component-with-follow-button';
 import { UserQuery } from '../../state/user/user.query';
 import { Component, OnInit, Input } from '@angular/core';
+import { UserService } from '../../state/user/user.service';
 
 @Component({
   selector: 'app-following-channels-item',
@@ -16,14 +17,18 @@ export class FollowingChannelsItemComponent
 
   constructor(
     private userQuery: UserQuery,
+    private userService: UserService,
     readonly followService: FollowService,
     readonly router: Router
   ) {
     super(followService, router);
   }
 
-  async ngOnInit(): Promise<void> {
-    this.user = await this.userQuery.getUser(this.channelId);
+  ngOnInit(): void {
+    this.autoUnsubscribe(this.userService.syncUser(this.channelId)).subscribe();
+    this.autoUnsubscribe(this.userQuery.selectEntity(this.channelId)).subscribe(
+      (user) => (this.user = user)
+    );
   }
 
   get followButtonText(): string {

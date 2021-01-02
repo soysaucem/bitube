@@ -1,15 +1,15 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { List } from 'immutable';
+import * as firebase from 'firebase';
 import { FileQueueObject } from 'src/app/controller/upload/file-queue.model';
 import { FileQueueStatus } from '../../../../controller/upload/file-queue.model';
 import { UploadController } from '../../../../controller/upload/upload.controller';
-import { createVideo } from '../../../../models';
+import { createVideo, User } from '../../../../models';
 import { UserQuery } from '../../../../state/user/user.query';
 import { VideoService } from '../../../../state/video/video.service';
 import { generateThumbnail } from '../../../../util/generate-thumbnail';
-import { ENTER, COMMA } from '../../../../util/variables';
-import * as firebase from 'firebase';
+import { COMMA, ENTER } from '../../../../util/variables';
+import { ComponentWithSubscription } from './../../../../abstract-components/component-with-subscription';
 
 type InputType = 'description' | 'title';
 
@@ -19,9 +19,12 @@ type InputType = 'description' | 'title';
   styleUrls: ['./uploading-item.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class UploadingItemComponent implements OnInit {
+export class UploadingItemComponent
+  extends ComponentWithSubscription
+  implements OnInit {
   @Input() file: FileQueueObject;
   @Input() controller: UploadController;
+  me: User;
   progress: number;
   status: FileQueueStatus = FileQueueStatus.Pending;
 
@@ -39,9 +42,19 @@ export class UploadingItemComponent implements OnInit {
   constructor(
     private userQuery: UserQuery,
     private videoService: VideoService
-  ) {}
+  ) {
+    super();
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.observeUser();
+  }
+
+  observeUser(): void {
+    this.autoUnsubscribe(this.userQuery.selectMyAccount()).subscribe(
+      (user) => (this.me = user)
+    );
+  }
 
   upload(): void {
     this.file.request.on(
@@ -148,14 +161,13 @@ export class UploadingItemComponent implements OnInit {
     const videoLocation = await this.file.request.snapshot.ref.getDownloadURL();
 
     // Add video reference to firebase
-    const me = await this.userQuery.getMyAccount();
     const video = createVideo({
       id: this.file.id,
       title: this.title ? this.title : this.file.file.name,
       description: this.description ? this.description : null,
       thumbnail: thumbnailLocation,
       tags: this.tags,
-      ownerRef: me.id,
+      ownerRef: this.me.id,
       location: videoLocation,
     });
 

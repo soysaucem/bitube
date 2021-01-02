@@ -1,10 +1,12 @@
+import { VideoService } from './../../state/video/video.service';
 import { ComponentWithSubscription } from './../../abstract-components/component-with-subscription';
 import { UserQuery } from '../../state/user/user.query';
 import { VideoQuery } from '../../state/video/video.query';
 import { Component, OnInit, Input } from '@angular/core';
 import { List } from 'immutable';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { User, Video } from '../../models';
+import { UserService } from '../../state/user/user.service';
 
 @Component({
   selector: 'app-following-videos-section',
@@ -21,23 +23,40 @@ export class FollowingVideosSectionComponent
   user: User;
   me: User;
 
-  constructor(private videoQuery: VideoQuery, private userQuery: UserQuery) {
+  constructor(
+    private videoService: VideoService,
+    private videoQuery: VideoQuery,
+    private userQuery: UserQuery,
+    private userService: UserService
+  ) {
     super();
   }
 
   ngOnInit(): void {
     this.autoUnsubscribe(
-      this.videoQuery.selectVideosForUserWithLimit(
+      this.videoService.syncVideosForUserWithLimit(
         this.userId,
         this.NUMBER_OF_ROW_ITEMS
       )
-    ).subscribe((videos) => (this.videos = videos));
+    ).subscribe();
+
+    this.autoUnsubscribe(this.videoQuery.selectAll())
+      .pipe(
+        map((videos) =>
+          videos.filter((video) => video.ownerRef === this.userId)
+        )
+      )
+      .subscribe((videos) => (this.videos = videos));
 
     this.autoUnsubscribe(
-      this.userQuery
-        .selectUser(this.userId)
+      this.userService
+        .syncUser(this.userId)
         .pipe(filter((user) => user !== null && user !== undefined))
-    ).subscribe((user) => (this.user = user));
+    ).subscribe();
+
+    this.autoUnsubscribe(this.userQuery.selectEntity(this.userId)).subscribe(
+      (user) => (this.user = user)
+    );
 
     this.autoUnsubscribe(this.userQuery.selectMyAccount()).subscribe(
       (me) => (this.me = me)

@@ -1,3 +1,4 @@
+import { ComponentWithSubscription } from './../../abstract-components/component-with-subscription';
 import { UserQuery } from '../../state/user/user.query';
 import { PlaylistQuery } from '../../state/playlist/playlist.query';
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
@@ -11,7 +12,9 @@ import { map, shareReplay } from 'rxjs/operators';
   styleUrls: ['./sidenav.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SidenavComponent implements OnInit {
+export class SidenavComponent
+  extends ComponentWithSubscription
+  implements OnInit {
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(
@@ -24,18 +27,23 @@ export class SidenavComponent implements OnInit {
     private breakpointObserver: BreakpointObserver,
     private playlistQuery: PlaylistQuery,
     private userQuery: UserQuery
-  ) {}
+  ) {
+    super();
+  }
 
-  async ngOnInit(): Promise<void> {
-    const me = await this.userQuery.getMyAccount();
-    const watchLaterPlaylist = me
-      ? await this.playlistQuery.getDefaultPlaylistForUser(me.id)
-      : null;
+  ngOnInit(): void {
+    this.autoUnsubscribe(this.userQuery.selectMyAccount()).subscribe(
+      async (me) => {
+        const watchLaterPlaylist = me
+          ? await this.playlistQuery.getDefaultPlaylistForUser(me.id)
+          : null;
 
-    if (watchLaterPlaylist) {
-      this.watchLaterURL = `/playlist/${watchLaterPlaylist.id}`;
-    } else {
-      this.watchLaterURL = '/login';
-    }
+        if (watchLaterPlaylist) {
+          this.watchLaterURL = `/playlist/${watchLaterPlaylist.id}`;
+        } else {
+          this.watchLaterURL = '/login';
+        }
+      }
+    );
   }
 }

@@ -26,6 +26,7 @@ import { VideoHistoryService } from '../../state/video-history/video-history.ser
 import { Video } from '../../models';
 import { List } from 'immutable';
 import { noUndefined } from '@angular/compiler/src/util';
+import { UserService } from '../../state/user/user.service';
 
 type Opinion = 'like' | 'dislike';
 declare const FB: any;
@@ -56,6 +57,7 @@ export class WatchVideoComponent
     private videoService: VideoService,
     private videoQuery: VideoQuery,
     private userQuery: UserQuery,
+    private userService: UserService,
     private videoStore: VideoStore,
     private auth: AuthService,
     private snackbar: MatSnackBar,
@@ -143,21 +145,25 @@ export class WatchVideoComponent
   }
 
   selectUsersAndSubscribe(): void {
-    combineLatest([
-      this.userQuery.selectUser(this.video.ownerRef),
-      this.userQuery.selectMyAccount(),
-    ])
-      .pipe(takeUntil(this.watchVideoChanges$))
-      .subscribe(async ([owner, me]) => {
-        try {
-          this.user = owner;
-          this.me = me;
-          await this.updateVideoHistoriesForCurrentUser();
-        } catch (err) {
-          console.error('Failed to setup before watching a video!');
-          console.error(err);
-        }
-      });
+    this.autoUnsubscribe(
+      this.userService.syncUser(this.video.ownerRef)
+    ).subscribe();
+
+    this.autoUnsubscribe(
+      combineLatest([
+        this.userQuery.selectEntity(this.video.ownerRef),
+        this.userQuery.selectMyAccount(),
+      ]).pipe(takeUntil(this.watchVideoChanges$))
+    ).subscribe(async ([owner, me]) => {
+      try {
+        this.user = owner;
+        this.me = me;
+        await this.updateVideoHistoriesForCurrentUser();
+      } catch (err) {
+        console.error('Failed to setup before watching a video!');
+        console.error(err);
+      }
+    });
   }
 
   updateViewCount(): void {
