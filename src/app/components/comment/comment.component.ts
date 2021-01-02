@@ -40,7 +40,7 @@ export class CommentComponent
   async post(): Promise<void> {
     await this.commentService.addComment({
       content: this.content,
-      ownerRef: this.user.id,
+      ownerRef: this.user?.id,
     });
     this.clearComment();
   }
