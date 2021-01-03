@@ -1,20 +1,9 @@
-<div class="upload-container">
+<div class="upload-container" *ngIf="me">
   <mat-card id="upload-wrapper" class="upload-wrapper">
-    <div
-      id="upload"
-      class="upload"
-      (dragover)="cancelEventInvoke($event)"
-      (dragleave)="cancelEventInvoke($event)"
-      (drop)="onDrop($event)"
-    >
+    <div id="upload" class="upload" (dragover)="cancelEventInvoke($event)" (dragleave)="cancelEventInvoke($event)"
+      (drop)="onDrop($event)">
       <img src="assets/upload.svg" (click)="uploadInput.click()" />
-      <input
-        #uploadInput
-        id="upload-input"
-        type="file"
-        accept="video/*"
-        (change)="addUploadFile($event)"
-      />
+      <input #uploadInput id="upload-input" type="file" accept="video/*" (change)="addUploadFile($event)" />
       <label for="upload-input">
         <strong class="select-file">Choose a file</strong>
         <span> or drag it here</span>
@@ -25,9 +14,6 @@
 </div>
 <div class="uploading">
   <div class="display">
-    <app-uploading
-      [controller]="controller"
-      (queue)="setQueue($event)"
-    ></app-uploading>
+    <app-uploading [controller]="controller" (queue)="setQueue($event)"></app-uploading>
   </div>
 </div>

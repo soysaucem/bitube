@@ -51,23 +51,25 @@ export class HistoryComponent
       (histories) => {
         let historySectionMap: Map<string, VideoHistory[]> = Map();
 
-        histories.forEach((history) => {
-          const historyDate = moment(history.watchedAt).format('YYYY-MM-DD');
+        if (histories.length > 0) {
+          histories.forEach((history) => {
+            const historyDate = moment(history.watchedAt).format('YYYY-MM-DD');
 
-          if (!historySectionMap.has(historyDate)) {
-            historySectionMap = historySectionMap.set(historyDate, [history]);
-          } else {
-            historySectionMap = historySectionMap.update(
-              historyDate,
-              (value) => [...value, history]
-            );
-          }
-        });
+            if (!historySectionMap.has(historyDate)) {
+              historySectionMap = historySectionMap.set(historyDate, [history]);
+            } else {
+              historySectionMap = historySectionMap.update(
+                historyDate,
+                (value) => [...value, history]
+              );
+            }
+          });
 
-        this.sortedSections = historySectionMap
-          .sortBy((_, key) => key)
-          .reverse()
-          .toArray();
+          this.sortedSections = historySectionMap
+            .sortBy((_, key) => key)
+            .reverse()
+            .toArray();
+        }
       }
     );
   }

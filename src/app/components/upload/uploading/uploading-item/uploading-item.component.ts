@@ -65,10 +65,8 @@ export class UploadingItemComponent
 
         switch (snapshot.state) {
           case firebase.storage.TaskState.PAUSED: // or 'paused'
-            console.log('Upload is paused');
             break;
           case firebase.storage.TaskState.RUNNING: // or 'running'
-            console.log('Upload is running');
             break;
         }
       },
@@ -155,7 +153,9 @@ export class UploadingItemComponent
     const thumbnail = await generateThumbnail(this.file.file);
     const thumbnailData = await this.controller.uploadImage(
       this.file.id,
-      thumbnail
+      thumbnail,
+      'thumbnail',
+      this.me.id
     );
     const thumbnailLocation = await thumbnailData.ref.getDownloadURL();
     const videoLocation = await this.file.request.snapshot.ref.getDownloadURL();

@@ -107,7 +107,11 @@ export class SettingsComponent
     try {
       const dataUrl = await generateImageUrlFromFile(event.target.files[0]);
       const webpDataUrl = await generateImageUrlFromPath(dataUrl);
-      const res = await this.controller.uploadImage(this.me.id, webpDataUrl);
+      const res = await this.controller.uploadImage(
+        this.me.id,
+        webpDataUrl,
+        'profile'
+      );
       const avatarLocation = await res.ref.getDownloadURL();
       this.userService.updateUser(this.me.id, {
         avatar: avatarLocation,

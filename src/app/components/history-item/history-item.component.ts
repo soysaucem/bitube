@@ -32,21 +32,23 @@ export class HistoryItemComponent
   }
 
   ngOnChanges(): void {
-    this.autoUnsubscribe(
-      this.videoService.syncVideo(this.videoHistory.videoRef)
-    ).subscribe();
+    if (this.videoHistory) {
+      this.autoUnsubscribe(
+        this.videoService.syncVideo(this.videoHistory.videoRef)
+      ).subscribe();
 
-    this.autoUnsubscribe(
-      this.userService.syncUser(this.videoHistory.ownerRef)
-    ).subscribe();
+      this.autoUnsubscribe(
+        this.userService.syncUser(this.videoHistory.ownerRef)
+      ).subscribe();
 
-    this.autoUnsubscribe(
-      this.videoQuery.selectEntity(this.videoHistory.videoRef)
-    ).subscribe((video) => (this.video = video));
+      this.autoUnsubscribe(
+        this.videoQuery.selectEntity(this.videoHistory.videoRef)
+      ).subscribe((video) => (this.video = video));
 
-    this.autoUnsubscribe(
-      this.userQuery.selectEntity(this.videoHistory.ownerRef)
-    ).subscribe((user) => (this.owner = user));
+      this.autoUnsubscribe(
+        this.userQuery.selectEntity(this.videoHistory.ownerRef)
+      ).subscribe((user) => (this.owner = user));
+    }
   }
 
   async removeHistory(event: MouseEvent): Promise<void> {

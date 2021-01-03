@@ -16,7 +16,8 @@ export class UploadController {
 
   private createUploadRequest(
     id: string,
-    file: File
+    file: File,
+    userId: string
   ): firebase.storage.UploadTask {
     const videoType = file.name.split('.')[file.name.split('.').length - 1];
 
@@ -25,10 +26,10 @@ export class UploadController {
       contentDisposition: `inline; filename=${id}.${videoType};`,
     };
 
-    return this.storage.child(id).put(file, metadata);
+    return this.storage.child(`videos/${userId}/${id}`).put(file, metadata);
   }
 
-  add(files: FileList): void {
+  add(files: FileList, userId: string): void {
     // Add files to queue
     const arr = Array.from(files);
 
@@ -37,7 +38,7 @@ export class UploadController {
       const object = createFileQueueObject({
         id,
         file,
-        request: this.createUploadRequest(id, file),
+        request: this.createUploadRequest(id, file, userId),
       });
       this.queue = this.queue.push(object);
     });
@@ -57,8 +58,15 @@ export class UploadController {
 
   uploadImage(
     id: string,
-    base64Data: string
+    base64Data: string,
+    type: ImageType,
+    userId?: string
   ): Promise<firebase.storage.UploadTaskSnapshot> {
+    const imgRef =
+      type === 'profile'
+        ? this.storage.child(`profiles/${id}/image`)
+        : this.storage.child(`thumbnails/${userId}/${id}`);
+
     return new Promise((resolve, reject) => {
       const bufferData = new Buffer(
         base64Data.replace(/^data:image\/\w+;base64,/, ''),
@@ -70,13 +78,10 @@ export class UploadController {
         contentType: 'image/webp',
       };
 
-      return this.storage
-        .child(`${id}-image`)
-        .put(bufferData, metadata)
-        .then(
-          (snapshot) => resolve(snapshot),
-          (err) => reject(err)
-        );
+      return imgRef.put(bufferData, metadata).then(
+        (snapshot) => resolve(snapshot),
+        (err) => reject(err)
+      );
     });
   }
 }

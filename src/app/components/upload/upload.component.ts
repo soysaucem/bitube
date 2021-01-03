@@ -1,3 +1,4 @@
+import { UserQuery } from './../../state/user/user.query';
 import {
   Component,
   HostListener,
@@ -10,6 +11,7 @@ import { FileQueueObject } from 'src/app/controller/upload/file-queue.model';
 import { UploadController } from 'src/app/controller/upload/upload.controller';
 import { Title } from '@angular/platform-browser';
 import { ComponentWithSubscription } from '../../abstract-components/component-with-subscription';
+import { User } from '../../models';
 
 const BASE_MB = 1024 * 1024;
 const FILE_SIZE_LIMIT = 50 * BASE_MB;
@@ -19,19 +21,24 @@ const FILE_SIZE_LIMIT = 50 * BASE_MB;
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss'],
 })
-export class UploadComponent extends ComponentWithSubscription
+export class UploadComponent
+  extends ComponentWithSubscription
   implements OnInit {
   @ViewChild('uploadInput') uploadInput: ElementRef;
 
+  me: User;
   controller = new UploadController();
   queue: List<FileQueueObject>;
 
-  constructor(private titleService: Title) {
+  constructor(private titleService: Title, private userQuery: UserQuery) {
     super();
   }
 
   ngOnInit(): void {
     this.titleService.setTitle('Upload');
+    this.autoUnsubscribe(this.userQuery.selectMyAccount()).subscribe(
+      (me) => (this.me = me)
+    );
   }
 
   onDrop(event: DragEvent): void {
@@ -48,7 +55,7 @@ export class UploadComponent extends ComponentWithSubscription
       file.type.includes('video')
     );
 
-    this.controller.add(files);
+    this.controller.add(files, this.me.id);
 
     // Clear file input after added
     (this.uploadInput.nativeElement as HTMLInputElement).value = '';
