@@ -11,6 +11,10 @@ Core technologies: Angular, Firebase, Akita State Management.
 
 ```ng build```
 
+## Run unit tests
+
+```ng test```
+
 ## Run end-to-end tests
 
 ```ng e2e```
