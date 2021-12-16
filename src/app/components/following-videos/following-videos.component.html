@@ -1,9 +1,0 @@
-<div class="following-videos-container" *ngIf="me">
-  <div class="content">
-    <ng-container *ngFor="let userId of me.followings">
-      <app-following-videos-section
-        [userId]="userId"
-      ></app-following-videos-section>
-    </ng-container>
-  </div>
-</div>

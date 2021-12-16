@@ -1,8 +1,0 @@
-<div class="history-section-container" *ngIf="section">
-  <div class="section-title" [innerHTML]="formatDate(sectionTitle)"></div>
-  <div class="section-content">
-    <ng-container *ngFor="let history of sectionContent">
-      <app-history-item [videoHistory]="history"></app-history-item>
-    </ng-container>
-  </div>
-</div>
