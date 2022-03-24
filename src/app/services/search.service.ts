@@ -13,10 +13,12 @@ export class SearchService {
   // );
   // private index = this.client.initIndex('bibo_search');
   // constructor() {}
-  // async search(text: string): Promise<Video[]> {
-  //   const res = await this.index.search(text);
-  //   return res.hits.map(
-  //     (hit) => (hit as unknown) as Omit<SearchVideo, 'objectID'>
-  //   );
-  // }
+  async search(text: string): Promise<Video[]> {
+    // const res = await this.index.search(text);
+    // return res.hits.map(
+    //   (hit) => (hit as unknown) as Omit<SearchVideo, 'objectID'>
+    // );
+
+    return [];
+  }
 }
