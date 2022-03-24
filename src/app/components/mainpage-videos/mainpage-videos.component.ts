@@ -16,7 +16,8 @@ import { ComponentWithSubscription } from './../../abstract-components/component
 })
 export class MainPageVideosComponent
   extends ComponentWithSubscription
-  implements OnInit {
+  implements OnInit
+{
   featuredVideos$: Observable<Video[]>;
   me: User;
 
@@ -32,7 +33,7 @@ export class MainPageVideosComponent
   }
 
   ngOnInit(): void {
-    this.titleService.setTitle('BiboApp');
+    this.titleService.setTitle('Bitube');
 
     this.autoUnsubscribe(this.userQuery.selectMyAccount()).subscribe((me) => {
       this.me = me;

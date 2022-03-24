@@ -1,11 +1,11 @@
 version: 2.1
 orbs:
-  node: circleci/node@1.1.6
+  node: circleci/node@5.0.1
 jobs:
   build-and-test:
-    working_directory: ~/bibo-app
+    working_directory: ~/bitube
     docker:
-      - image: circleci/node:10.16.3
+      - image: circleci/node:16
     executor:
       name: node/default
     steps:

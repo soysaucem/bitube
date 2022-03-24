@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/bibo-app",
+    "public": "dist/bitube",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
