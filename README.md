@@ -1,20 +1,20 @@
-# Bibo
+# Bitube
 
 A video-sharing platform (youtube clone).
 Core technologies: Angular, Firebase, Akita State Management.
 
 ## Run app in development server
 
-```ng serve```
+`ng serve`
 
 ## Build app
 
-```ng build```
+`ng build`
 
 ## Run unit tests
 
-```ng test```
+`ng test`
 
 ## Run end-to-end tests
 
-```ng e2e```
+`ng e2e`
